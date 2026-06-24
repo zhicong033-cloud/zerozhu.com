@@ -3,12 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ZeroZhu - AI 产品实践者</title>
-    <meta name="description" content="ZeroZhu 的个人主页，记录项目、生活和旅行。" />
-    <meta property="og:title" content="ZeroZhu - AI 产品实践者" />
+    <title>ZeroZhu - 项目、生活与旅行</title>
+    <meta
+      name="description"
+      content="ZeroZhu 的个人网站，记录创意 ideas、AI 项目 demo、技术思考、读书感悟、旅行体验和生活状态。"
+    />
+    <meta property="og:title" content="ZeroZhu - 项目、生活与旅行" />
     <meta
       property="og:description"
-      content="项目、生活和旅行。"
+      content="创意 ideas、AI 项目 demo、技术思考、读书感悟、旅行体验和生活状态。"
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://zerozhu.com" />
@@ -23,119 +26,164 @@
         <span>ZeroZhu</span>
       </a>
       <nav class="nav" aria-label="主导航">
-        <a href="#about">关于</a>
-        <a href="#sections">板块</a>
-        <a href="#contact">联系</a>
+        <a href="#projects">项目</a>
+        <a href="#ideas">Ideas</a>
+        <a href="#life">生活</a>
+        <a href="#travel">旅行</a>
+        <a href="#guestbook">交流</a>
       </nav>
     </header>
 
     <main>
-      <section class="hero" aria-labelledby="intro-title">
+      <section class="hero">
         <div class="hero-copy">
           <p class="eyebrow">zerozhu.com</p>
-          <h1 id="intro-title">
-            ZeroZhu<br />
-            <span>AI 产品实践者</span>
-          </h1>
+          <h1>一个记录创造、思考和生活的个人网站。</h1>
           <p class="intro">
-            这里会慢慢记录我的项目、生活和旅行：一些正在开发的 AI 应用与工具 demo，一些阅读学习后的想法，也有路上的照片、视频和感受。
+            这里会慢慢放下我的创意 ideas、AI 应用与工具 demo、对 AI 技术的学习和思考、读书感悟、旅行体验，以及一些真实的生活状态。
           </p>
           <div class="actions">
-            <a class="button primary" href="#sections">浏览板块</a>
-            <a class="button secondary" href="mailto:zhicong033@gmail.com">联系我</a>
+            <a class="button primary" href="#projects">看项目</a>
+            <a class="button secondary" href="#guestbook">留言交流</a>
           </div>
         </div>
 
-        <aside class="portrait-card" aria-label="ZeroZhu 个人头像">
-          <img src="/assets/zerozhu-portrait.png" alt="ZeroZhu 的克制专业头像" />
-          <div class="portrait-meta">
-            <span>Projects</span>
-            <span>Life</span>
-            <span>Travel</span>
+        <aside class="profile-card" aria-label="ZeroZhu 简介">
+          <img src="/assets/zerozhu-portrait.png" alt="ZeroZhu 的个人头像" />
+          <div>
+            <h2>ZeroZhu</h2>
+            <p>AI 产品实践者。喜欢把想法做成工具，也喜欢把路上的观察和读到的东西慢慢写下来。</p>
           </div>
         </aside>
       </section>
 
-      <section class="section about-section" id="about" aria-labelledby="about-title">
-        <div class="section-heading">
-          <p class="eyebrow">About</p>
-          <h2 id="about-title">从真实问题出发，把想法落成系统。</h2>
-        </div>
-        <div class="about-copy">
-          <p>
-            我是 ZeroZhu，长期关注 AI、产品设计、工具效率和知识管理。
-          </p>
-          <p>
-            我喜欢从真实问题出发，梳理信息结构，设计更顺手的工作流，再用合适的工具把想法落成可以使用的系统。
-          </p>
-          <p>
-            这个网站会先作为我的个人入口，后续再慢慢加入项目记录、生活随笔和旅行影像。
-          </p>
-        </div>
-      </section>
+      <section class="layout">
+        <div class="content-feed">
+          <section class="section" id="projects" aria-labelledby="projects-title">
+            <div class="section-heading">
+              <p class="eyebrow">Projects</p>
+              <h2 id="projects-title">项目与 Demo</h2>
+              <p>我会在这里放自己开发的 AI 应用、工具 demo 和产品实验。</p>
+            </div>
+            <div class="post-list">
+              <article class="post-card featured">
+                <span class="post-meta">AI Tool / Demo</span>
+                <h3>AI 应用实验室</h3>
+                <p>整理我做过或正在做的 AI 工具：从内容处理、自动化工作流，到面向个人效率的小 demo。</p>
+              </article>
+              <article class="post-card">
+                <span class="post-meta">Build Log</span>
+                <h3>从想法到上线</h3>
+                <p>记录一个工具从问题、原型、实现到部署的过程，保留真实的取舍和踩坑。</p>
+              </article>
+            </div>
+          </section>
 
-      <section class="section content-sections" id="sections" aria-labelledby="sections-title">
-        <div class="section-heading">
-          <p class="eyebrow">Sections</p>
-          <h2 id="sections-title">三个慢慢生长的板块。</h2>
-          <p>先把结构搭起来，内容之后一点点填进去。</p>
+          <section class="section" id="ideas" aria-labelledby="ideas-title">
+            <div class="section-heading">
+              <p class="eyebrow">Ideas & AI Notes</p>
+              <h2 id="ideas-title">创意 Ideas 与 AI 思考</h2>
+              <p>这里会存放还没有变成项目的想法，以及我学习 AI 技术时的观察和判断。</p>
+            </div>
+            <div class="post-list">
+              <article class="post-card">
+                <span class="post-meta">Idea</span>
+                <h3>值得做成工具的灵感</h3>
+                <p>把突然冒出来的产品想法、自动化点子和小需求先收集起来，等待下一次动手。</p>
+              </article>
+              <article class="post-card">
+                <span class="post-meta">AI Learning</span>
+                <h3>AI 技术学习笔记</h3>
+                <p>记录模型、Agent、工具调用、内容生成和产品体验之间的连接。</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="section" id="life" aria-labelledby="life-title">
+            <div class="section-heading">
+              <p class="eyebrow">Life & Reading</p>
+              <h2 id="life-title">生活、读书和学习</h2>
+              <p>不只记录效率和项目，也记录生活里的感受、阅读后的回响和阶段性的复盘。</p>
+            </div>
+            <div class="post-list">
+              <article class="post-card">
+                <span class="post-meta">Reading</span>
+                <h3>读书感悟</h3>
+                <p>用自己的语言重述一本书真正留下的东西，而不是只保存摘抄。</p>
+              </article>
+              <article class="post-card">
+                <span class="post-meta">Life Log</span>
+                <h3>生活状态分享</h3>
+                <p>写下近期的节奏、状态、困惑和一点点变清楚的东西。</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="section" id="travel" aria-labelledby="travel-title">
+            <div class="section-heading">
+              <p class="eyebrow">Travel</p>
+              <h2 id="travel-title">旅行影像与感悟</h2>
+              <p>照片、视频、路线、城市见闻，以及那些只有在路上才会冒出来的想法。</p>
+            </div>
+            <div class="media-grid">
+              <article class="media-card warm">
+                <span>Photo</span>
+                <strong>旅行照片</strong>
+              </article>
+              <article class="media-card cool">
+                <span>Video</span>
+                <strong>旅行视频</strong>
+              </article>
+              <article class="media-card green">
+                <span>Note</span>
+                <strong>路上的感受</strong>
+              </article>
+            </div>
+          </section>
+
+          <section class="section guestbook" id="guestbook" aria-labelledby="guestbook-title">
+            <div class="section-heading">
+              <p class="eyebrow">Guestbook</p>
+              <h2 id="guestbook-title">留言交流区</h2>
+              <p>静态网站先用 GitHub Issues 作为留言入口。你可以给我留言、推荐书、聊项目，或者分享你正在想的东西。</p>
+            </div>
+            <div class="guestbook-actions">
+              <a
+                class="button primary"
+                href="https://github.com/zhicong033-cloud/zerozhu.com/issues/new?title=%E7%BB%99%20ZeroZhu%20%E7%9A%84%E7%95%99%E8%A8%80"
+                target="_blank"
+                rel="noreferrer"
+              >
+                去 GitHub 留言
+              </a>
+              <a class="button secondary" href="mailto:zhicong033@gmail.com">发邮件交流</a>
+            </div>
+          </section>
         </div>
 
-        <div class="section-cards">
-          <article class="section-card">
-            <span class="section-index">01</span>
-            <h3>项目</h3>
-            <p>放我开发的一些 AI 应用、工具 demo 和产品实验。</p>
+        <aside class="sidebar" aria-label="侧边栏">
+          <section>
+            <h2>关于这个站</h2>
+            <p>这是我的个人主页，也会慢慢变成一个公开笔记本：放项目、想法、生活和旅行。</p>
+          </section>
+          <section>
+            <h2>分类</h2>
             <ul>
-              <li>AI 工具与自动化工作流</li>
-              <li>个人效率和内容处理 demo</li>
-              <li>从想法到上线的开发记录</li>
+              <li><a href="#projects">项目 Demo</a></li>
+              <li><a href="#ideas">创意 Ideas</a></li>
+              <li><a href="#life">读书与生活</a></li>
+              <li><a href="#travel">旅行体验</a></li>
             </ul>
-          </article>
-
-          <article class="section-card">
-            <span class="section-index">02</span>
-            <h3>生活</h3>
-            <p>记录我对生活的感悟，以及看书、学习和复盘中的收获。</p>
+          </section>
+          <section>
+            <h2>联系</h2>
             <ul>
-              <li>阅读笔记和学习记录</li>
-              <li>生活观察与阶段复盘</li>
-              <li>值得长期保存的想法</li>
+              <li><a href="mailto:zhicong033@gmail.com">Email</a></li>
+              <li><a href="https://github.com/zhicong033-cloud" target="_blank" rel="noreferrer">GitHub</a></li>
+              <li>微信公众号：忙而不匆1802</li>
             </ul>
-          </article>
-
-          <article class="section-card">
-            <span class="section-index">03</span>
-            <h3>旅行</h3>
-            <p>整理旅行中的照片、视频和当时的感受，让路上的记忆有地方安放。</p>
-            <ul>
-              <li>旅行照片和短视频</li>
-              <li>城市、路线和见闻</li>
-              <li>旅途中的片段式思考</li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <section class="contact" id="contact" aria-labelledby="contact-title">
-        <div>
-          <p class="eyebrow">Contact</p>
-          <h2 id="contact-title">欢迎交流项目、阅读、旅行，或者任何有意思的想法。</h2>
-        </div>
-        <div class="contact-links" aria-label="联系方式">
-          <a href="mailto:zhicong033@gmail.com">
-            <span>Email</span>
-            <strong>zhicong033@gmail.com</strong>
-          </a>
-          <a href="https://github.com/zhicong033-cloud" target="_blank" rel="noreferrer">
-            <span>GitHub</span>
-            <strong>github.com/zhicong033-cloud</strong>
-          </a>
-          <span>
-            <span>微信公众号</span>
-            <strong>忙而不匆1802</strong>
-          </span>
-        </div>
+          </section>
+        </aside>
       </section>
     </main>
 
