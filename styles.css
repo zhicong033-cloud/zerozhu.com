@@ -62,7 +62,6 @@ img {
 }
 
 .site-header,
-.hero,
 .layout,
 .footer {
   width: min(1120px, calc(100% - 40px));
@@ -70,11 +69,17 @@ img {
 }
 
 .site-header {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--line);
-  padding: 28px 0 20px;
+  border-bottom: 1px solid rgba(17, 24, 39, 0.06);
+  background: rgba(255, 255, 255, 0.82);
+  padding: 16px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(14px);
 }
 
 .brand,
@@ -99,14 +104,14 @@ img {
   width: 34px;
   height: 34px;
   place-items: center;
-  border-radius: 50%;
+  border-radius: 8px;
   background: var(--ink);
   color: #fff;
 }
 
 .nav {
   flex-wrap: wrap;
-  gap: 18px;
+  gap: 20px;
   color: var(--muted);
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -120,15 +125,26 @@ img {
 }
 
 .hero {
+  width: 100%;
+  min-height: calc(100vh - 67px);
+}
+
+.hero-portfolio {
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 320px;
-  gap: 54px;
-  align-items: center;
-  padding: 64px 0 56px;
+  place-items: center;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(202, 215, 229, 0.62), rgba(255, 250, 242, 0.56)),
+    url("/assets/hero-background.png") center / cover no-repeat;
+  text-align: center;
 }
 
 .hero-copy {
-  max-width: 760px;
+  width: min(880px, calc(100% - 40px));
+  max-width: 880px;
+  padding: 84px 0;
+  margin: 0 auto;
 }
 
 .eyebrow {
@@ -152,7 +168,7 @@ p {
 
 h1 {
   margin-bottom: 20px;
-  font-size: clamp(42px, 8vw, 82px);
+  font-size: clamp(46px, 8vw, 92px);
   line-height: 1.02;
   letter-spacing: 0;
 }
@@ -171,7 +187,7 @@ h3 {
 
 .intro {
   max-width: 700px;
-  margin-bottom: 28px;
+  margin: 0 auto 30px;
   color: var(--muted);
   font-size: 19px;
 }
@@ -180,6 +196,7 @@ h3 {
 .guestbook-actions {
   flex-wrap: wrap;
   gap: 12px;
+  justify-content: center;
 }
 
 .button {
@@ -208,13 +225,32 @@ h3 {
 }
 
 .primary {
-  background: var(--ink);
-  color: #fff;
+  background: #d69a57;
+  color: var(--ink);
 }
 
 .secondary {
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid #d69a57;
+  background: rgba(255, 255, 255, 0.4);
+  color: #a76625;
+}
+
+.hero-badge {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 12px 30px rgba(17, 24, 39, 0.08);
+  color: var(--ink);
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  padding: 12px 18px;
+  backdrop-filter: blur(12px);
 }
 
 .profile-card {
@@ -251,8 +287,7 @@ h3 {
   grid-template-columns: minmax(0, 1fr) 300px;
   gap: 54px;
   align-items: start;
-  border-top: 1px solid var(--line);
-  padding-top: 54px;
+  padding-top: 72px;
 }
 
 .content-feed {
@@ -547,14 +582,12 @@ h3 {
 }
 
 @media (max-width: 900px) {
-  .hero,
   .layout {
     grid-template-columns: 1fr;
   }
 
   .hero {
-    gap: 30px;
-    padding-top: 36px;
+    min-height: 640px;
   }
 
   .profile-card {
@@ -580,11 +613,14 @@ h3 {
 
 @media (max-width: 640px) {
   .site-header,
-  .hero,
   .layout,
   .article-layout,
   .footer {
     width: min(100% - 28px, 1120px);
+  }
+
+  .site-header {
+    width: 100%;
   }
 
   .site-header,
@@ -605,5 +641,14 @@ h3 {
 
   .button {
     width: 100%;
+  }
+
+  .hero-copy {
+    width: min(100% - 28px, 880px);
+  }
+
+  .hero-badge {
+    position: static;
+    margin: 18px auto 0;
   }
 }
