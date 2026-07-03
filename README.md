@@ -5,7 +5,7 @@ ZeroZhu 的个人品牌主页，一个可直接部署到 Cloudflare Pages 的静
 当前内容包括：
 
 - 个人定位：首页首屏和关于我
-- 联系方式：邮箱、GitHub、微信公众号
+- 联系方式：邮箱、GitHub、微信公众号、小红书、抖音
 
 ## 本地预览
 
@@ -57,4 +57,6 @@ http://localhost:8788
 - 邮箱：`zhicong033@gmail.com`
 - GitHub：`https://github.com/zhicong033-cloud`
 - 微信公众号：`忙而不匆1802`
+- 小红书：`朱智聪Zero`
+- 抖音：`朱智聪Zero`
 - `sitemap.xml` 中的 `lastmod` 日期
