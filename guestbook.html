@@ -26,37 +26,33 @@
 
     <a class="back-link" href="index.html">← 返回首页</a>
 
-    <header class="page-hero accent-red">
-      <div class="meta-row">
-        <span class="tag red">SUBSCRIBE</span>
+    <header class="page-hero accent-red subscribe-hero">
+      <div class="subscribe-hero-main">
+        <div class="meta-row">
+          <span class="tag red">SUBSCRIBE</span>
+        </div>
+        <h1>订阅与留言</h1>
+        <p class="lead">扫码关注各平台，或直接在下方留言——留言保存在本站。</p>
+        <div class="pill-row">
+          <span class="pill yellow">订阅入口</span>
+          <span class="pill">网页留言</span>
+        </div>
       </div>
-      <h1>订阅与留言</h1>
-      <p class="lead">扫码关注各平台，看看站点热度，或直接在下方留言——留言保存在本站。</p>
-      <div class="pill-row">
-        <span class="pill yellow">订阅入口</span>
-        <span class="pill red">访问数据</span>
-        <span class="pill">网页留言</span>
-      </div>
+      <aside id="site-stats-panel" class="hero-stats" aria-label="网站访问数据">
+        <div class="hero-stat yellow">
+          <span class="hero-stat-label">今日浏览</span>
+          <strong class="hero-stat-value" data-k="todayViews">—</strong>
+        </div>
+        <div class="hero-stat blue">
+          <span class="hero-stat-label">今日点击</span>
+          <strong class="hero-stat-value" data-k="todayClicks">—</strong>
+        </div>
+        <div class="hero-stat green">
+          <span class="hero-stat-label">累计浏览</span>
+          <strong class="hero-stat-value" data-k="totalViews">—</strong>
+        </div>
+      </aside>
     </header>
-
-    <div class="section-title" id="site-stats">
-      <h3>站点数据</h3>
-      <span>今日实时 · 按上海时区</span>
-    </div>
-    <section id="site-stats-panel" class="stats-panel" aria-label="网站访问数据">
-      <div class="stat-card accent-yellow">
-        <div class="stat-label">今日浏览</div>
-        <div class="stat-value" data-k="todayViews">—</div>
-      </div>
-      <div class="stat-card accent-blue">
-        <div class="stat-label">今日点击</div>
-        <div class="stat-value" data-k="todayClicks">—</div>
-      </div>
-      <div class="stat-card accent-green">
-        <div class="stat-label">累计浏览</div>
-        <div class="stat-value" data-k="totalViews">—</div>
-      </div>
-    </section>
 
     <div class="section-title" id="subscribe-qr">
       <h3>扫码关注</h3>
@@ -85,33 +81,44 @@
       </div>
     </div>
 
-    <div class="section-title" style="margin-top:28px">
+    <div class="section-title" style="margin-top:36px">
       <h3>留言板</h3>
       <span>保存在本站 · 提交即显示</span>
     </div>
-    <section class="content-card guestbook-card" aria-label="网页留言板">
-      <p class="prose guestbook-intro">随便聊聊 AI、合作或生活。也可以发邮件：<a href="mailto:zhicong033@gmail.com">zhicong033@gmail.com</a></p>
-      <form id="guestbook-form" class="guestbook-form">
-        <div class="guestbook-row">
-          <label class="field">
-            <span class="field-label">昵称</span>
-            <input name="name" type="text" maxlength="40" placeholder="怎么称呼你" autocomplete="nickname" />
+
+    <section class="guestbook-board" aria-label="网页留言板">
+      <div class="gb-block gb-form-block">
+        <div class="gb-block-kicker">WRITE</div>
+        <h2 class="gb-block-title">写一条留言</h2>
+        <p class="gb-block-desc">聊聊 AI、合作或生活。也可以发邮件：<a href="mailto:zhicong033@gmail.com">zhicong033@gmail.com</a></p>
+        <form id="guestbook-form" class="guestbook-form">
+          <div class="guestbook-row">
+            <label class="field">
+              <span class="field-label">昵称</span>
+              <input name="name" type="text" maxlength="40" placeholder="怎么称呼你" autocomplete="nickname" />
+            </label>
+            <label class="field">
+              <span class="field-label">联系方式 <em>选填</em></span>
+              <input name="contact" type="text" maxlength="80" placeholder="邮箱 / 微信 / 其他" autocomplete="email" />
+            </label>
+          </div>
+          <label class="field field-full">
+            <span class="field-label">留言</span>
+            <textarea name="message" required maxlength="800" rows="5" placeholder="想说的话…"></textarea>
           </label>
-          <label class="field">
-            <span class="field-label">联系方式 <em>选填</em></span>
-            <input name="contact" type="text" maxlength="80" placeholder="邮箱 / 微信 / 其他" autocomplete="email" />
-          </label>
-        </div>
-        <label class="field field-full">
-          <span class="field-label">留言</span>
-          <textarea name="message" required maxlength="800" rows="5" placeholder="想说的话…"></textarea>
-        </label>
-        <div class="guestbook-actions">
-          <button class="btn" type="submit">发布留言</button>
-          <p id="guestbook-status" class="guestbook-status" aria-live="polite"></p>
-        </div>
-      </form>
-      <div id="guestbook-list" class="guestbook-list" aria-live="polite"></div>
+          <div class="guestbook-actions">
+            <button class="btn" type="submit">发布留言</button>
+            <p id="guestbook-status" class="guestbook-status" aria-live="polite"></p>
+          </div>
+        </form>
+      </div>
+
+      <div class="gb-block gb-list-block">
+        <div class="gb-block-kicker">WALL</div>
+        <h2 class="gb-block-title">最近留言</h2>
+        <p class="gb-block-desc">新留言会出现在这里。</p>
+        <div id="guestbook-list" class="guestbook-list" aria-live="polite"></div>
+      </div>
     </section>
 
     <footer class="footer">
