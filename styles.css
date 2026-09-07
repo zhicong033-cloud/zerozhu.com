@@ -832,21 +832,25 @@ a { color: inherit; text-decoration: none; }
 
 .subscribe-hero {
   position: relative;
-  display: grid;
-  grid-template-columns: 1.35fr auto;
-  gap: 20px 28px;
-  align-items: end;
+  display: block;
   overflow: hidden;
   padding-bottom: 28px;
+  padding-right: 24px;
 }
-.subscribe-hero-main { min-width: 0; }
+.subscribe-hero-main {
+  min-width: 0;
+  max-width: calc(100% - 180px);
+  padding-right: 12px;
+}
 .hero-stats {
+  position: absolute;
+  right: 22px;
+  bottom: 22px;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  align-self: end;
-  justify-self: end;
-  min-width: 148px;
+  width: 156px;
 }
 .hero-stat {
   display: flex;
@@ -876,16 +880,19 @@ a { color: inherit; text-decoration: none; }
 }
 @media (max-width: 800px) {
   .subscribe-hero {
-    grid-template-columns: 1fr;
-    align-items: stretch;
+    padding-bottom: 132px;
+    padding-right: 18px;
+  }
+  .subscribe-hero-main {
+    max-width: 100%;
+    padding-right: 0;
   }
   .hero-stats {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-self: stretch;
-    min-width: 0;
+    right: 16px;
+    bottom: 16px;
+    left: auto;
+    width: min(168px, 46vw);
   }
-  .hero-stat { flex: 1 1 120px; }
 }
 
 .guestbook-board {
