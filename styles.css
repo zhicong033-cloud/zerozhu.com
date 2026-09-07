@@ -88,18 +88,6 @@ a { color: inherit; text-decoration: none; }
 
 .nav a.primary:hover { border-color: var(--ink); }
 
-.concept-badge {
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(18, 18, 18, 0.06);
-  color: var(--muted);
-  white-space: nowrap;
-}
 
 /* Cards */
 .card {
@@ -797,3 +785,178 @@ a { color: inherit; text-decoration: none; }
   .about-photos { grid-template-columns: 1fr 1fr; }
   .about-photos img, .about-photos img.primary { height: 200px; }
 }
+
+/* === site-stats + vertical video === */
+.site-stats {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 80;
+  min-width: 118px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  border: 2.5px solid var(--ink);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(8px);
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--ink);
+}
+.site-stats-title {
+  font-family: "Space Grotesk", "Noto Sans SC", sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  opacity: 0.7;
+}
+.site-stats-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  margin: 2px 0;
+}
+.site-stats-row strong {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+}
+.site-stats-row.muted {
+  opacity: 0.72;
+  font-size: 11px;
+}
+.site-stats-row.muted strong { font-size: 12px; }
+.site-stats-divider {
+  height: 1px;
+  background: rgba(0,0,0,0.12);
+  margin: 6px 0;
+}
+@media (max-width: 720px) {
+  .site-stats {
+    top: auto;
+    bottom: 14px;
+    right: 12px;
+    min-width: 108px;
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+  .top { padding-right: 8px; }
+}
+
+.media-vertical video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: inherit;
+  background: #111;
+  vertical-align: top;
+}
+.media-vertical .play-hint { display: none; }
+
+/* === site-stats + guestbook + video === */
+.site-stats {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 80;
+  min-width: 118px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  border: 2.5px solid var(--ink);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(8px);
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--ink);
+}
+.site-stats-title {
+  font-family: "Space Grotesk", "Noto Sans SC", sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  opacity: 0.7;
+}
+.site-stats-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  margin: 2px 0;
+}
+.site-stats-row strong {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+}
+.site-stats-row.muted { opacity: 0.72; font-size: 11px; }
+.site-stats-row.muted strong { font-size: 12px; }
+.site-stats-divider {
+  height: 1px;
+  background: rgba(0,0,0,0.12);
+  margin: 6px 0;
+}
+@media (max-width: 720px) {
+  .site-stats {
+    top: auto;
+    bottom: 14px;
+    right: 12px;
+    min-width: 108px;
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+}
+.media-vertical video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: inherit;
+  background: #111;
+}
+.guestbook-form {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0 22px;
+}
+.guestbook-form label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.guestbook-form input,
+.guestbook-form textarea {
+  width: 100%;
+  border: 2.5px solid var(--ink);
+  border-radius: 14px;
+  padding: 10px 12px;
+  font: inherit;
+  background: #fff;
+}
+.guestbook-status { min-height: 1.2em; font-size: 13px; }
+.guestbook-status[data-state="ok"] { color: #0a7a3e; }
+.guestbook-status[data-state="err"] { color: #b42318; }
+.guestbook-list { display: grid; gap: 12px; }
+.guestbook-empty { opacity: 0.7; }
+.gb-item {
+  border: 2.5px solid var(--ink);
+  border-radius: 18px;
+  padding: 14px 16px;
+  background: #fffef8;
+  box-shadow: var(--shadow);
+}
+.gb-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+.gb-meta time { opacity: 0.65; }
+.gb-body { margin: 0; white-space: pre-wrap; line-height: 1.6; }
+.gb-contact { margin-top: 8px; font-size: 12px; opacity: 0.7; }

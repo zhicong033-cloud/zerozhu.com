@@ -1,0 +1,11 @@
+name = "zerozhu"
+compatibility_date = "2025-09-01"
+pages_build_output_dir = "."
+
+[[kv_namespaces]]
+binding = "STATS"
+id = "2826850dac4f42bbbb8c52f97af36088"
+
+[[kv_namespaces]]
+binding = "GUESTBOOK"
+id = "79f5099be9c84881a93a479372f0c509"
