@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>项目 - ZeroZhu</title>
+  <title>作品 - ZeroZhu</title>
+  <meta name="description" content="ZeroZhu 的可交互作品：微光纪元等。" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
@@ -18,32 +19,48 @@
       </a>
       <nav class="nav" aria-label="主导航">
         <a href="../ideas/index.html">创作</a>
-        <a class="active" href="index.html">项目</a>
+        <a class="active" href="index.html">作品</a>
         <a href="../about.html">关于</a>
         <a class="primary" href="../guestbook.html">订阅</a>
       </nav>
     </header>
+
     <header class="page-hero accent-green">
-      <div class="kicker">Products · 项目</div>
-      <h1>项目稍后上线</h1>
-      <p class="lead">提词器、Odysseus、小说工作台先不放进站点。创作与关于优先。</p>
+      <div class="kicker">Works · 作品</div>
+      <h1>可以点进去玩的东西</h1>
+      <p class="lead">把想法做成可交互原型。当前公开的是用 GPT‑6 Astra 能力验证做出来的小岛文明模拟。</p>
     </header>
-    <section class="content-card">
+
+    <div class="rail">
+      <a class="item" href="weiguang/index.html">
+        <span class="tag" style="background:var(--green);color:var(--ink)">可交互</span>
+        <h4>微光纪元</h4>
+        <p>一座小岛，无数种未来。从 30 个普通人开始，观察文明如何生长；可点击居民、施加事件、调整规则。</p>
+      </a>
+    </div>
+
+    <section class="content-card" style="margin-top:20px">
       <div class="prose">
-        <p>这一栏暂时留白。有更合适公开的作品时再补。</p>
-        <p><a class="btn" href="../ideas/index.html">先去看创作</a>
-        <a class="btn ghost" href="../about.html" style="margin-left:8px">关于我</a></p>
+        <h2>关于这个作品</h2>
+        <p><strong>微光纪元</strong>是我测试 GPT‑6 Astra 性能时做出的本地文明演化实验：没有预制剧本，居民按资源、技能、性格与关系行动。你可以暂停加速、点击小人走进一生，或轻轻拨动干旱、矿脉、来客等事件，看连锁反应。</p>
+        <p>全程在浏览器本地运行，进度自动保存在你的设备上。</p>
+        <p style="margin-top:16px">
+          <a class="btn" href="weiguang/index.html">打开微光纪元</a>
+          <a class="btn ghost" href="../ideas/index.html" style="margin-left:8px">去看创作</a>
+        </p>
       </div>
     </section>
+
     <footer class="footer">
       <div>© 2026 ZeroZhu</div>
       <div class="footer-links">
         <a href="../index.html">首页</a>
         <a href="../ideas/index.html">创作</a>
+        <a href="../about.html">关于</a>
         <a href="../guestbook.html">订阅</a>
       </div>
     </footer>
   </div>
-<script src="../assets/site-stats.js" defer></script>
+  <script src="../assets/site-stats.js" defer></script>
 </body>
 </html>
