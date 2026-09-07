@@ -1,66 +1,139 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>订阅与交流 - ZeroZhu</title>
-    <meta name="description" content="订阅 ZeroZhu 的更新，留言交流项目、AI、创作和个人品牌构建。" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/styles.css" />
-  </head>
-  <body>
-    <header class="site-header">
-      <a class="brand" href="/">
-        <span class="brand-mark">Z</span>
-        <span>ZeroZhu</span>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>订阅与交流 - ZeroZhu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="top">
+      <a class="brand" href="index.html">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div>ZERO ZHU</div>
       </a>
       <nav class="nav" aria-label="主导航">
-        <a href="/#writing">创作</a>
-        <a href="/#projects">项目</a>
-        <a href="/#subscribe">订阅</a>
+        <a href="ideas/ai-as-assistant.html">创作</a>
+        <a href="about.html">关于</a>
+        <a class="primary active" href="guestbook.html">订阅</a>
+        <span class="concept-badge">Concept</span>
       </nav>
     </header>
 
-    <main class="article-layout">
-      <section class="article guestbook-page">
-        <p class="eyebrow">Guestbook</p>
-        <h1>订阅与交流</h1>
-        <p class="article-lead">
-          欢迎通过公众号、小红书、抖音、邮件或留言区和我连接：可以聊产品、AI、创作、读书、旅行，也可以分享一个你正在做的有趣想法。
-        </p>
+    <a class="back-link" href="index.html">← 返回首页</a>
 
-        <div class="comment-box contact-box">
-          <h2>订阅入口</h2>
-          <ul class="contact-list">
-            <li><span>公众号</span><strong>忙而不匆1802</strong></li>
-            <li><span>小红书</span><strong>朱智聪Zero</strong></li>
-            <li><span>抖音</span><strong>朱智聪Zero</strong></li>
-            <li><span>Email</span><a href="mailto:zhicong033@gmail.com">zhicong033@gmail.com</a></li>
-            <li><span>GitHub</span><a href="https://github.com/zhicong033-cloud" target="_blank" rel="noreferrer">zhicong033-cloud</a></li>
-          </ul>
-        </div>
+    <header class="page-hero accent-red">
+      <div class="meta-row">
+        <span class="tag red">GUESTBOOK</span>
+      </div>
+      <h1>订阅与交流</h1>
+      <p class="lead">关注更新，或通过 GitHub Issues / 邮件直接留言。欢迎聊聊想法、反馈与合作。</p>
+      <div class="pill-row">
+        <span class="pill yellow">订阅入口</span>
+        <span class="pill red">留言方式</span>
+        <span class="pill">GitHub Issues</span>
+      </div>
+      <div class="deco-ring" aria-hidden="true"></div>
+    </header>
 
-        <div class="comment-box">
-          <h2>留言方式</h2>
-          <p>当前静态网站先使用 GitHub Issues 作为留言区。后续可以升级成站内评论系统。</p>
-          <div class="guestbook-actions">
-            <a
-              class="button primary"
-              href="https://github.com/zhicong033-cloud/zerozhu.com/issues/new?title=%E7%BB%99%20ZeroZhu%20%E7%9A%84%E7%95%99%E8%A8%80"
-              target="_blank"
-              rel="noreferrer"
-            >
-              打开留言入口
+    <div class="contact-grid">
+      <section class="contact-panel" id="subscribe">
+        <h2>订阅入口</h2>
+        <p>在常用平台找到我，获取创作与项目更新。</p>
+        <ul class="contact-list">
+          <li>
+            <div class="row">
+              <span>公众号 · 忙而不匆1802</span>
+              <span class="label-en">WeChat</span>
+            </div>
+          </li>
+          <li>
+            <div class="row">
+              <span>小红书 · 朱智聪Zero</span>
+              <span class="label-en">Xiaohongshu</span>
+            </div>
+          </li>
+          <li>
+            <div class="row">
+              <span>抖音 · 朱智聪Zero</span>
+              <span class="label-en">Douyin</span>
+            </div>
+          </li>
+          <li>
+            <a href="mailto:zhicong033@gmail.com">
+              <span>Email · zhicong033@gmail.com</span>
+              <span class="label-en">Mail</span>
             </a>
-            <a class="button secondary" href="mailto:zhicong033@gmail.com">发邮件交流</a>
-          </div>
-        </div>
+          </li>
+          <li>
+            <a href="https://github.com/zhicong033-cloud" target="_blank" rel="noopener noreferrer">
+              <span>GitHub · zhicong033-cloud</span>
+              <span class="label-en">GitHub</span>
+            </a>
+          </li>
+        </ul>
       </section>
-    </main>
+
+      <section class="contact-panel" id="guestbook">
+        <h2>留言方式</h2>
+        <p>留言本走 GitHub Issues：公开、可检索，也方便我跟进回复。</p>
+        <div class="form-fake" aria-hidden="true">
+          <label>留言标题 <span class="hint">（将跳转到 GitHub）</span></label>
+          <input type="text" placeholder="给 ZeroZhu 的留言" readonly />
+          <label>内容概要</label>
+          <textarea rows="4" placeholder="想法、反馈或合作意向…" readonly></textarea>
+        </div>
+        <div class="cta-row" style="margin-top:18px">
+          <a class="btn" href="https://github.com/zhicong033-cloud/zerozhu.com/issues/new?title=%E7%BB%99%20ZeroZhu%20%E7%9A%84%E7%95%99%E8%A8%80" target="_blank" rel="noopener noreferrer">打开 Issues 留言</a>
+          <a class="btn ghost" href="mailto:zhicong033@gmail.com">发邮件</a>
+        </div>
+        <p style="margin-top:16px;font-size:13px;color:var(--muted);">
+          也可以直接访问
+          <a href="https://github.com/zhicong033-cloud" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;color:var(--ink);">github.com/zhicong033-cloud</a>
+        </p>
+      </section>
+    </div>
+
+    
+    <div class="section-title" id="subscribe-qr">
+      <h3>扫码关注</h3>
+      <span>来自桌面「个人社交平台账号」</span>
+    </div>
+    <div class="qr-grid">
+      <div class="qr-card">
+        <img src="assets/social/wechat-mp.jpg" alt="微信公众号二维码" />
+        <div class="label">公众号</div>
+        <div class="sub">忙而不匆1802</div>
+      </div>
+      <div class="qr-card">
+        <img src="assets/social/xiaohongshu.jpg" alt="小红书二维码" />
+        <div class="label">小红书</div>
+        <div class="sub">朱智聪Zero</div>
+      </div>
+      <div class="qr-card">
+        <img src="assets/social/douyin.jpg" alt="抖音二维码" />
+        <div class="label">抖音</div>
+        <div class="sub">朱智聪Zero</div>
+      </div>
+      <div class="qr-card">
+        <img src="assets/social/shipinhao.jpg" alt="视频号二维码" />
+        <div class="label">视频号</div>
+        <div class="sub">扫码关注</div>
+      </div>
+    </div>
 
     <footer class="footer">
-      <span>© 2026 ZeroZhu</span>
-      <span><a href="/">回到首页</a></span>
+      <div>© 2026 ZeroZhu</div>
+      <div class="footer-links">
+        <a href="index.html">首页</a>
+        <a href="ideas/ai-as-assistant.html">创作</a>
+        <a href="about.html">关于</a>
+      </div>
     </footer>
-  </body>
+  </div>
+</body>
 </html>

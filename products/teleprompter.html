@@ -1,74 +1,96 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>录屏提词器 - ZeroZhu</title>
-    <meta
-      name="description"
-      content="录屏提词器是一款为短视频录制和镜头表达设计的移动端提词工具。"
-    />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/styles.css" />
-  </head>
-  <body>
-    <header class="site-header">
-      <a class="brand" href="/">
-        <span class="brand-mark">Z</span>
-        <span>ZeroZhu</span>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>录屏提词器 - ZeroZhu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="top">
+      <a class="brand" href="../index.html">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div>ZERO ZHU</div>
       </a>
       <nav class="nav" aria-label="主导航">
-        <a href="/#writing">创作</a>
-        <a href="/#projects">项目</a>
-        <a href="/#subscribe">订阅</a>
+        <a href="../ideas/ai-as-assistant.html">创作</a>
+        <a class="active" href="teleprompter.html">项目</a>
+        <a class="primary" href="../guestbook.html">订阅</a>
+        <span class="concept-badge">Concept</span>
       </nav>
     </header>
 
-    <main class="article-layout">
-      <article class="article">
-        <p class="eyebrow">Product Demo / iOS</p>
-        <h1>录屏提词器</h1>
-        <p class="article-lead">
-          一款为短视频录制和镜头表达设计的移动端提词工具，让文稿悬浮在录屏画面上，帮助创作者边看提示边自然表达。
-        </p>
+    <a class="back-link" href="../index.html">← 返回首页</a>
 
-        <div class="product-hero">
-          <div>
-            <span>Core Feature</span>
-            <strong>悬浮提词</strong>
-          </div>
-          <div>
-            <span>Scenario</span>
-            <strong>录屏讲解</strong>
-          </div>
-          <div>
-            <span>Goal</span>
-            <strong>自然表达</strong>
-          </div>
-        </div>
+    <header class="page-hero accent-green">
+      <div class="meta-row">
+        <span class="tag green">PRODUCT DEMO</span>
+        <span class="tag blue">IOS</span>
+      </div>
+      <h1>录屏提词器</h1>
+      <p class="lead">为短视频与讲解准备的 iOS 提词工具：悬浮提词、录屏讲解、自然表达。</p>
+      <div class="cta-row" style="margin-top:20px">
+        <a class="btn" href="#features">产品特点</a>
+        <a class="btn ghost" href="#devlog">开发记录</a>
+      </div>
+      <div class="deco-ring" aria-hidden="true"></div>
+    </header>
 
+    <section class="content-card" id="features">
+      <div class="prose">
         <h2>为什么做它</h2>
-        <p>
-          很多内容创作者在录制教程、产品讲解或短视频时，会遇到一个小但真实的问题：想表达得完整，但又不想一直低头看稿。录屏提词器的目标，就是让提示文本跟随录制场景出现，降低忘词和反复重录的成本。
-        </p>
+        <p>录短视频、做教程、讲产品、分享知识时，最常遇到的不是「不会说」，而是「说到一半忘词」。反复重录既耗时，也容易把表达拍僵。</p>
+        <p>录屏提词器是一款面向移动端录制的提词工具：让稿子悬浮在录制画面之上，边看边讲，减少忘词与重拍，让表达更自然。</p>
+      </div>
 
+      <div class="feature-grid">
+        <div class="feature">
+          <div class="icon" style="background:var(--green);color:var(--ink);">01</div>
+          <h3>悬浮提词</h3>
+          <p>稿子浮在录制界面上，视线不用来回切换，跟读更顺。</p>
+        </div>
+        <div class="feature">
+          <div class="icon" style="background:var(--blue);color:#fff;">02</div>
+          <h3>录屏讲解</h3>
+          <p>适合短视频、教程、产品介绍与知识分享等讲解型录制。</p>
+        </div>
+        <div class="feature">
+          <div class="icon" style="background:var(--yellow);color:var(--ink);">03</div>
+          <h3>自然表达</h3>
+          <p>少忘词、少重拍，把注意力放回语气与节奏，而不是死记硬背。</p>
+        </div>
+      </div>
+
+      <div class="prose" style="margin-top:32px" id="devlog">
         <h2>产品特点</h2>
         <ul>
-          <li>面向录屏场景设计，而不是传统演讲台式提词。</li>
-          <li>让文稿以悬浮方式辅助表达，尽量不打断录制节奏。</li>
-          <li>适合短视频、教程、产品介绍和知识分享类内容。</li>
+          <li>移动端提词，专为边录边讲设计。</li>
+          <li>悬浮脚本覆盖在录制画面上，降低视线切换成本。</li>
+          <li>面向短视频、教程、产品介绍、知识分享等场景。</li>
         </ul>
 
-        <h2 id="build-log">开发记录</h2>
-        <p>
-          这个项目会继续记录从需求判断、交互设计、iOS 实现到真实使用反馈的过程。后续我会把 demo 截图、录屏视频和版本迭代放在这里。
-        </p>
-      </article>
-    </main>
+        <h2>开发记录</h2>
+        <p>后续会陆续记录需求梳理、交互设计、iOS 实现与用户反馈。演示截图与视频也会放在这里——当前为概念页，真实素材稍后补上。</p>
+      </div>
+
+      <div class="product-cta">
+        <a class="btn" href="../guestbook.html">订阅更新</a>
+        <a class="btn ghost" href="../ideas/ai-as-assistant.html">阅读创作</a>
+      </div>
+    </section>
 
     <footer class="footer">
-      <span>© 2026 ZeroZhu</span>
-      <span><a href="/">回到首页</a></span>
+      <div>© 2026 ZeroZhu</div>
+      <div class="footer-links">
+        <a href="../index.html">首页</a>
+        <a href="../ideas/ai-as-assistant.html">创作</a>
+        <a href="../guestbook.html">订阅</a>
+      </div>
     </footer>
-  </body>
+  </div>
+</body>
 </html>
