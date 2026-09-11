@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>用 Hermes + Obsidian 打造微信里的个人助理 - ZeroZhu</title>
+  <meta name="description" content="保姆级教程：Hermes 配置 DeepSeek、接入微信，并用 Obsidian 做本地知识库，打造随叫随到的个人助理。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="top">
+      <a class="brand" href="../index.html">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div>ZERO ZHU</div>
+      </a>
+      <nav class="nav" aria-label="主导航">
+        <a href="../ideas/index.html">创作</a>
+        <a class="active" href="index.html">工具</a>
+        <a href="../products/index.html">作品</a>
+        <a href="../about.html">关于</a>
+        <a class="primary" href="../guestbook.html">订阅</a>
+      </nav>
+    </header>
+
+    <a class="back-link" href="index.html">← AI 工具使用分享</a>
+
+    <header class="page-hero accent-yellow">
+      <div class="meta-row">
+        <span class="tag yellow">AI 工具使用分享</span>
+        <span class="kicker">Hermes · Obsidian · 微信</span>
+      </div>
+      <h1>用 Hermes + Obsidian 打造微信里的个人助理</h1>
+      <p class="lead">我有一个个人助理装在手机微信里：有想法就记、有问题就问，用久了会越来越懂你。下面是保姆级搭建教程。</p>
+    </header>
+
+    <article class="content-card">
+      <div class="prose">
+        <p>用得久了你会发现：你会拥有一个越来越懂你、有什么问题都可以跟它说的贴心助理。跟着下面步骤做，就能轻松拥有属于自己的个人助理。</p>
+
+        <h2>第一步：下载并安装 Hermes</h2>
+        <p>打开官网：<a href="https://hermes-agent.nousresearch.com/desktop" target="_blank" rel="noopener noreferrer">https://hermes-agent.nousresearch.com/desktop</a></p>
+        <figure class="article-shot">
+          <img src="assets/hermes-site.jpg" alt="Hermes 官网首页" loading="lazy" />
+          
+        </figure>
+        <p>进入 Install（安装）板块，按你的电脑型号安装。</p>
+        <figure class="article-shot">
+          <img src="assets/hermes-install.jpg" alt="Hermes 安装页" loading="lazy" />
+          
+        </figure>
+        <p>安装完成后，先到设置里把语言改为中文：</p>
+        <figure class="article-shot">
+          <img src="assets/hermes-lang.jpg" alt="Hermes 设置入口" loading="lazy" />
+          
+        </figure>
+        <p>在 Appearance（外观）栏将语言改为中文，后面操作会轻松很多。</p>
+        <figure class="article-shot">
+          <img src="assets/hermes-appearance.jpg" alt="Hermes 外观语言设置" loading="lazy" />
+          
+        </figure>
+
+        <h2>第二步：给 Hermes 配置模型（以 DeepSeek 为例）</h2>
+        <p>点击右下角编辑模型：</p>
+        <figure class="article-shot">
+          <img src="assets/hermes-edit-model.jpg" alt="编辑模型入口" loading="lazy" />
+          
+        </figure>
+        <p>选择模型提供方，在列表里找到 DeepSeek：</p>
+        <figure class="article-shot">
+          <img src="assets/hermes-provider.jpg" alt="选择模型提供方" loading="lazy" />
+          
+        </figure>
+        <figure class="article-shot">
+          <img src="assets/hermes-deepseek.jpg" alt="选择 DeepSeek" loading="lazy" />
+          
+        </figure>
+        <p>接着去 DeepSeek 官网创建 API Key：<a href="https://platform.deepseek.com/usage" target="_blank" rel="noopener noreferrer">https://platform.deepseek.com/usage</a></p>
+        <figure class="article-shot">
+          <img src="assets/deepseek-usage.jpg" alt="DeepSeek 用量与密钥页面" loading="lazy" />
+          
+        </figure>
+        <p>给 Key 取个名字，建议用 Agent 名称命名，方便以后在官网查看不同 Agent 的 Token 消耗。命名后点「创建」。</p>
+        <figure class="article-shot">
+          <img src="assets/deepseek-create-key.jpg" alt="创建 API Key" loading="lazy" />
+          
+        </figure>
+        <div class="callout">复制得到的 Key，回到 Hermes 粘贴到 API Key / 密钥位置。<strong>不要把 Key 暴露在浏览器、代码或公开文章里</strong>，也不要发给别人。若怀疑泄露，删掉重建即可（最多可建约 100 个）。</div>
+        <figure class="article-shot">
+          <img src="assets/hermes-paste-key.jpg" alt="在 Hermes 粘贴密钥" loading="lazy" />
+          
+        </figure>
+        <p>模型密钥配好后，Hermes 就可以正常用了。</p>
+        <figure class="article-shot">
+          <img src="assets/hermes-ready.jpg" alt="Hermes 可用界面" loading="lazy" />
+          
+        </figure>
+
+        <h2>第三步：接入微信，做成随叫随到的助理</h2>
+        <p>到这里你已经有一个会自生长、越来越懂你的智能体。若要随时随地使唤，需要把它接到手机——我选的是微信。</p>
+        <p>接下来要在电脑终端里配置。别怕终端：跟着做就行；卡住了也可以直接问 Hermes，它会帮你解决。</p>
+
+        <h3>苹果电脑</h3>
+        <h4>1. 让 hermes 命令可用</h4>
+        <p>打开终端，输入：</p>
+        <pre><code>export PATH="$HOME/.hermes/hermes-agent/venv/bin:$PATH"</code></pre>
+        <p>（每次新开终端跑一次；想永久生效可写进 <code>~/.zshrc</code>）</p>
+
+        <h4>2. 新建档案</h4>
+        <pre><code>hermes profile create 你的名字 --clone</code></pre>
+        <ul>
+          <li><code>你的名字</code>：小写字母+数字，例如 <code>yang-boss</code>、<code>hermes3</code>（不能用大写 / 中文 / 特殊符号）</li>
+          <li><strong>--clone 很关键</strong>：自动复制模型配置、API key、Skills——新档案立刻能用</li>
+          <li>记忆（memories）不会克隆——新档案是空白记忆</li>
+        </ul>
+
+        <h4>3. 确认档案建好</h4>
+        <pre><code>hermes profile list</code></pre>
+        <p>应看到新名字出现在列表里，Gateway 显示 stopped。</p>
+
+        <h4>4. 绑定微信（关键）</h4>
+        <pre><code>hermes --profile 你的名字 gateway setup</code></pre>
+        <ul>
+          <li>菜单选 <strong>Weixin</strong> → 终端出现二维码（乱码就用提示的 URL 手机打开）</li>
+          <li>用<strong>准备好的新微信号</strong>扫码 → 手机点「确认登录」</li>
+          <li>看到 <code>微信连接成功，account_id=xxx</code> = 绑定完成</li>
+        </ul>
+        <figure class="article-shot">
+          <img src="assets/weixin-bound.jpg" alt="微信绑定成功提示" loading="lazy" />
+          
+        </figure>
+
+        <h4>5. 启动网关测试</h4>
+        <pre><code>hermes --profile 你的名字 gateway run</code></pre>
+        <p>出现 <code>weixin connected</code> 后别关窗口，用新微信号给机器人发「你好」。收到回复 = 打通，再 <code>Ctrl+C</code> 停掉。</p>
+
+        <h4>6. 转后台自启</h4>
+        <pre><code>hermes --profile 你的名字 gateway install
+hermes --profile 你的名字 gateway start</code></pre>
+        <p>随时可查：</p>
+        <pre><code>hermes gateway list</code></pre>
+
+        <h3>Windows 电脑</h3>
+        <p>准备：Windows 10/11、一个没用过的微信号、网络顺畅。</p>
+        <h4>1. 打开 PowerShell</h4>
+        <p>开始菜单搜索 PowerShell，或 <code>Win + R</code> 输入 <code>powershell</code>。</p>
+        <h4>2. 粘贴安装命令</h4>
+        <pre><code>iex (irm https://hermes-agent.nousresearch.com/install.ps1)</code></pre>
+        <p>会自动装 Python、依赖等，几分钟跑完，默认装到 <code>%LOCALAPPDATA%\hermes\</code>。</p>
+        <h4>3. 重开终端（关键）</h4>
+        <p>关掉当前窗口，重新打开 PowerShell，新装的 <code>hermes</code> 命令才会生效。</p>
+        <h4>4. 配置模型</h4>
+        <pre><code>hermes setup</code></pre>
+        <p>选常用服务商（如 DeepSeek）并粘贴 API key。若有 Nous Portal，可用 <code>hermes setup --portal</code>。</p>
+        <h4>5. 连接微信机器人</h4>
+        <pre><code>hermes gateway setup</code></pre>
+        <p>选 Weixin → 扫码确认 → 看到连接成功即可。</p>
+        <h4>6. 启动测试</h4>
+        <pre><code>hermes gateway run</code></pre>
+        <p>出现 <code>weixin connected</code> 后发「你好」验证，再 <code>Ctrl+C</code>。</p>
+        <h4>7. 后台自启</h4>
+        <pre><code>hermes gateway install
+hermes gateway start</code></pre>
+
+        <h2>第四步：用 Obsidian 做本地记忆库</h2>
+        <p>个人助理还需要存资料的地方。我选 Obsidian：本地知识库，资料留在自己电脑上。</p>
+        <p>打开官网下载：<a href="https://obsidian.md/" target="_blank" rel="noopener noreferrer">https://obsidian.md/</a></p>
+        <figure class="article-shot">
+          <img src="assets/obsidian-site.jpg" alt="Obsidian 官网" loading="lazy" />
+          
+        </figure>
+        <p>下载过程中，可先在电脑新建文件夹，例如「我的个人助理」。<strong>Windows 用户不要建在系统盘（如 C 盘）。</strong></p>
+        <p>安装打开后，选择刚建的文件夹作为仓库：</p>
+        <figure class="article-shot">
+          <img src="assets/obsidian-open.jpg" alt="打开 Obsidian 仓库" loading="lazy" />
+          
+        </figure>
+        <figure class="article-shot">
+          <img src="assets/obsidian-vault.jpg" alt="Obsidian 仓库界面" loading="lazy" />
+          
+        </figure>
+        <p>然后把文件夹位置告诉 Hermes，例如在微信端或电脑端说：</p>
+        <div class="callout">在我的桌面上有个文件夹叫做「我的个人助理」，这也是我的 Obsidian 管理仓库，以后我的所有个人事项都保存在这个文件夹里面。</div>
+        <p>文件夹建在哪，就如实告诉 Hermes。之后信息都在本地；想查看时打开 Obsidian 即可。通过微信，你可以随时给 Hermes 发任务——去试试吧。</p>
+      </div>
+    </article>
+
+    <p style="margin:20px 0 28px">
+      <a class="btn" href="index.html">更多工具分享</a>
+      <a class="btn ghost" href="../ideas/index.html" style="margin-left:8px">去看创作</a>
+    </p>
+
+    <footer class="footer">
+      <div>© 2026 ZeroZhu</div>
+      <div class="footer-links">
+        <a href="../index.html">首页</a>
+        <a href="index.html">工具</a>
+        <a href="../ideas/index.html">创作</a>
+        <a href="../guestbook.html">订阅</a>
+      </div>
+    </footer>
+  </div>
+  <script src="../assets/site-stats.js" defer></script>
+</body>
+</html>
