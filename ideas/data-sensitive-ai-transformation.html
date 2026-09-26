@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>烟草公司培训后的复盘思考，数据敏感型企业怎么做AI转型落地 - ZeroZhu</title>
+  <meta name="description" content="数据不出域的前提下，用「一条主线、三大支柱」把 AI 用起来：数据分级、统一平台、场景矩阵，以及私有化到底要花多少钱。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="top">
+      <a class="brand" href="../index.html">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div>ZERO ZHU</div>
+      </a>
+      <nav class="nav" aria-label="主导航">
+        <a class="active" href="index.html">创作</a>
+        <a href="../tools/index.html">工具</a>
+        <a href="../products/index.html">作品</a>
+        <a href="../about.html">关于</a>
+        <a class="primary" href="../guestbook.html">订阅</a>
+      </nav>
+    </header>
+
+    <a class="back-link" href="index.html">← 创作列表</a>
+
+    <header class="page-hero accent-blue">
+      <div class="meta-row">
+        <span class="tag" style="background:rgba(255,255,255,0.25);color:#fff;">培训复盘</span>
+        <span class="kicker" style="opacity:0.9;color:#fff;">2026.09.18 · 数据敏感型企业 AI 落地</span>
+      </div>
+      <h1>烟草公司培训后的复盘思考，数据敏感型企业怎么做AI转型落地</h1>
+      <p class="lead">数据不出域的前提下，用「一条主线、三大支柱」把 AI 用起来：数据分级、统一平台、场景矩阵，以及私有化到底要花多少钱。</p>
+    </header>
+
+    <article class="content-card">
+      <div class="prose">
+        <p>大家好，我是朱智聪。我不是专职做培训的，但在陪企业做 AI 落地的过程中，培训是绕不开的一环。</p>
+        <p>前两天，我给一家烟草系统的单位讲了一场关于 AI 转型落地的培训，台下来的是中层以上干部和年轻骨干。</p>
+        <figure class="article-shot">
+          <img src="assets/tobacco-training-scene.jpg" alt="烟草系统单位 AI 转型落地培训现场" loading="lazy" />
+          <figcaption>培训现场</figcaption>
+        </figure>
+        <p>复盘下来，总体还算圆满，但实操环节我做得还不够细：这次大部分人没带电脑，我的演示跳跃性偏大，很多人没能真正跟着一步步操作，对 AI 的“手感”不强。</p>
+        <p>自我改进就一条——以后的培训，我会把“带电脑跟训”明确提出来，演示时放慢节奏，保证每个人都能跟着亲手做一遍。</p>
+        <p><strong>只有自己跑通过一次，才会对 AI 有更深的领悟。</strong></p>
+        <p>在培训之后，我思考更多的是，像烟草公司这样的数据敏感单位，该怎么做AI转型落地？</p>
+        <p>很多人天然想到的办法就是做私有化部署。但是即使做私有化部署，也需要有方法和步骤，不能盲目的就去上设备，不然既浪费钱，效果又不好。</p>
+        <h2>一、数据敏感的单位，为什么“不敢用”AI</h2>
+        <p>以烟草这类单位为例，卡点主要有三个。</p>
+        <p><strong>一是合规约束。</strong>专卖体制叠加《数据安全法》等法律制度要求，这是硬约束，单位的数据不能轻易经由 AI 上网。</p>
+        <p><strong>二是网络隔离。</strong>内网在物理和逻辑上都与外网隔绝，这直接堵死了公有云大模型 API 的接入。</p>
+        <p><strong>三是组织问责。</strong>审计、纪检、巡检常态化，决策者不得不先多想一层：万一出了问题，该担多大责任。</p>
+        <p>一句话概括：<strong>网络隔离是物理约束，合规是制度约束，组织问责是心理约束。</strong>前两个决定了“必须私有化”，第三个决定了“必须先小步见效、再谈投入”。</p>
+        <p>所以对这类单位，真问题从来不是“能不能用”，而是——<strong>怎么在数据不出域的前提下，把它用起来。</strong></p>
+        <h2>二、落地的一条主线、三大支柱</h2>
+        <p>做法可以概括成“一条主线、三大支柱”。</p>
+        <p><strong>一条主线：</strong>在“数据不出域”的前提下，用<strong>大小模型协同</strong>搭一个智能中枢，再以场景牵引、梯度落地。它的核心逻辑是——AI 转型不是买一套大模型系统，而是把数据、模型、场景、组织四个要素拧成一个能持续运转的体系。</p>
+        <p><strong>三大支柱：</strong></p>
+        <ol>
+        <li><strong>数据底座与安全合规</strong>——先盘家底、立边界，这是数据敏感企业区别于其他企业的第一道工序；</li>
+        <li><strong>统一 AI 平台</strong>——把算力、模型、数据资产统一纳管，破除“模型孤岛”，避免各业务线重复建设；</li>
+        <li><strong>场景矩阵</strong>——从业务痛点出发持续孵化高价值场景，让模型能力落到生产和管理一线。</li>
+        </ol>
+        <p>下面我逐一说说。</p>
+        <h2>三、支柱一 · 数据底座与安全合规：先盘家底，再立规矩</h2>
+        <p>转型的第一步不是上模型，而是盘家底、立规矩。其中<strong>数据分类分级</strong>最容易被忽略，却最关键。</p>
+        <p>很多单位张口就是“我们数据都不能上网”。但真细问下去，往往是<strong>没做过分级</strong>。把“绝不能出域”和“可以进内网 AI”切清楚之后，能释放出一大批原本被一刀切封死的可用数据。这一步，同时也是合规审计的硬要求。</p>
+        <p><strong>先做场景分级，把手里的活分成三档：</strong></p>
+        <ul>
+        <li><strong>必须进内网的：</strong>涉密材料、案件证据、经营明细、内部经营数据——模型和知识库得放在自己机房，或至少放在专属隔离环境里。</li>
+        <li><strong>脱敏后可以出门的：</strong>身份、编号、金额替换掉之后的分析、写作、翻译——脱敏做完，用公网 API 是合规的。</li>
+        <li><strong>本来就公开的：</strong>政策法规、行业标准、公开报道、通用写作——别自己给自己上枷锁。</li>
+        </ul>
+        <p><strong>大部分单位一开始真正需要的，其实只有后面两档。</strong>想清楚这一点，问题就从“要不要花两百万买服务器”，变成了“先干哪件事”。</p>
+        <div class="table-wrap"><table>
+        <tr><th>安全合规要点</th><th>落地动作</th></tr>
+        <tr><td>数据分类分级</td><td>做数据资产盘点与分级（核心／重要／一般），分级决定存储、使用与共享策略；敏感数据不脱敏不出内网</td></tr>
+        <tr><td>模型本地化部署</td><td>选用开源可私有化的大模型，内网部署、推理不出域；用自有语料调优，构建企业知识库</td></tr>
+        <tr><td>权限最小化</td><td>数据访问与模型调用按角色最小授权，关键操作审批留痕；三色灯／分级预警覆盖异常场景</td></tr>
+        <tr><td>审计与追溯</td><td>全链路操作审计日志，追溯从数天级缩短到数秒级，满足监管对留痕与可解释的要求</td></tr>
+        <tr><td>数据治理先行</td><td>建立数据字典、标签体系与统一指标口径，数据先治理、再上模型</td></tr>
+        </table></div>
+        <h2>四、支柱二 · 统一 AI 平台：大模型管决策，小模型管自治</h2>
+        <p>统一平台的核心范式是“大模型管决策、小模型管自治”。</p>
+        <ul>
+        <li><strong>大模型</strong>（本地化部署）承担经营决策辅助、知识问答、文档与合同智能等<strong>低频、知识密集型</strong>任务——它是知识库和智能体的载体。</li>
+        <li><strong>小模型</strong>（视觉、预测、机理、控制）承担质量检测、参数预测、故障诊断等<strong>高频、毫秒级实时</strong>任务。</li>
+        </ul>
+        <p>统一 AI 平台把算力、模型、数据资产统一纳管、一站式开发部署，从机制上防止“模型孤岛”和重复建设。</p>
+        <h3>真进内网，钱花在哪、花多少</h3>
+        <p>以下是 <strong>2026 年公开报道与政府采购成交价的量级参考</strong>。硬件价格受出口管制、供需和国产化要求影响波动很大，<strong>请以正式方案报价为准</strong>。</p>
+        <p><strong>先看硬件——一台机器多少钱：</strong></p>
+        <ul>
+        <li><strong>国产推理整机（8 卡，如昇腾 910B4 一档）：</strong>约 <strong>76 万元/台</strong>，含 3 年维保；中低配国产八卡可低至 <strong>15–30 万元</strong>。</li>
+        <li><strong>主流训练／推理整机（8 卡 H20、高配国产）：</strong>约 <strong>100–240 万元/台</strong>。H20 今年受管制与供需影响波动尤其大——高配 141G 品牌机可到 300 万以上，二手或低配可下探 75 万左右。</li>
+        <li><strong>满血大模型（1.6T 级）：</strong>单台八卡 H200 国内报价约 <strong>230 万元</strong>，通常要 2 台以上。</li>
+        <li><strong>一体机（软硬一体、开箱即用）：</strong>政府采购成交价约 <strong>10 万–210 万元</strong>，通用单机多在 48–104 万元；若含平台搭建与系统集成，项目包可到 <strong>600 万元以上</strong>。</li>
+        </ul>
+        <p><strong>别只算服务器。</strong>一套完整方案还包括：软件平台与推理框架 10–40 万元；定制开发按复杂度分档（基础知识库 15–25 万、专业任务自动化 30–80 万、多智能体协同 100–300 万）；数据治理与模型工程常占总成本的 20%–30%；国产化适配再加约 30% 实施成本；年运维约为初始投入的 15%–25%。此外还有电费与机房改造——功率密度高，普通机柜往往要升级甚至上液冷。</p>
+        <p><strong>三年总投入（含软件、集成与运维），大致分三档：</strong></p>
+        <div class="table-wrap"><table>
+        <tr><th>档位</th><th>适合</th><th>三年总投入</th></tr>
+        <tr><td>入门试点</td><td>内部知识库、几十到上百人</td><td><strong>约 80–200 万</strong></td></tr>
+        <tr><td>主流生产</td><td>全单位使用、高并发，含国产化机型</td><td><strong>约 250–500 万</strong></td></tr>
+        <tr><td>满血旗舰</td><td>大单位、多业务线，1.6T 级模型</td><td><strong>700–1200 万</strong></td></tr>
+        </table></div>
+        <p><strong>能不能用 4 卡起步，取决于精度：</strong>量化（INT4）后轻量模型的显存约 140–160GB，4 卡可行；若用 FP8 精度（约 500GB），就得 8 卡。</p>
+        <p><strong>两条省钱的对照路线：</strong></p>
+        <ul>
+        <li><strong>走官方 API：</strong>DeepSeek V4-Flash 输入 1 元／输出 2 元每百万 token，V4-Pro 12／24 元；500 人规模估算一年约 <strong>1.7 万–5.1 万元</strong>。</li>
+        <li><strong>算力租赁：</strong>国产 8 卡（昇腾 910B 一档）约 <strong>1.2–1.65 万元/月</strong>、一年十几万；H20 8 卡约 <strong>4–6 万元/月</strong>。不买硬件，数据同样隔离。</li>
+        </ul>
+        <p><strong>一句实话：私有化的理由不是省钱，是数据不出内网。</strong>走官方 API 一年只需几万元，和自建差一到两个数量级。</p>
+        <p><strong>判断标准：</strong>数据绝对不能出内网、有稳定高频需求、有预算有人维护——<strong>三条都满足，才值得上私有化。</strong></p>
+        <h3>三个最容易花冤枉钱的地方</h3>
+        <ul>
+        <li><strong>别急着微调模型。</strong>绝大多数场景，“提示词＋知识库检索”就能解决八成问题。微调费钱，效果未必更好，模型一升级还得重训。</li>
+        <li><strong>别按峰值买算力。</strong>实际 GPU 利用率常低于 30%，按最高并发买机器，大部分时间都在烧电。</li>
+        <li><strong>别被一体机绑死。</strong>一体机十万级到两百多万、开箱即用，但签合同前务必问一句：<strong>将来能不能自己加载新的模型权重？</strong>主流开源模型是 MIT 协议、权重可自行替换——前提是厂商没把这条路堵死。</li>
+        </ul>
+        <h3>让 AI 真正“进工作流”：知识库 + 智能体</h3>
+        <p>买算力只是买了发动机，真正让 AI 干活的是<strong>知识库加智能体</strong>。</p>
+        <p><strong>知识库六步：</strong>定范围（制度＋流程＋高频问答＋公文模板）→ 扫描件转文本（要 OCR）→ 清洗并标注“现行／废止”→ 切片向量化 → 检索生成、每条带出处 → 权限脱敏、题库验收、专人维护。核心不是技术，是<strong>整理功夫</strong>。</p>
+        <p><strong>智能体是什么？</strong>一句话：大脑（模型）＋手脚（工具）＋记性（记忆）＋资料柜（知识库）＋规矩（权限与流程）。它不是更聪明的聊天机器人，而是一个会跑腿的助理。</p>
+        <h2>五、支柱三 · 场景矩阵：先打哪一仗</h2>
+        <p>场景选择决定转型成败。从业务痛点出发，用“业务价值 × 实施难度”两个维度排优先级，先打速赢区。</p>
+        <figure class="article-shot">
+          <img src="assets/ai-scenario-matrix.jpg" alt="AI 转型场景优先级四象限图" loading="lazy" />
+          <figcaption>AI 转型场景优先级四象限</figcaption>
+        </figure>
+        <ul>
+        <li><strong>速赢区（高价值、低难度）——优先落地。</strong>如 AI 质量视觉检测、设备预测性维护、知识库智能问答、合同与文档智能审核、生产报表自动生成。<br />打法：3–6 个月见效，坚定投入、快速复盘迭代。</li>
+        <li><strong>攻坚区（高价值、高难度）——中期主战场。</strong>如全流程数字孪生、智能排产与调度、跨工序质量联动、复杂工艺机理建模。<br />打法：平台成熟后分阶段投入，试点跑通再推广，周期约 18–27 个月。</li>
+        <li><strong>试验田（低价值、低难度）——顺手搭台。</strong>如低代码微应用、智能办公助手、数据可视化、会议纪要自动化。<br />打法：平台搭好后，让基层随手用起来。</li>
+        <li><strong>观望区（低价值、高难度）——暂缓推演。</strong>如通用数字人、大模型全面替代决策、跨组织数据共享。<br />技术成熟度不足，暂不投入，每年复审一次。</li>
+        </ul>
+        <p>不同类型的企业，场景矩阵不一样，具体需要根据企业实际需要编排象限。</p>
+        <p><strong>筛选四原则——</strong><strong>高价值</strong>（直接提质／降本／增效）、<strong>数据完备</strong>（可采集、可治理、可标注）、<strong>边界清晰</strong>（单点场景，不依赖跨系统重构）、<strong>可量化</strong>（3–6 个月能拿出硬指标）——<strong>四缺一，不进优先清单。</strong></p>
+        <h3>三步走：钱和人怎么配</h3>
+        <p><strong>第一步，个人提效。零预算，今天就能开始。</strong>在公文、材料、分析这些重复劳动上用起来，用公网工具也行，前提是材料脱敏。遇到重复劳动，先问自己一句“这个能不能让 AI 先做一遍”。</p>
+        <p><strong>第二步，科室小场景。几万到几十万。</strong>选一个高频、低风险、见效快的场景做样板——客户经理经营简报、政策文件问答、会议纪要整理。用 API 或轻量本地部署先把闭环跑通。关键是<strong>定业务指标，不是技术指标</strong>，比如“公文初稿时间从 5 小时降到 30 分钟”。</p>
+        <p><strong>第三步，单位级能力。百万级，要立项、要预算、要人。</strong>知识库、智能体、本地化部署，对应前面的量级：入门试点约 80–200 万、主流生产约 250–500 万（均为三年总投入）。这一步必须配明确的责任人和固定的维护人。<strong>没人维护，装了也会闲置。</strong></p>
+        <p>三条底线从头到尾不变：<strong>数据不出内网、结果人工复核、关键动作留痕可追溯。</strong>再补一句给管理层的话：<strong>人管目标，AI 管执行，人担责任。</strong></p>
+        <h2>最后</h2>
+        <p>三个小时讲不完落地。</p>
+        <p>一句话我每次都讲：<strong>AI 是放大器——放大你的优势，补上你的短板。</strong></p>
+        <p>如果你所在的单位也卡在“数据不能出内网”这一条上，不知道从哪起步、预算怎么算、方案靠不靠谱——带上你最烦的那件重复劳动来找我，我们当场合计一下：值不值得做、要多少钱、几步能跑通。</p>
+        <p>感谢阅读，我是 Zero，一个拥抱 AI 时代的实践者。</p>
+        <p class="source-note">原文首发于公众号「忙而不匆1802」：<a href="https://mp.weixin.qq.com/s/LY1aOHh3OPT1ftCeNA4VKg" target="_blank" rel="noopener noreferrer">烟草公司培训后的复盘思考，数据敏感型企业怎么做AI转型落地</a></p>
+      </div>
+    </article>
+
+    <footer class="footer">
+      <div>© 2026 ZeroZhu</div>
+      <div class="footer-links">
+        <a href="../index.html">首页</a>
+        <a href="index.html">创作列表</a>
+        <a href="../guestbook.html">订阅</a>
+      </div>
+    </footer>
+  </div>
+<script src="../assets/site-stats.js" defer></script>
+</body>
+</html>
