@@ -2,3 +2,7 @@
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+
+# 样式表改动频繁：不做长缓存（Cloudflare Pages 默认给静态资源 4 小时），避免改版后访客仍看到旧样式
+/styles.css
+  Cache-Control: public, max-age=0, must-revalidate
