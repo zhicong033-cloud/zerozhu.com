@@ -6,3 +6,8 @@
 # 样式表改动频繁：不做长缓存（Cloudflare Pages 默认给静态资源 4 小时），避免改版后访客仍看到旧样式
 /styles.css
   Cache-Control: public, max-age=0, must-revalidate
+
+# PWA：manifest 用标准 MIME 类型，且不长缓存，改名称/图标后能尽快生效
+/manifest.webmanifest
+  Content-Type: application/manifest+json; charset=utf-8
+  Cache-Control: public, max-age=0, must-revalidate
