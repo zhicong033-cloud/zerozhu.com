@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>合肥十一畅玩知识库 · 2026 国庆 ｜ ZeroZhu</title>
+<meta name="description" content="合肥十一畅玩知识库：27 个景点（含网红打卡、躺平放松）、公共交通与换乘、13 类特殊情形路线、12 个区县居民就近方案、天气适配与无障碍携宠提示。信息核实截止 2026-09-26。">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://zerozhu.com/tools/hefei-guide/knowledge.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="ZeroZhu">
+<meta property="og:title" content="合肥十一畅玩知识库 · 2026 国庆">
+<meta property="og:description" content="27 个景点、公共交通与换乘、13 类特殊情形路线、12 个区县居民就近方案、天气适配与无障碍携宠提示。">
+<meta property="og:url" content="https://zerozhu.com/tools/hefei-guide/knowledge.html">
+<meta property="og:image" content="https://zerozhu.com/tools/hefei-guide/og.png">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-512.png">
+<style>
+:root{
+  --ink:#20242e; --ink2:#3a4152; --paper:#f7f4ee; --card:#ffffff;
+  --accent:#b0432c; --accent-soft:#f3e2dc; --gold:#c8952f; --green:#3d7a5f;
+  --line:#e5dfd3; --muted:#8a8577; --warn-bg:#fdf3e0; --warn-line:#e8c98a;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--paper);color:var(--ink);line-height:1.65;padding-bottom:70px;}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px;}
+
+header{background:linear-gradient(135deg,#232838 0%,#2e3448 60%,#3a3040 100%);color:#fff;padding:34px 16px 26px;text-align:center;}
+header .badge{display:inline-block;background:var(--accent);color:#fff;font-size:12px;font-weight:600;border-radius:999px;padding:3px 12px;margin-bottom:10px;letter-spacing:1px;}
+header h1{font-size:26px;font-weight:700;letter-spacing:2px;}
+header p{color:#c9c4b8;font-size:13px;margin-top:8px;}
+header .dates{margin-top:12px;font-size:13px;color:#f0e6d2;background:rgba(255,255,255,.08);display:inline-block;padding:5px 14px;border-radius:8px;}
+
+.disclaimer{background:var(--warn-bg);border-bottom:1px solid var(--warn-line);padding:9px 16px;font-size:12px;color:#7a5b1e;text-align:center;}
+.disclaimer b{color:#9a6414;}
+
+nav.tabs{position:sticky;top:0;z-index:50;background:rgba(247,244,238,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 0;}
+nav.tabs .wrap{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+nav.tabs button{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--ink2);font-size:14px;padding:7px 16px;border-radius:999px;cursor:pointer;font-weight:500;transition:.18s;}
+nav.tabs button.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+
+section{display:none;padding:22px 0 10px;}
+section.show{display:block;}
+h2.sec-title{font-size:20px;margin-bottom:4px;}
+p.sec-sub{font-size:13px;color:var(--muted);margin-bottom:16px;}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(32,36,46,.04);}
+.card h3{font-size:16px;margin-bottom:8px;}
+
+.q-block{margin-bottom:16px;}
+.q-block .q-label{font-size:14px;font-weight:600;margin-bottom:8px;color:var(--ink);}
+.q-block .q-label small{color:var(--muted);font-weight:400;}
+.chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 14px;font-size:13px;cursor:pointer;color:var(--ink2);transition:.15s;user-select:none;}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600;}
+.btn{display:block;width:100%;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:13px;font-size:16px;font-weight:600;cursor:pointer;letter-spacing:2px;transition:.18s;}
+.btn:active{transform:scale(.98);}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent);margin-top:8px;}
+
+#recoResult{margin-top:18px;}
+.reco-head{background:var(--ink);color:#fff;border-radius:14px;padding:16px;margin-bottom:12px;}
+.reco-head h3{font-size:17px;margin-bottom:6px;}
+.reco-head p{font-size:13px;color:#cfcabc;}
+.reco-spot{border-left:3px solid var(--accent);}
+.reco-spot .why{font-size:12px;color:var(--accent);margin-top:4px;}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.mini-tag{font-size:11px;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:2px 8px;color:var(--ink2);}
+.mini-tag.warn{background:var(--warn-bg);border-color:var(--warn-line);color:#9a6414;}
+.mini-tag.green{background:#e8f1ec;border-color:#bcd8ca;color:var(--green);}
+
+.filterbar{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:10px;}
+.filterbar .chip{flex:0 0 auto;}
+.searchbox{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:14px;background:var(--card);margin-bottom:12px;color:var(--ink);}
+.searchbox:focus{outline:2px solid var(--accent-soft);}
+
+.spot-card{padding:0;overflow:hidden;}
+.spot-head{padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.spot-head .t{font-size:15px;font-weight:600;}
+.spot-head .c{font-size:11px;color:#fff;border-radius:6px;padding:2px 8px;flex:0 0 auto;}
+.c-urban{background:var(--accent);} .c-hist{background:var(--gold);} .c-museum{background:#5b6b8c;} .c-nature{background:var(--green);} .c-photo{background:#8e5aa8;} .c-chill{background:#2f8f8a;}
+.spot-body{display:none;border-top:1px dashed var(--line);padding:14px 16px;font-size:13px;}
+.spot-card.open .spot-body{display:block;}
+.spot-body dl{display:grid;grid-template-columns:72px 1fr;gap:6px 10px;margin-bottom:10px;}
+.spot-body dt{color:var(--muted);font-size:12px;}
+.spot-body dd{font-size:13px;}
+.spot-body .tips{background:var(--paper);border-radius:10px;padding:10px 12px;margin-top:8px;}
+.spot-body .tips li{margin-left:16px;font-size:12px;color:var(--ink2);margin-bottom:3px;}
+.boundary{font-size:11px;color:var(--muted);margin-top:8px;border-top:1px dashed var(--line);padding-top:8px;}
+
+.hub-tabs{display:flex;gap:8px;margin-bottom:12px;}
+.hub-tabs .chip{flex:1;text-align:center;}
+table.qt{width:100%;border-collapse:collapse;font-size:12px;background:var(--card);}
+table.qt th{background:var(--ink);color:#fff;padding:8px 6px;font-weight:500;text-align:left;}
+table.qt td{border-bottom:1px solid var(--line);padding:8px 6px;vertical-align:top;}
+table.qt tr:nth-child(even) td{background:#faf8f3;}
+.mode-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:12px;}
+.mode-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:12px;}
+.mode-card b{display:block;font-size:14px;margin-bottom:4px;color:var(--ink);}
+.mode-card span{color:var(--muted);}
+
+.route-card{padding:0;overflow:hidden;}
+.route-head{padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
+.route-head .t{font-weight:600;font-size:15px;}
+.route-head .arrow{color:var(--muted);transition:.2s;}
+.route-card.open .arrow{transform:rotate(90deg);}
+.route-body{display:none;border-top:1px dashed var(--line);padding:14px 16px;}
+.route-card.open .route-body{display:block;}
+.day-block{margin-bottom:14px;}
+.day-block .day-label{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:6px;}
+.day-block ul{margin-left:18px;font-size:13px;}
+.day-block li{margin-bottom:3px;}
+.fit-row{font-size:12px;margin-top:8px;}
+.fit-row .yes{color:var(--green);} .fit-row .no{color:var(--accent);}
+
+.tip-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:13px;}
+.tip-item:last-child{border-bottom:none;}
+.tip-item .num{flex:0 0 24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.debate{background:var(--paper);border-radius:10px;padding:10px 12px;margin-bottom:8px;font-size:12px;}
+.debate b{font-size:13px;}
+
+footer{text-align:center;font-size:11px;color:var(--muted);padding:26px 16px;}
+footer a{color:var(--accent);text-decoration:none;}
+
+@media(min-width:640px){
+  header h1{font-size:32px;}
+  .spot-body dl{grid-template-columns:84px 1fr;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">2026 国庆 · 合肥</div>
+  <h1>合肥十一畅玩知识库</h1>
+  <p>27 个景点 · 三大枢纽交通 · 4 套路线（特殊情形含 13 类）· 14 篇真实体验</p>
+  <div class="dates">📅 国庆假期：10月1日（周四）— 10月7日（周三）</div>
+  <div style="margin-top:12px;"><a href="index.html" style="display:inline-block;background:var(--gold);color:#fff;font-size:13px;font-weight:600;text-decoration:none;padding:8px 18px;border-radius:999px;">🎙️ 导游问询台 · 说需求出行程 →</a></div>
+</header><div style="background:#fff;border-bottom:1px solid var(--line);padding:8px 16px;font-size:11px;color:var(--muted);text-align:center;">信息核实截止 <b>2026-09-26</b> ｜ 地图 © <a href="https://lbs.amap.com/" target="_blank" rel="noopener">高德地图</a>（官方 JS API）｜ 天气 <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>（CC BY 4.0，非商业）｜ 动态与实时信息请以官方渠道和实时地图为准</div>
+
+<div class="disclaimer">⚠️ <b>边界提醒</b>：实时拥堵、临时闭园、当日余票、地铁故障、天气预警等动态信息，请以<b>官方渠道</b>和<b>实时地图</b>为准。本应用信息核实于 2026-09-26，仅提供一般信息与行程建议。</div>
+
+<nav class="tabs"><div class="wrap">
+  <button data-sec="reco" class="active">🎯 智能推荐</button>
+  <button data-sec="spots">🏞️ 景点库</button>
+  <button data-sec="transit">🚇 交通</button>
+  <button data-sec="routes">🧭 路线</button>
+  <button data-sec="tips">💡 避坑经验</button>
+</div></nav>
+
+<main class="wrap">
+
+<!-- ========== 智能推荐 ========== -->
+<section id="sec-reco" class="show">
+  <h2 class="sec-title">五问定制你的合肥行程</h2>
+  <p class="sec-sub">回答 5 个问题，按知识库决策规则生成推荐（时间→同行人→预算→兴趣→出发地）。</p>
+
+  <div class="card">
+    <div class="q-block">
+      <div class="q-label">① 你在合肥玩多久？</div>
+      <div class="chips" id="q-days">
+        <div class="chip" data-v="halfday">半天</div>
+        <div class="chip on" data-v="d1">1天</div>
+        <div class="chip" data-v="d2">2天</div>
+        <div class="chip" data-v="d34">3—4天</div>
+        <div class="chip" data-v="d57">5—7天</div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-label">② 和谁一起？</div>
+      <div class="chips" id="q-comp">
+        <div class="chip" data-v="solo">一个人</div>
+        <div class="chip on" data-v="friends">朋友/情侣</div>
+        <div class="chip" data-v="kids">带小孩</div>
+        <div class="chip" data-v="elder">带老人</div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-label">③ 预算水平？ <small>（每人每天，不含住宿大交通）</small></div>
+      <div class="chips" id="q-budget">
+        <div class="chip" data-v="low">穷游 &lt;100元</div>
+        <div class="chip on" data-v="mid">舒适 100—300元</div>
+        <div class="chip" data-v="high">充裕 &gt;300元</div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-label">④ 你对什么感兴趣？ <small>（可多选）</small></div>
+      <div class="chips" id="q-int">
+        <div class="chip" data-v="his">历史文化</div>
+        <div class="chip" data-v="nat">自然风光</div>
+        <div class="chip" data-v="pho">拍照打卡</div>
+        <div class="chip" data-v="food">美食</div>
+        <div class="chip" data-v="kid">亲子科普</div>
+        <div class="chip" data-v="night">夜游</div>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-label">⑤ 你从哪里出发？</div>
+      <div class="chips" id="q-origin">
+        <div class="chip on" data-v="south">合肥南站</div>
+        <div class="chip" data-v="rail">合肥火车站</div>
+        <div class="chip" data-v="airport">新桥机场</div>
+        <div class="chip" data-v="car">自驾</div>
+        <div class="chip" data-v="city">已在市区</div>
+      </div>
+    </div>
+    <button class="btn" id="btnReco">生成我的行程推荐</button>
+  </div>
+
+  <div id="recoResult"></div>
+</section>
+
+<!-- ========== 景点库 ========== -->
+<section id="sec-spots">
+  <h2 class="sec-title">景点库（27 个）</h2>
+  <p class="sec-sub">门票、预约、开放时间核实于 2026-09-26；出行前请再查官方渠道。</p>
+  <input class="searchbox" id="spotSearch" placeholder="🔍 搜索景点，如：包公 / 湖 / 免费…">
+  <div class="filterbar" id="catFilter">
+    <div class="chip on" data-c="all">全部</div>
+    <div class="chip" data-c="城市经典">城市经典</div>
+    <div class="chip" data-c="历史文化">历史文化</div>
+    <div class="chip" data-c="博物馆文化">博物馆·文化空间</div>
+    <div class="chip" data-c="自然亲子夜游">自然·亲子·夜游</div>
+  <div class="chip" data-c="网红打卡">网红打卡</div>
+  <div class="chip" data-c="躺平放松">躺平放松</div>
+</div>
+  <div id="spotList"></div>
+</section>
+
+<!-- ========== 交通 ========== -->
+<section id="sec-transit">
+  <h2 class="sec-title">三大枢纽 & 景点接驳</h2>
+  <p class="sec-sub">地铁 1—8 号线已开通，首班 6:00，全网最高票价 8 元。</p>
+  <div class="hub-tabs" id="hubTabs">
+    <div class="chip on" data-h="airport">✈️ 新桥机场</div>
+    <div class="chip" data-h="rail">🚉 合肥站</div>
+    <div class="chip" data-h="south">🚄 合肥南站</div>
+  </div>
+  <div id="hubContent"></div>
+
+  <h2 class="sec-title" style="margin-top:22px;">景点交通速查（南站出发）</h2>
+  <div style="overflow-x:auto;"><table class="qt" id="qtTable"></table></div>
+
+  <h2 class="sec-title" style="margin-top:22px;">交通方式怎么选</h2>
+  <div class="mode-grid">
+    <div class="mode-card"><b>🚇 地铁</b>5—25公里跨区移动首选。<span>不堵车、2—8元；末班多数22:00—23:35。</span></div>
+    <div class="mode-card"><b>🚌 公交/专线</b>地铁盲区与远郊景区。<span>三河专线9.9元、巢湖接驳线，节假日运行。</span></div>
+    <div class="mode-card"><b>🚶 步行</b>老城内部0—2公里。<span>步行街—逍遥津—包公园一片可全程步行。</span></div>
+    <div class="mode-card"><b>🚲 共享单车</b>1—5公里最后一公里。<span>哈啰/美团/青桔；节假日热点区可能紧张。</span></div>
+    <div class="mode-card"><b>🚕 网约车/出租</b>夜间、带行李、地铁盲区。<span>起步10元/2.5公里，23点后加收20%。</span></div>
+  </div>
+  <div class="card" style="margin-top:12px;font-size:12px;color:var(--ink2);">
+    <b>⚠️ 节假日提醒</b>：2025 国庆中秋、2026 中秋合肥地铁均有延时（南站末班延至 23:55—00:00）。2026 国庆延时公告请以「合肥轨道交通」公众号为准。
+  </div>
+</section>
+
+<!-- ========== 路线 ========== -->
+<section id="sec-routes">
+  <h2 class="sec-title">四套路线</h2>
+  <p class="sec-sub">每套均含顺序逻辑、交通衔接、强度与适合人群；点击展开。</p>
+  <div id="routeList"></div>
+</section>
+
+<!-- ========== 避坑 ========== -->
+<section id="sec-tips">
+  <h2 class="sec-title">真实体验 · 共识与避坑</h2>
+  <p class="sec-sub">来自 Trip Moments、马蜂窝、携程点评等公开平台的 14 篇体验（C级线索，非事实依据）。</p>
+  <div class="card">
+    <h3>🤝 跨帖共识</h3>
+    <div id="consensusList"></div>
+  </div>
+  <div class="card">
+    <h3>⚖️ 争议点（评价两极）</h3>
+    <div id="debateList"></div>
+  </div>
+  <div class="card">
+    <h3>🔟 十一速记十条</h3>
+    <div id="tenList"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  合肥及周边导游知识库 · 配套前端应用 v1.0<br>
+  信息核实基准日：2026-09-26 ｜ 来源等级：A官方 / B平台 / C体验<br>
+  完整知识库见 Markdown 文件（README、MOC、七大板块）
+</footer>
+
+<script>
+/* ================= 数据 ================= */
+const SPOTS=[
+{id:"xiaoyaojin",name:"逍遥津公园",cat:"城市经典",area:"庐阳区·寿春路16号",ticket:"免费（园内小景点另收费）",reserve:"建议\"古逍遥津\"微信小程序预约入园",hours:"5.1-10.31 05:30-22:00；11.1-4.30 06:00-21:30",dur:"1-2小时",fit:"亲子、老人、三国迷",metro:"地铁1号线大东门站，步行约1公里",tags:{his:2,kid:2,pho:2,night:1},price:0,reserveFlag:true,tips:["拍照：杜锦石桥荷花、逍遥亭+摩天轮、秋季银杏枫林","周末节假日人多，建议早去或晚上看夜景","园内游乐设施单独收费，带娃先问价"]},
+{id:"baogongyuan",name:"包公园",cat:"城市经典",area:"包河区·芜湖路72号",ticket:"免费（2024年5月起）",reserve:"必须分时段实名预约：\"合肥包公园\"公众号/美团/携程，最多提前7天",hours:"9:00-17:00，16:30停止入园，全年不休",dur:"1.5-2小时",fit:"亲子、老人、历史爱好者",metro:"地铁1号线大东门站，步行约1.2公里",tags:{his:2,kid:1,pho:1},price:0,reserveFlag:true,tips:["国庆务必提前约好时段，当天可能约满","午后团队客减少，13点后较错峰","别信门口\"带路免预约\"的黄牛"]},
+{id:"lihongzhang",name:"李鸿章故居",cat:"城市经典",area:"庐阳区·淮河路步行街208号",ticket:"免费",reserve:"未查到强制预约，节假日可能限流",hours:"周二至周日9:00-17:00，16:30停止入馆；周一、除夕闭馆",dur:"1-1.5小时",fit:"历史爱好者、老人",metro:"地铁2号线四牌楼站或1号线大东门站，步行街内",tags:{his:2},price:0,reserveFlag:false,closedMon:true,tips:["开馆即入人少光线好","步行街小吃良莠不齐，正餐去尚街/鼓楼巷","10.5周一常规闭馆，节假日安排以官方为准"]},
+{id:"chenghuangmiao",name:"庐州府城隍庙",cat:"城市经典",area:"庐阳区·霍邱路128号",ticket:"免费",reserve:"无需预约",hours:"开放式街区，全天可进入",dur:"0.5-1小时",fit:"年轻人、汉服拍照",metro:"地铁2号线三孝口站A口，步行约300米",tags:{his:1,pho:2,food:1},price:0,tips:["红墙黑瓦是经典机位，汉服出片率高","傍晚灯笼亮起后氛围更好","偶尔有庐剧/黄梅戏演出，看不看缘分"]},
+{id:"sanhe",name:"三河古镇（5A）",cat:"历史文化",area:"肥西县三河镇，距市区约40公里",ticket:"进镇免费；展馆联票四景约70元/八景约120元",reserve:"无需预约；小景点\"三河古镇旅游\"公众号或现场购票",hours:"古镇全天；小景点约8:00-17:30",dur:"半天（3-5小时）",fit:"亲子、老人、摄影",metro:"文韬旅游专线：南站9:15/9:45/13:40/14:20发车，9.9元（节假日运行）",tags:{his:2,pho:2,food:2},price:0,paidNote:"展馆联票另计",tips:["务必赶早：8点前进核心街区避开人流","主街商业化同质化，不必家家都逛；不必坐人力车","返程专线末班16:45，错过只能打车","三河米饺约14元/份必吃"]},
+{id:"zhegao",name:"柘皋古镇",cat:"历史文化",area:"巢湖市柘皋镇，巢湖北岸",ticket:"老街免费",reserve:"无需预约",hours:"开放式老街",dur:"1-2小时",fit:"小众控、摄影、早茶爱好者",metro:"无地铁；建议打车或与巢湖中庙拼一日行程",tags:{his:1,pho:2,food:1},price:0,remote:true,tips:["柘皋早茶是本地一绝（炒面皮、鸡蛋锅贴等），清晨去","相对小众国庆也不挤","公共交通信息有限，出行前用实时地图确认"]},
+{id:"kaifusi",name:"开福寺",cat:"历史文化",area:"蜀山区·玉兰大道77号（大蜀山南麓）",ticket:"20元（儿童/老人/军人等凭证免票）",reserve:"未查到预约要求",hours:"8:00-16:00",dur:"约1小时",fit:"老人、宗教文化体验",metro:"地铁2号线大蜀山站后步行约2公里或短途打车",tags:{his:1},price:20,tips:["殿内通常禁止拍照，衣着得体","寺外兜售香烛可不买","与大蜀山串游最顺路"]},
+{id:"anbo",name:"安徽博物院",cat:"博物馆文化",area:"蜀山馆（新馆）：怀宁路87号，天鹅湖南500米",ticket:"免费",reserve:"蜀山馆周末及法定节假日实名预约（官微/小程序，最多提前7日）；庐阳馆免预约",hours:"9:00-17:00（16:30停入）；国庆10.1-10.7延时9:00-18:00；蜀山馆周一闭馆、庐阳馆周二闭馆",dur:"2-3小时",fit:"所有人",metro:"地铁3号线省博物院站A口，步行500米",tags:{his:2,kid:1},price:0,reserveFlag:true,closedMon:true,tips:["国庆蜀山馆名额紧张，提前7天抢约","镇馆之宝：楚大鼎、鄂君启金节","周一别跑蜀山馆，周二别跑庐阳馆"]},
+{id:"kejiguan",name:"安徽省科技馆",cat:"博物馆文化",area:"包河区·香港路88号",ticket:"免费",reserve:"\"安徽省科技馆\"公众号/小程序实名预约",hours:"周三至周日9:00-16:30（16:00停入）；周一、周二闭馆",dur:"1.5-2.5小时",fit:"亲子、学生",metro:"未查到地铁直达，建议地铁+短途打车（以实时地图为准）",tags:{kid:2},price:0,reserveFlag:true,closedMon:true,closedTue:true,tips:["量子探微展厅是合肥特色","节假日开馆即入体验最好","10.5周一、10.6周二常规闭馆"]},
+{id:"chuangxinguan",name:"安徽创新馆",cat:"博物馆文化",area:"滨湖新区·巢湖之滨",ticket:"免费",reserve:"微信公众号预约",hours:"周四至周日9:00-11:30、14:00-17:00；周一至周三闭馆",dur:"1.5-2小时",fit:"科技爱好者、亲子",metro:"未查到地铁直达，建议地铁1号线至滨湖后打车",tags:{kid:1},price:0,reserveFlag:true,remote:true,tips:["量子、人造太阳、稳态强磁场展项","国庆仅10.1-10.4常规开放","周边餐饮少，可自备简餐"]},
+{id:"hechai",name:"合柴1972",cat:"博物馆文化",area:"包河区·金寨路与天堂寨路交叉口",ticket:"免费",reserve:"个人无需预约（20人以上团体需预约）",hours:"每天9:00开园，全天开放",dur:"2-3小时",fit:"年轻人、摄影、文艺亲子",metro:"未查到地铁直达；南站打车约15-20分钟",tags:{pho:2,night:1},price:0,tips:["下午2-3点后红砖墙光线最佳（共识）","机位：标志墙、家电故事馆、美术馆穹顶、涂鸦墙","精力有限主攻家电故事馆+美术馆"]},
+{id:"liuyuan",name:"刘园·古徽州文化园",cat:"博物馆文化",area:"蜀山区·大蜀山西北角",ticket:"成人约19.9元；16周岁以下免票",reserve:"未查到强制预约",hours:"以景区当日公示为准",dur:"1-2小时",fit:"亲子研学、古风拍照",metro:"建议与大蜀山串游，短途打车",tags:{his:1,pho:2,kid:1},price:19.9,tips:["徽派庭院+非遗手作体验","园区不大，别排超过2小时","购票前确认当日开放"]},
+{id:"chaohu",name:"巢湖·中庙姥山岛",cat:"自然亲子夜游",area:"巢湖市中庙镇，距市区约45公里",ticket:"姥山岛门票免费；船票往返：机械船约60元/快艇约75元；中庙约5元",reserve:"未查到预约要求，现场购票",hours:"约8:00-17:30（周末至18:00），船班以码头公告为准",dur:"半天至一天",fit:"亲子、老人、摄影、看日落",metro:"沿湖旅游接驳2号线（方兴湖站→中庙，节假日运行）或打车",tags:{nat:2,pho:2},price:60,paidNote:"门票免费，船票约60元",remote:true,tips:["文峰塔3楼270°湖景，台阶陡穿运动鞋","傍晚等\"橘子海\"日落","老人孩子坐渡轮，风浪大快艇可能停运","湖面反光强，防晒+墨镜+外套"]},
+{id:"binhu",name:"滨湖国家森林公园",cat:"自然亲子夜游",area:"包河区·环湖北路大张圩",ticket:"免费",reserve:"未查到预约要求",hours:"工作日9:00-17:30；周末节假日8:40-18:00",dur:"2-4小时",fit:"亲子、露营骑行、老人",metro:"沿湖旅游接驳1号线（方兴湖站→公园西门，节假日运行）",tags:{nat:2,kid:2},price:0,tips:["园区大，带娃租多人自行车/小火车代步","园内餐饮少，自带水和简餐","夏季蚊虫多带防蚊用品"]},
+{id:"zipengshan",name:"紫蓬山",cat:"自然亲子夜游",area:"肥西县紫蓬镇，距市区约25公里",ticket:"免费（西庐寺、游船等小景点另收费）",reserve:"未查到预约要求",hours:"约8:00-17:00",dur:"2-3小时",fit:"登山徒步爱好者",metro:"无地铁；建议打车/自驾或查节假日旅游专线",tags:{nat:2},price:0,remote:true,tips:["比大蜀山更\"野\"，全程步行2-3小时","山上补给少自带水","返程打车高峰要等，提前约车"]},
+{id:"dashushan",name:"大蜀山森林公园",cat:"自然亲子夜游",area:"蜀山区·玉兰大道8号",ticket:"免费",reserve:"无需预约",hours:"全天开放",dur:"1.5-2小时",fit:"亲子、登山、看日落夜景",metro:"地铁2号线大蜀山站",tags:{nat:2,pho:2,kid:1},price:0,tips:["步道平缓孩子能走，登顶约40-60分钟","日落前1小时上山占机位","山脚即开福寺可串游"]},
+{id:"luogang",name:"骆岗公园",cat:"自然亲子夜游",area:"包河区·包河大道一带（原骆岗机场）",ticket:"免费",reserve:"无需预约，不设围墙",hours:"全天开放；园内展馆开放以现场公示为准",dur:"半天（3-4小时）",fit:"亲子、摄影、骑行慢跑",metro:"地铁1号线骆岗站B口转M107接驳；或5号线盛大站转M504",tags:{nat:2,kid:2,pho:2},price:0,tips:["园区极大，先定目的地：航站楼/园博小镇片区是核心","梦想大草坪=原3000米机场跑道，放风筝野餐合适","\"大蘑菇\"信标台夜景好看，节假日有灯光秀/无人机表演（以官方公告为准）","草坪区遮阴少，夏季注意防晒"]},
+{id:"rongchuang",name:"合肥融创乐园",cat:"自然亲子夜游",area:"包河区·庐州大道788号（滨湖）",ticket:"成人约168元、儿童约100元（以官方小程序为准）",reserve:"\"融创文旅俱乐部\"小程序购票",hours:"常规10:00-21:00；国庆10:00-21:30（以官方为准）",dur:"4-6小时（一整天）",fit:"亲子、年轻人、夜游",metro:"未查到地铁直达；南站打车约20-30分钟",tags:{kid:2,night:2},price:168,tips:["先从温和项目起步再升级","部分项目不含套票需另付费","国庆夜场是亮点，可晚场错峰"]},
+{id:"tianehu",name:"天鹅湖·合肥大剧院",cat:"自然亲子夜游",area:"政务区·天鹅湖路516号",ticket:"免费（演出票另计）",reserve:"无需预约",hours:"环湖全天；大剧院9:30-18:30（演出日至20:00）",dur:"1-2小时",fit:"年轻人、情侣、夜景摄影",metro:"地铁4号线天鹅湖站",tags:{pho:2,night:2},price:0,tips:["北岸亲水平台是经典机位","日落前后30分钟蓝调时刻最出片","湖边风大，秋夜带外套"]},
+{id:"leijie",name:"罍街",cat:"自然亲子夜游",area:"包河区·宁国南路与水阳江交口",ticket:"免费",reserve:"无需预约",hours:"街区全天；夜市广场约10:00-22:00",dur:"1.5-2小时",fit:"吃货、年轻人、夜游",metro:"地铁1号线合工大南区站，步行约1.5公里",tags:{food:2,night:2},price:0,tips:["小龙虾先比价再入座，宁国路龙虾街偏贵","沿街拉客的餐厅谨慎选","人均50-80元吃得不错"]},
+/* —— 2026-09-26 新增：网红打卡 + 躺平放松 —— */
+{id:"motan",name:"磨滩旅游度假区",cat:"网红打卡",area:"包河区·大圩镇花园大道与巢湖南路交口东北侧（距市区约16公里）",ticket:"免费入园；园内小火车/观光车/游船/精灵部落另收费",reserve:"入园无需预约（园内项目现场付费）",hours:"9:00-21:00（全年）",dur:"半天至一天（3-6小时）",fit:"亲子、情侣、摄影、乡村微度假",metro:"公交70路至马方村站步行约140米；地铁5号线花园大道站/4号线葛大店南站换乘70路",tags:{pho:2,kid:2,nat:1,night:1},price:0,tips:["属包河区大圩镇，不是肥东县","免费≠全免：园内项目单独收费，价格说法不一","白丁图书馆可看书喝咖啡；湿地蚊虫多带驱蚊水","夜游灯光多在周五至周日18:30-21:00（待核验）"]},
+{id:"xinliangcang",name:"新粮仓文化商业合集",cat:"网红打卡",area:"蜀山区·怀宁路与黄山路交口（原安徽省机械化粮库）",ticket:"免费（街区，店铺消费另计）",reserve:"无需预约",hours:"未获取，以现场/官方为准",dur:"1.5-2.5小时",fit:"年轻人、情侣、文艺摄影、夜宵",metro:"地铁6号线松荫桥站步行约10分钟",tags:{pho:2,food:1,night:1},price:0,tips:["万吨筒仓改造艺术中心+保留旧铁轨的\"铁道游集\"市集","机位：\"合肥\"红墙、筒仓群、斑马线与橙色公交站","傍晚光影最好；15万㎡、180+商户、30家安徽首店"]},
+{id:"jinmenshui",name:"文一津门水街",cat:"网红打卡",area:"包河区·万年埠街道（滨湖，华山路一带）",ticket:"免费（街区）",reserve:"无需预约",hours:"未获取，以现场/官方为准",dur:"1.5-2小时",fit:"夜游、古风汉服、情侣、亲子",metro:"地铁5号线华山路站A口步行约500米（或沈湾站D口）",tags:{pho:2,night:2},price:0,tips:["宋式临水街区，内街\"文街\"五巷五桥还原宋代古街","水上灯光秀+音乐喷泉，傍晚到夜间最出片","又名塘溪津门水街，是同一处"]},
+{id:"anshang",name:"岸上草原（岸香·巢与潮）",cat:"躺平放松",area:"包河区·庐州大道与环湖北路交口一带（沿巢湖约1.6公里）",ticket:"免费，全天开放",reserve:"无需预约",hours:"全天开放",dur:"1.5-3小时",fit:"躺平放松、露营、情侣、看日落",metro:"地铁5号线方兴湖站转沿湖旅游接驳2号线；滨湖区域建议自驾",tags:{nat:2,pho:2,night:1},price:0,tips:["约50万㎡大草坪+湖边躺椅咖啡\"岸香·巢与潮\"","2025年5月\"十里长堤\"开放，日落与晚霞最出片","适合躺椅发呆、草坪野餐、露营，不用到处跑"]},
+{id:"hongshizui",name:"红石咀公园",cat:"网红打卡",area:"肥东县·长临河镇六家畈（巢湖边）",ticket:"免费，全天开放",reserve:"无需预约",hours:"全天开放",dur:"1.5-3小时",fit:"摄影、露营、情侣、看日落",metro:"沿湖旅游接驳2号线（方兴湖站→中庙，经六家畈）；2026年3月开通景区观光巴士",tags:{nat:2,pho:2},price:0,remote:true,tips:["千余米银沙滩+中生代火山岩红色礁石：\"不是海，是巢湖\"","南北门均有免费停车场（约100个车位，C级户外实测，非官方公告）","远离市区，返程班次有限宜早回"]},
+{id:"qingquan",name:"清泉茶舍",cat:"躺平放松",area:"位置存疑：据官方媒体报道已入驻蜀山区新粮仓商业合集（具体门牌未获确认）；平台另有「包河区水阳江路1号」说法",ticket:"消费制，人均以门店价目为准（旧线索约118元）",reserve:"必须先电话核实位置与营业状态",hours:"约09:30-22:30（单一线索，以门店公示为准）",dur:"1.5-3小时",fit:"躺平放松、看书喝茶、聊天、非遗茶果体验",metro:"两种说法：① 新粮仓（近地铁6号线松荫桥站）② 包河区水阳江路1号；请以实时地图确认",tags:{food:1},price:118,tips:["庭院秋千帐篷+草坪吊床，室内原木色家具、安静度高","据中新网报道，负责人王玫为非遗「传统茶果制作技艺」传承人","⚠️ 位置与电话存在冲突（15156016767 / 13966759888），勿仅凭本页导航"]},
+{id:"tianhucafe",name:"天鹅湖公园·林下咖啡屋",cat:"躺平放松",area:"蜀山区·天鹅湖公园东北角亲湖区域",ticket:"公园免费；咖啡为人均未获取的消费",reserve:"无需预约",hours:"未获取（报道称Manner 2025-04-26试营业、五一正式开业）",dur:"1-2小时",fit:"躺平放松、午后办公、看湖发呆",metro:"天鹅湖商务区核心，地铁3/4号线与公交可达（精确站点未获取）",tags:{pho:1,nat:1},price:0,tips:["Manner Coffee与法桐烘焙入驻，可独享一杯咖啡看湖","文化交流空间约280㎡+共享空间约523㎡+约3000㎡阳光草坪","以户外空间为主，雨天体验下降"]},
+];
+
+const CAT_CLASS={"城市经典":"c-urban","历史文化":"c-hist","博物馆文化":"c-museum","自然亲子夜游":"c-nature","网红打卡":"c-photo","躺平放松":"c-chill"};
+const CAT_LABEL={"城市经典":"城市经典","历史文化":"历史文化","博物馆文化":"博物馆·文化","自然亲子夜游":"自然·亲子·夜游","网红打卡":"网红打卡","躺平放松":"躺平放松"};
+
+const HUBS={
+airport:{title:"✈️ 新桥国际机场 → 市区",rows:[
+["机场大巴1号线","明光路汽车站↔机场，经合肥火车站、北一环","最高25元，时刻以现场为准"],
+["机场大巴3号线","紫庐站（地铁负一楼）↔机场，经高铁南站","最高25元"],
+["滨湖专线","滨湖新区↔机场","提前1.5小时\"合肥机场快线\"小程序预约"],
+["滴滴站点巴士","市区11个核心站点3条线（含省博物院/天鹅湖方向）","约19.9元"],
+["打车/网约车","到市中心约35-40公里","按表计费，估算约90-120元"],
+["地铁S1线","机场线：已空载试运行，载客状态未确认","⚠️ 出行前查合肥轨道交通公众号"]]},
+rail:{title:"🚉 合肥火车站（老站）",rows:[
+["地铁","1号线、3号线直达","到大东门（老城）约10分钟"],
+["到淮河路步行街","地铁1号线→大东门站，或打车起步价范围","约10-15分钟"],
+["到安徽博物院新馆","地铁3号线→省博物院站","约30-40分钟"],
+["到合肥南站","地铁1号线直达","约27分钟，3元"],
+["网约车","2025年8月启用全新迎客区（空调+座椅）","按指引前往"]]},
+south:{title:"🚄 合肥高铁南站",rows:[
+["地铁","1号线、4号线、5号线三线交汇","末班约23:35，周五/周末约23:55"],
+["到老城（步行街/逍遥津/包公园）","地铁1号线→大东门站","约40-50分钟，3-4元"],
+["到安徽博物院新馆","地铁换3号线→省博物院站","约40-50分钟"],
+["到天鹅湖","地铁4号线→天鹅湖站","约40分钟"],
+["到三河古镇","文韬旅游专线（节假日）","9.9元，9:15/9:45/13:40/14:20发车"],
+["到巢湖中庙","至方兴湖站换沿湖接驳2号线（节假日）","常规公交票价"],
+["机场快线","3号线经停南站","最高25元"]]}
+};
+
+const QT=[
+["逍遥津公园","地铁1号线→大东门站，步行约1公里","约50分钟","3-4元"],
+["包公园","地铁1号线→大东门站，步行约1.2公里","约50分钟","3-4元"],
+["李鸿章故居","地铁1号线→大东门站，步行街步行","约50分钟","3-4元"],
+["城隍庙","1号线→大东门换2号线→三孝口站A口","约55分钟","3-4元"],
+["安徽博物院新馆","换3号线→省博物院站A口，步行500米","约40-50分钟","约4元"],
+["天鹅湖","地铁4号线→天鹅湖站","约40分钟","约4元"],
+["罍街","地铁1号线→合工大南区站，步行约1.5公里","约40分钟","3-4元"],
+["三河古镇","文韬旅游专线（节假日）9:15/9:45/13:40/14:20","约1小时","9.9元"],
+["滨湖森林公园","至方兴湖站换沿湖接驳1号线（节假日）","约1小时+","公交票价"],
+["巢湖中庙","至方兴湖站换沿湖接驳2号线（节假日）","约1.5小时","公交票价"],
+["融创乐园","1号线至滨湖方向后短途打车","约40分钟","地铁+打车"],
+["大蜀山","换2号线→大蜀山站","约60分钟","4-5元"],
+["骆岗公园","地铁1号线→骆岗站（2站），转M107接驳至航站楼","约15分钟","地铁+公交票价"],
+];
+
+const ROUTES=[
+{title:"合肥一日经典路线",badge:"1天 · 中等强度",summary:"城隍庙→李鸿章故居·步行街→逍遥津→包公园→晚上罍街或天鹅湖。老城顺时针小环线，全程地铁+步行，门票0元。",days:[{label:"全天动线",items:["08:30 城隍庙（2号线三孝口站A口）红墙拍照","09:30 李鸿章故居+淮河路步行街（开馆即入）","11:00 逍遥津公园（三国古战场）","12:30 午餐：鼓楼巷/尚街小吃","14:00 包公园（提前预约！包公祠→清风阁→浮庄）","18:30 罍街美食 或 天鹅湖夜景（二选一）"]}],why:"地理顺时针不走回头路；上午室内馆人少光线好，午后转户外；全程半径约2公里。",fit:"第一次来、历史文化爱好者",unfit:"6岁以下孩子全程、腿脚不便老人（用老人版）"},
+{title:"合肥两日路线",badge:"2天 · 中+轻",summary:"Day1 老城经典+夜景；Day2 安徽博物院→天鹅湖→合柴1972→罍街。亲子可把Day2上午换成省科技馆。",days:[{label:"Day 1 老城经典",items:["城隍庙→李鸿章故居→淮河路步行街→逍遥津","午餐鼓楼巷","包公园（预约）","晚上天鹅湖夜景"]},{label:"Day 2 文艺博物馆",items:["09:00 安徽博物院蜀山馆（3号线省博物院站，节假日提前预约）","午餐天鹅湖商圈+湖边散步","14:30 合柴1972（下午光线最佳）","17:30 罍街晚餐收尾"]}],why:"Day2上午进博物馆避高峰；合柴放下午2点后（红砖墙光线共识）；由西向东不回头；Day1累Day2松。",fit:"周末游、情侣、亲子（替换科技馆）",unfit:"只想看自然山水的（加巢湖一日）"},
+{title:"合肥国庆7天游",badge:"10.1—10.7 · 逐日设计",summary:"已避开全部闭馆日：周一(10.5)不排博物馆，周二(10.6)不排庐阳馆与科技馆。",days:[
+{label:"D1 10.1周四 · 抵达+老城夜游（轻）",items:["入住→淮河路步行街→逍遥津夜景（开至22:00）→罍街","首日枢纽最挤，只排市中心免预约步行线"]},
+{label:"D2 10.2周五 · 老城文化日（中）",items:["李鸿章故居（开馆即入）→城隍庙→包公园（提前7天约）→天鹅湖夜景"]},
+{label:"D3 10.3周六 · 三河古镇日（中高）",items:["早出：打车8点前进街 或 专线9:15发车","逛展馆+小南河乌篷船+米饺午餐","16:15/16:45返程专线（末班提醒！）"]},
+{label:"D4 10.4周日 · 巢湖日（高）",items:["沿湖接驳2号线→中庙寺→渡轮上姥山岛→文峰塔","下午滨湖森林公园骑行/草坪","傍晚湖边看\"橘子海\"日落"]},
+{label:"D5 10.5周一 · 山林户外日（中）",items:["周一博物馆闭馆，全天户外：开福寺→大蜀山登顶→刘园","晚上长江180艺术街区"]},
+{label:"D6 10.6周二 · 博物馆+文创日（中轻）",items:["安徽博物院蜀山馆（周二开放，国庆延时9:00-18:00）","天鹅湖午餐散步→14:30合柴1972→罍街"]},
+{label:"D7 10.7周三 · 弹性日+返程",items:["三选一：省科技馆（周三开放）/融创乐园/自由活动","返程高峰：提前买票、至少提前1小时到站"]}],why:"按闭馆日排内容；远郊（三河/巢湖）放假期前段精力好时；最后一天留弹性应对疲劳与突发。",fit:"完整7天假期、深度游、亲子家庭",unfit:"只有2-3天的人、腿脚不便老人（砍D5登山）"},
+{title:"特殊情形路线（13套）",badge:"天气2 · 人群4 · 主题4 · 时间3",summary:"按约束条件重新排序、而不是简单删减。每套含行程步骤、顺序逻辑、交通衔接（含末班风险）、强度与步行量、预算、适合与不适合、天气备选（B计划）与避坑提醒；完整可展开方案见问询台「🎯 特殊情形路线库」板块。",days:[
+{label:"🌧️ 雨天线（全室内 · 1日）",items:["安徽博物院→步行街商场→合柴1972室内展馆→罍街","雨天网约车排队久，提前叫车；不建议巢湖（船班可能停运）"]},
+{label:"🌡️ 高温或严寒线（1日）",items:["08:30早出发走户外 → 11:00-16:00全室内（博物院/科技馆）","16:30再走户外，18:30晚餐夜景收尾"]},
+{label:"👨‍👩‍👧 亲子线（4-12岁 · 2日）",items:["Day1：省科技馆（预约）+包公园讲故事","Day2：融创乐园整天 或 滨湖森林公园骑行野餐","每天只排1-2个大点"]},
+{label:"👶 婴幼儿与推车线（0-3岁 · 1日）",items:["滨湖森林公园（平整可推车）→午睡→天鹅湖/岸上草原草坪","全程打车为主，单程控制在20分钟内"]},
+{label:"🧓 老人线（1日）",items:["包公园（开园即入，平坦有座椅）→步行街午餐→回酒店午休→傍晚逍遥津","全程平地+打车衔接，每2小时休息"]},
+{label:"🧑‍🤝‍🧑 三代同行线（4日以上）",items:["一天一个大点+半天空闲：上午集体、午后各自休息","老城历史文化与公园草坪交替，预留机动半天"]},
+{label:"💰 穷游线（1日<60元）",items:["城隍庙→步行街→李鸿章故居→逍遥津→包公园→天鹅湖夜景","全免费景点+地铁4-8元+小吃30-50元"]},
+{label:"📷 摄影线（按光线 · 2日）",items:["清晨三河古镇（晨雾水乡）→下午合柴1972（红砖暖光）→日落天鹅湖/大蜀山→夜间罍街烟火","次日补新粮仓筒仓与\"合肥\"红墙"]},
+{label:"🏛️ 历史文化线（2日）",items:["Day1：李鸿章故居→明教寺→城隍庙→包公园","Day2：安徽博物院→三河古镇近代商埠","建议租讲解器"]},
+{label:"🛋️ 躺平放松线（打工人 · 1日）",items:["林下咖啡屋→岸上草原（湖畔版）或 清泉茶舍（位置存疑，先去电核实）","一天1-2个点，全天步行不超3公里，多坐少走"]},
+{label:"🌙 夜到线（晚间档 · 1日）",items:["罍街夜市→天鹅湖夜景或逍遥津夜公园","备选文一津门水街（水上灯光秀）；留意地铁末班"]},
+{label:"🎒 半日中转线（4-6小时）",items:["南站2站直达骆岗公园（转M107）或 合柴1972→罍街","按返程时间倒推，宁可少去一点也不误车"]},
+{label:"🎉 节假日避堵线（1日）",items:["07:30早出发，选岸上草原/滨湖森林公园/红石咀等非头部点","11:30前或13:30后错峰吃饭，17:30前返程避晚高峰"]}],why:"每套针对特定约束（天气/体力/预算/光线/人群构成/可用时间）重新排序：雨天压到室内、高温把户外压到早晚、老人每2小时休息、摄影按光线、躺平只跨一个片区。",fit:"见各子线标注",unfit:"跨子线混用前先读各线提醒"}
+];
+
+const CONSENSUS=[
+"三河古镇值得顺路去，但主街商业化、商铺同质化——早到、逛展馆、吃米饺，别买同质化纪念品。",
+"巢湖看日落值得专程：中庙、姥山岛、文峰塔、红石咀、云水湾多条体验都提到\"橘子海\"。",
+"合柴1972 下午2-3点后拍照最好：阳光柔和红砖墙泛暖光；周末上午人少但店铺可能没开。",
+"市区景点集中：包公园、逍遥津、城隍庙、步行街、罍街步行可串；跨区靠地铁。",
+"秋季（9-10月）是合肥最舒服的旅游季，但国庆首尾人流大，要错峰。",
+"国庆错峰：假期首日、返程日、热门街区白天最挤；早出（8点前到远郊景区）或傍晚后行动。",
+"带娃首选：科技馆、包公园、大蜀山平缓段、滨湖森林公园——步行压力小、互动性强。",
+"预约是合肥旅游第一课：安徽博物院（节假日）、包公园、科技馆都要提前实名预约，不预约=白跑。"
+];
+const DEBATES=[
+{t:"三河古镇值不值得专程去？",p:"\"最近的江南水乡\"，慢逛拍照吃小吃",n:"商业化重，和其他古镇差不多",s:"第一次来+半天时间=值得；古镇控=顺路即可"},
+{t:"巢湖是不是\"小洱海\"？",p:"湖光山色、日落露营放松",n:"景点分散、交通费时",s:"给足一天，别只去2小时"},
+{t:"罍街是美食地还是避坑地？",p:"小龙虾、烤串、本地小吃集中",n:"龙虾街价格高、拉客多",s:"比价再坐，选本地人排队的店"},
+{t:"国庆合肥人多不多？",p:"工作日与非首尾时段宽松",n:"首尾日与热门街区很挤",s:"按错峰逻辑排行程"},
+{t:"合柴1972是不是只能拍照？",p:"工业风+美术馆很出片",n:"逛吃内容不多",s:"安排2小时+串天鹅湖夜景"}
+];
+const TEN=[
+"安徽博物院国庆延时到18:00，但蜀山馆要提前7天抢预约。",
+"包公园免费但必须分时段预约。",
+"三河古镇赶早（8点前进街），返程专线别错过16:45末班。",
+"巢湖看日落带外套，湖面风大反光强。",
+"合柴1972下午去，红砖墙才好看。",
+"老城景点靠步行，跨区靠地铁，深夜靠网约车。",
+"周一别排博物馆（多数闭馆），排户外。",
+"带娃每天2-3个点就够，科技馆要提前约。",
+"罍街吃饭先比价。",
+"实时信息（拥堵/闭园/余票/天气）永远以官方渠道和实时地图为准。"
+];
+
+/* ================= 通用 ================= */
+function $(s){return document.querySelector(s);}
+function $$(s){return Array.from(document.querySelectorAll(s));}
+
+$$("nav.tabs button").forEach(b=>b.addEventListener("click",()=>{
+  $$("nav.tabs button").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");
+  $$("main section").forEach(s=>s.classList.remove("show"));
+  $("#sec-"+b.dataset.sec).classList.add("show");
+  window.scrollTo({top:0});
+}));
+
+function singleSelect(containerSel){
+  $$(containerSel+" .chip").forEach(c=>c.addEventListener("click",()=>{
+    $$(containerSel+" .chip").forEach(x=>x.classList.remove("on"));
+    c.classList.add("on");
+  }));
+}
+singleSelect("#q-days");singleSelect("#q-comp");singleSelect("#q-budget");singleSelect("#q-origin");
+$$("#q-int .chip").forEach(c=>c.addEventListener("click",()=>c.classList.toggle("on")));
+
+/* ================= 景点库渲染 ================= */
+let curCat="all";
+function renderSpots(){
+  const kw=($("#spotSearch").value||"").trim();
+  const list=SPOTS.filter(s=>{
+    const catOk=curCat==="all"||s.cat===curCat;
+    const kwOk=!kw||(s.name+s.area+s.ticket+s.fit+s.tips.join("")).includes(kw);
+    return catOk&&kwOk;
+  });
+  $("#spotList").innerHTML=list.map(s=>`
+  <div class="card spot-card" data-id="${s.id}">
+    <div class="spot-head">
+      <span class="t">${s.name}</span>
+      <span class="c ${CAT_CLASS[s.cat]}">${CAT_LABEL[s.cat]}</span>
+    </div>
+    <div class="spot-body">
+      <dl>
+        <dt>📍 在哪</dt><dd>${s.area}</dd>
+        <dt>🎫 门票</dt><dd>${s.ticket}</dd>
+        <dt>📝 预约</dt><dd>${s.reserve}</dd>
+        <dt>🕘 开放</dt><dd>${s.hours}</dd>
+        <dt>⏱ 时长</dt><dd>${s.dur}</dd>
+        <dt>👥 适合</dt><dd>${s.fit}</dd>
+        <dt>🚇 交通</dt><dd>${s.metro}</dd>
+      </dl>
+      <div class="tips"><b style="font-size:12px;">💡 真实体验提醒（C级线索）</b><ul>${s.tips.map(t=>`<li>${t}</li>`).join("")}</ul></div>
+      <div class="boundary">⚠️ 边界：实时余票/闭园/拥堵请查官方渠道与实时地图。信息核实于2026-09-26。</div>
+    </div>
+  </div>`).join("")||"<p style='color:var(--muted);text-align:center;padding:20px;'>没有匹配的景点</p>";
+  $$("#spotList .spot-head").forEach(h=>h.addEventListener("click",()=>h.parentElement.classList.toggle("open")));
+}
+$$("#catFilter .chip").forEach(c=>c.addEventListener("click",()=>{
+  $$("#catFilter .chip").forEach(x=>x.classList.remove("on"));
+  c.classList.add("on");curCat=c.dataset.c;renderSpots();
+}));
+$("#spotSearch").addEventListener("input",renderSpots);
+renderSpots();
+
+/* ================= 交通渲染 ================= */
+function renderHub(key){
+  const h=HUBS[key];
+  $("#hubContent").innerHTML=`<div class="card"><h3>${h.title}</h3>
+  <table class="qt"><tr><th style="width:26%">方式</th><th style="width:46%">说明</th><th>费用/备注</th></tr>
+  ${h.rows.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}</table></div>`;
+}
+$$("#hubTabs .chip").forEach(c=>c.addEventListener("click",()=>{
+  $$("#hubTabs .chip").forEach(x=>x.classList.remove("on"));
+  c.classList.add("on");renderHub(c.dataset.h);
+}));
+renderHub("airport");
+$("#qtTable").innerHTML="<tr><th>景点</th><th>方案</th><th>耗时</th><th>费用</th></tr>"+QT.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join("");
+
+/* ================= 路线渲染 ================= */
+$("#routeList").innerHTML=ROUTES.map((r,i)=>`
+<div class="card route-card" ${i===0?'class="card route-card open"':''}>
+  <div class="route-head">
+    <span class="t">${r.title}<br><small style="color:var(--muted);font-weight:400;">${r.badge}</small></span>
+    <span class="arrow">▶</span>
+  </div>
+  <div class="route-body">
+    <p style="font-size:13px;color:var(--ink2);margin-bottom:10px;">${r.summary}</p>
+    ${r.days.map(d=>`<div class="day-block"><div class="day-label">${d.label}</div><ul>${d.items.map(x=>`<li>${x}</li>`).join("")}</ul></div>`).join("")}
+    <p style="font-size:12px;background:var(--paper);border-radius:8px;padding:8px 10px;margin-bottom:6px;"><b>为什么这样排：</b>${r.why}</p>
+    <div class="fit-row"><span class="yes">✅ 适合：${r.fit}</span><br><span class="no">❌ 不适合：${r.unfit}</span></div>
+  </div>
+</div>`).join("");
+$$("#routeList .route-head").forEach(h=>h.addEventListener("click",()=>h.parentElement.classList.toggle("open")));
+
+/* ================= 避坑渲染 ================= */
+$("#consensusList").innerHTML=CONSENSUS.map((t,i)=>`<div class="tip-item"><span class="num">${i+1}</span><span>${t}</span></div>`).join("");
+$("#debateList").innerHTML=DEBATES.map(d=>`<div class="debate"><b>${d.t}</b><br>👍 ${d.p}　👎 ${d.n}<br><span style="color:var(--accent);">建议：${d.s}</span></div>`).join("");
+$("#tenList").innerHTML=TEN.map((t,i)=>`<div class="tip-item"><span class="num">${i+1}</span><span>${t}</span></div>`).join("");
+
+/* ================= 推荐引擎 ================= */
+const DAYS_N={halfday:3,d1:5,d2:7,d34:9,d57:12};
+const DAYS_SKELETON={
+halfday:"半天微缩线：淮河路步行街→李鸿章故居→逍遥津（或只逛步行街+城隍庙），全程步行。",
+d1:"一日经典骨架：上午老城（城隍庙→李鸿章故居→步行街→逍遥津），午后包公园，晚上罍街或天鹅湖夜景。",
+d2:"两日骨架：Day1 老城经典+夜景；Day2 博物馆/科技馆+合柴1972+罍街。",
+d34:"3-4天骨架：两日路线 + 三河古镇一日 或 巢湖一日（二选一或各占一天）。",
+d57:"5-7天骨架：按「国庆7天游」逐日执行（老城→三河→巢湖→山林→博物馆文创→弹性返程），闭馆日已避开。"
+};
+const ORIGIN_ADVICE={
+south:"🚄 合肥南站出发：进城坐地铁1/4/5号线（到老城大东门约40-50分钟，3-4元）；去三河坐文韬旅游专线（9:15/9:45/13:40/14:20，9.9元）；去巢湖方向先到方兴湖站换沿湖接驳线。",
+rail:"🚉 合肥火车站出发：离老城很近——地铁1号线到大东门约10分钟，或直接步行/打车起步价到淮河路步行街；去安徽博物院新馆可直乘3号线到省博物院站。",
+airport:"✈️ 新桥机场出发：机场大巴1号线（经火车站方向）/3号线（经高铁南站）最高25元；滴滴站点巴士约19.9元；打车约35-40公里。S1机场线载客状态未确认，出行前查合肥轨道交通公众号。",
+car:"🚗 自驾：三河古镇停北门停车场（避堵攻略推荐）；巢湖停中庙码头；市区景点停车难，建议车停酒店，市内地铁+步行。",
+city:"🏙️ 已在市区：老城景点群（步行街—逍遥津—包公园—城隍庙）全程步行+共享单车；跨区坐地铁；深夜打车。"
+};
+const INT_NAME={his:"历史文化",nat:"自然风光",pho:"拍照打卡",food:"美食",kid:"亲子科普",night:"夜游"};
+
+$("#btnReco").addEventListener("click",()=>{
+  const days=$("#q-days .chip.on").dataset.v;
+  const comp=$("#q-comp .chip.on").dataset.v;
+  const budget=$("#q-budget .chip.on").dataset.v;
+  const origin=$("#q-origin .chip.on").dataset.v;
+  const interests=$$("#q-int .chip.on").map(c=>c.dataset.v);
+
+  let pool=SPOTS.map(s=>({...s,score:1,reasons:[]}));
+
+  interests.forEach(i=>pool.forEach(s=>{
+    if(s.tags[i]){s.score+=2;if(!s.reasons.includes(INT_NAME[i]+"命中"))s.reasons.push(INT_NAME[i]+"命中");}
+  }));
+
+  if(comp==="kids"){
+    pool.forEach(s=>{
+      if(["kejiguan","rongchuang","binhu","dashushan","baogongyuan","chuangxinguan"].includes(s.id)){s.score+=2;s.reasons.push("亲子友好");}
+      if(["zhegao","zipengshan"].includes(s.id))s.score-=3;
+    });
+  }
+  if(comp==="elder"){
+    pool.forEach(s=>{
+      if(["baogongyuan","xiaoyaojin","chenghuangmiao","lihongzhang","tianehu"].includes(s.id)){s.score+=2;s.reasons.push("平坦省力");}
+      if(["dashushan","zipengshan","zhegao","rongchuang"].includes(s.id))s.score-=4;
+      if(s.id==="chaohu"){s.score+=1;s.reasons.push("可选渡轮不登山");}
+    });
+  }
+  if(comp==="friends"){
+    pool.forEach(s=>{if(["hechai","tianehu","leijie","chaohu"].includes(s.id)){s.score+=1;s.reasons.push("适合结伴");}});
+  }
+  if(comp==="solo"){
+    pool.forEach(s=>{if(["anbo","hechai","chenghuangmiao"].includes(s.id)){s.score+=1;s.reasons.push("一人也自在");}});
+  }
+
+  if(budget==="low"){
+    pool.forEach(s=>{if(s.price>0){s.score-=3;s.reasons.push("预算提示：收费");}});
+  }
+  if(budget==="high"){
+    pool.forEach(s=>{if(["rongchuang","chaohu","sanhe"].includes(s.id)){s.score+=1;s.reasons.push("预算充裕可深度玩");}});
+  }
+
+  if(origin==="car"){
+    pool.forEach(s=>{if(s.remote){s.score+=1;s.reasons.push("自驾友好");}});
+  }
+  if(origin==="south"){
+    pool.forEach(s=>{if(["sanhe","chaohu","binhu"].includes(s.id)){s.score+=1;s.reasons.push("南站有专线/接驳");}});
+  }
+
+  pool.sort((a,b)=>b.score-a.score);
+  const n=DAYS_N[days];
+  const picked=pool.slice(0,n);
+
+  const reserveNotes=[];
+  picked.forEach(s=>{
+    if(s.reserveFlag)reserveNotes.push(`<b>${s.name}</b>：${s.reserve}`);
+  });
+  reserveNotes.push("博物馆类周一/周二多有闭馆，排行程先看日期（10.5周一、10.6周二尤其注意）。");
+
+  const pitNotes=[];
+  picked.forEach(s=>{if(s.tips[0])pitNotes.push(`<b>${s.name}</b>：${s.tips[0]}`);});
+
+  $("#recoResult").innerHTML=`
+  <div class="reco-head">
+    <h3>为你生成的行程骨架</h3>
+    <p>${DAYS_SKELETON[days]}</p>
+    <p style="margin-top:6px;">${ORIGIN_ADVICE[origin]}</p>
+  </div>
+  <div class="card"><h3>🎯 推荐景点（按匹配度排序）</h3>
+    ${picked.map((s,i)=>`
+    <div class="card reco-spot" style="margin:8px 0;">
+      <b>${i+1}. ${s.name}</b> <span class="mini-tag">${CAT_LABEL[s.cat]}</span> <span class="mini-tag green">${s.ticket.split("；")[0]}</span>
+      <div style="font-size:12px;color:var(--muted);margin-top:2px;">⏱ ${s.dur} ｜ 🚇 ${s.metro}</div>
+      <div class="why">推荐理由：${s.reasons.length?s.reasons.join("、"):"合肥必游基础项"}</div>
+    </div>`).join("")}
+  </div>
+  <div class="card"><h3>📝 预约提醒</h3><ul style="margin-left:18px;font-size:13px;">${reserveNotes.map(x=>`<li style="margin-bottom:4px;">${x}</li>`).join("")}</ul></div>
+  <div class="card"><h3>💡 避坑与体验提醒</h3><ul style="margin-left:18px;font-size:13px;">${pitNotes.slice(0,6).map(x=>`<li style="margin-bottom:4px;">${x}</li>`).join("")}</ul>
+    <div class="boundary">⚠️ 实时拥堵、临时闭园、当日余票、天气预警等动态信息，请查官方渠道或实时地图，不以本推荐为准。</div>
+  </div>`;
+  $("#recoResult").scrollIntoView({behavior:"smooth"});
+});
+</script>
+</body>
+</html>
