@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260927-covers" />
+  <link rel="stylesheet" href="styles.css?v=20260927-compact" />
 </head>
 <body>
   <div class="page">
@@ -25,126 +25,110 @@
       </nav>
     </header>
 
-    <section class="hero" aria-label="首页主视觉">
-      <div class="card hero-main">
-        <div>
-          <div class="kicker">Personal · AI · Life</div>
-          <h1>工作交给 AI，<br />生活留给自己。</h1>
-          <p>今天·晴，适合把新想法拿出来晒一晒。这里是 ZeroZhu 的个人主页：创作、作品、关于与交流。</p>
-          <div class="cta-row">
-            <a class="btn" href="ideas/index.html">看看创作</a>
-            <a class="btn ghost" href="products/index.html">可交互作品</a>
-          </div>
-        </div>
-        <div class="deco" aria-hidden="true"></div>
+    <section class="intro" aria-label="首页介绍">
+      <div class="intro-text">
+        <div class="kicker">Personal · AI · Life</div>
+        <h1><span class="nw">工作交给 AI，</span><span class="nw">生活留给自己。</span></h1>
+        <p>我是 ZeroZhu，做企业 AI 转型落地（FDE），也是 AI 自媒体博主。这里放我的创作、AI 工具分享和可以点开玩的作品。</p>
       </div>
-
-      <a class="card card-blue card-link has-cover" href="ideas/ai-as-assistant.html">
-        <img class="cover" src="assets/covers/article-ai-as-assistant.webp" alt="封面：AI 应该是助手，而不是替代者——当助手 vs 当替代者" loading="lazy" decoding="async" width="1200" height="750" />
-        <div class="meta">创作 / Ideas</div>
-        <h2>AI 是助手，不是替代者</h2>
-        <div class="big-num">01</div>
-        <div class="deco" aria-hidden="true"></div>
-      </a>
-      <a class="card card-green card-link has-cover" href="about.html">
-        <img class="cover" src="assets/covers/page-about.webp" alt="封面：认识一下 ZeroZhu——企业 AI 落地 FDE + AI 自媒体" loading="lazy" decoding="async" width="1200" height="750" />
-        <div class="meta">关于 / About</div>
-        <h2>企业 AI 落地 · FDE</h2>
-        <p class="meta" style="margin-top:8px">FDE + AI 自媒体</p>
-        <div class="big-num">Me</div>
-      </a>
-
-      <a class="card card-red card-link has-cover" href="guestbook.html">
-        <img class="cover" src="assets/covers/page-guestbook.webp" alt="封面：订阅与留言——公众号、小红书、抖音、视频号与站内留言板" loading="lazy" decoding="async" width="1200" height="750" />
-        <div class="meta">订阅 / Guestbook</div>
-        <h2>订阅与交流</h2>
-        <p class="meta" style="margin-top:8px">扫码订阅 · 站内留言</p>
-      </a>
-
-      <a class="card card-cyan card-link has-cover" href="products/weiguang/index.html">
-        <img class="cover" src="assets/covers/product-weiguang.webp" alt="封面：微光纪元——可交互的小岛文明模拟，从 30 个普通人开始" loading="lazy" decoding="async" width="1200" height="750" />
-        <div class="meta">作品 / Works</div>
-        <h2>微光纪元</h2>
-        <p class="meta" style="margin-top:8px">可点击互动的小岛文明模拟</p>
-        <div class="big-num">Play</div>
-      </a>
-
-      <a class="card card-violet card-link has-cover" href="tools/hefei-guide/">
-        <img class="cover" src="assets/covers/tool-hefei-guide.webp" alt="封面：合肥导游问询台——说需求，出行程；地图动线、13 类特殊情形路线、12 个区县就近方案" loading="lazy" decoding="async" width="1200" height="750" />
-        <div class="meta">项目 / Project</div>
-        <h2>合肥导游问询台</h2>
-        <p class="meta" style="margin-top:8px">说需求就出行程 · 地图动线 · 天气适配 · 13 类特殊情形路线 + 12 个区县就近方案</p>
-        <div class="big-num">Go</div>
-      </a>
+      <div class="cta-row">
+        <a class="btn" href="ideas/index.html">看看创作</a>
+        <a class="btn ghost" href="products/index.html">可交互作品</a>
+      </div>
+      <div class="deco" aria-hidden="true"></div>
     </section>
 
-    <div class="section-title">
-      <h3>精选入口</h3>
-      <span>用色块做导航，信息一眼扫到</span>
+    <section class="home-section sec-ideas" aria-labelledby="h-ideas">
+      <div class="section-title">
+        <div class="st-text"><h3 id="h-ideas">最新创作</h3><span>关于 AI、工作与生活的判断与复盘</span></div>
+        <a class="more" href="ideas/index.html">查看全部 →</a>
+      </div>
+      <div class="rail">
+        <a class="item has-cover" href="ideas/future-proof-ai-investment.html">
+          <img class="cover" src="assets/covers/article-future-proof-ai-investment.webp" alt="封面：服务器买了，Agent 建了——数据、软件、算力、考试题，4 样可继承的 AI 资产" loading="lazy" decoding="async" width="1200" height="750" />
+          <span class="tag blue">新 · AI 思考</span>
+          <h4>服务器买了，Agent 建了：下一代 AI 来了怎么办？</h4>
+          <p>模型会更新、硬件会折旧：把数据、接口、规则和验收标准留成可继承的资产。</p>
+        </a>
+        <a class="item has-cover" href="ideas/data-sensitive-ai-transformation.html">
+          <img class="cover" src="assets/covers/article-data-sensitive-ai-transformation.webp" alt="封面：数据敏感型企业怎么做 AI 转型——数据不出域，一条主线、三大支柱" loading="lazy" decoding="async" width="1200" height="750" />
+          <span class="tag blue">新 · 培训复盘</span>
+          <h4>数据敏感型企业怎么做AI转型落地</h4>
+          <p>烟草系统培训复盘：数据分级、统一平台、场景矩阵，先小步见效再谈投入。</p>
+        </a>
+        <a class="item has-cover" href="ideas/ai-usage-vs-capability.html">
+          <img class="cover" src="assets/covers/article-ai-usage-vs-capability.webp" alt="封面：企业买到的是 AI 使用权还是转型能力——一个 PPT 约 1500 积分，工具普及、流程重塑、组织调整" loading="lazy" decoding="async" width="1200" height="750" />
+          <span class="tag blue">AI 思考</span>
+          <h4>企业买到的是AI使用权，还是AI转型能力？</h4>
+          <p>席位与积分买到使用权；改变业务结果还要靠流程重塑。</p>
+        </a>
+        <a class="item has-cover" href="ideas/sme-ai-dilemma.html">
+          <img class="cover" src="assets/covers/article-sme-ai-dilemma.webp" alt="封面：中小企业 AI 转型的三重困境——老板太忙、没人会用、不敢投入" loading="lazy" decoding="async" width="1200" height="750" />
+          <span class="tag blue">实地观察</span>
+          <h4>中小企业AI转型的困境（小厂拜访）</h4>
+          <p>9人小厂AI使用率约等于零：忙、怕、没人会用——三重死锁。</p>
+        </a>
+      </div>
+    </section>
+
+    <div class="home-split">
+      <section class="home-section sec-tools" aria-labelledby="h-tools">
+        <div class="section-title">
+          <div class="st-text"><h3 id="h-tools">AI 工具分享</h3><span>保姆级实操，跟着做就能用起来</span></div>
+          <a class="more" href="tools/index.html">查看全部 →</a>
+        </div>
+        <div class="rail rail-2">
+        <a class="item has-cover" href="tools/hefei-guide/">
+          <img class="cover" src="assets/covers/tool-hefei-guide.webp" alt="封面：合肥导游问询台——说需求，出行程；地图动线、13 类特殊情形路线、12 个区县就近方案" loading="lazy" decoding="async" width="1200" height="750" />
+          <span class="tag yellow">应用</span>
+          <h4>合肥导游问询台</h4>
+          <p>说需求就出行程：地图动线、换乘耗时、天气适配，13 类特殊情形路线 + 12 个区县就近方案。</p>
+        </a>
+        <a class="item has-cover" href="tools/hermes-wechat-assistant.html">
+          <img class="cover" src="assets/covers/tool-hermes-wechat-assistant.webp" alt="封面：Hermes + Obsidian 微信个人助理——安装、配置 DeepSeek、接入微信、本地记忆库" loading="lazy" decoding="async" width="1200" height="750" />
+          <span class="tag yellow">教程</span>
+          <h4>Hermes + Obsidian 个人助理</h4>
+          <p>微信里随叫随到的助理：下载配置、接微信、挂本地知识库。</p>
+        </a>
+        </div>
+      </section>
+
+      <section class="home-section sec-products" aria-labelledby="h-products">
+        <div class="section-title">
+          <div class="st-text"><h3 id="h-products">作品</h3><span>可以点开玩、点开听的东西</span></div>
+          <a class="more" href="products/index.html">查看全部 →</a>
+        </div>
+        <div class="rail rail-2">
+        <a class="item has-cover" href="products/weiguang/index.html">
+          <img class="cover" src="assets/covers/product-weiguang.webp" alt="封面：微光纪元——可交互的小岛文明模拟，从 30 个普通人开始" loading="lazy" decoding="async" width="1200" height="750" />
+          <span class="tag green">可交互</span>
+          <h4>微光纪元</h4>
+          <p>测试 GPT‑6 Astra 时做的小岛文明：点居民、拨事件、看规则如何改写未来。</p>
+        </a>
+        <a class="item has-cover" href="ideas/ai-era-no-fear.html">
+          <img class="cover" src="assets/covers/song-ai-era-no-fear.webp" alt="单曲封面：原创歌曲《AI时代，我不怕》" loading="lazy" decoding="async" width="1200" height="750" />
+          <span class="tag red">原创歌曲</span>
+          <h4>AI时代，我不怕</h4>
+          <p>写给 AI 时代的歌：不焦虑被替代，而是学会把工作交给 AI，把生活留给自己。</p>
+        </a>
+        </div>
+      </section>
     </div>
 
-    <div class="rail">
-      <a class="item has-cover" href="ideas/future-proof-ai-investment.html">
-        <img class="cover" src="assets/covers/article-future-proof-ai-investment.webp" alt="封面：服务器买了，Agent 建了——数据、软件、算力、考试题，4 样可继承的 AI 资产" loading="lazy" decoding="async" width="1200" height="750" />
-        <span class="tag" style="background:var(--red);color:#fff;">新 · 创作</span>
-        <h4>服务器买了，Agent 建了：下一代 AI 来了怎么办？</h4>
-        <p>模型会更新、硬件会折旧：把数据、接口、规则和验收标准留成可继承的资产。</p>
+    <section class="home-strip" aria-label="关于与订阅">
+      <a class="strip-block strip-about" href="about.html">
+        <span class="strip-kicker">关于 / About</span>
+        <strong>企业 AI 落地 · FDE + AI 自媒体</strong>
+        <span class="strip-desc">金融约 4 年、管理咨询约 7 年，现在帮企业把 AI 落进真实业务。</span>
+        <span class="strip-go">认识一下 →</span>
       </a>
-      <a class="item has-cover" href="ideas/data-sensitive-ai-transformation.html">
-        <img class="cover" src="assets/covers/article-data-sensitive-ai-transformation.webp" alt="封面：数据敏感型企业怎么做 AI 转型——数据不出域，一条主线、三大支柱" loading="lazy" decoding="async" width="1200" height="750" />
-        <span class="tag blue">新 · 培训复盘</span>
-        <h4>数据敏感型企业怎么做AI转型落地</h4>
-        <p>烟草系统培训复盘：数据分级、统一平台、场景矩阵，先小步见效再谈投入。</p>
+      <a class="strip-block strip-sub" href="guestbook.html">
+        <span class="strip-kicker">订阅 / Guestbook</span>
+        <strong>订阅与留言</strong>
+        <span class="strip-desc">公众号 · 小红书 · 抖音 · 视频号，站内留言板可直接写下想法。</span>
+        <span class="strip-go">去订阅 →</span>
       </a>
-      <a class="item has-cover" href="tools/hermes-wechat-assistant.html">
-        <img class="cover" src="assets/covers/tool-hermes-wechat-assistant.webp" alt="封面：Hermes + Obsidian 微信个人助理——安装、配置 DeepSeek、接入微信、本地记忆库" loading="lazy" decoding="async" width="1200" height="750" />
-        <span class="tag" style="background:var(--yellow);color:#121212">工具分享</span>
-        <h4>Hermes + Obsidian 个人助理</h4>
-        <p>微信里随叫随到的助理：下载配置、接微信、挂本地知识库。</p>
-      </a>
-      <a class="item has-cover" href="products/weiguang/index.html">
-        <img class="cover" src="assets/covers/product-weiguang.webp" alt="封面：微光纪元——可交互的小岛文明模拟，从 30 个普通人开始" loading="lazy" decoding="async" width="1200" height="750" />
-        <span class="tag" style="background:var(--green);color:var(--ink)">作品 · 可交互</span>
-        <h4>微光纪元</h4>
-        <p>测试 GPT‑6 Astra 时做的小岛文明：点居民、拨事件、看规则如何改写未来。</p>
-      </a>
-      <a class="item has-cover" href="ideas/ai-era-no-fear.html">
-        <img class="cover" src="assets/covers/song-ai-era-no-fear.webp" alt="单曲封面：原创歌曲《AI时代，我不怕》" loading="lazy" decoding="async" width="1200" height="750" />
-        <span class="tag" style="background:#ff4d4d;color:#fff;">音乐</span>
-        <h4>AI时代，我不怕</h4>
-        <p>写给 AI 时代的歌：不焦虑被替代，而是学会把工作交给 AI，把生活留给自己。</p>
-      </a>
-      <a class="item has-cover" href="ideas/ai-usage-vs-capability.html">
-        <img class="cover" src="assets/covers/article-ai-usage-vs-capability.webp" alt="封面：企业买到的是 AI 使用权还是转型能力——一个 PPT 约 1500 积分，工具普及、流程重塑、组织调整" loading="lazy" decoding="async" width="1200" height="750" />
-        <span class="tag blue">新 · 创作</span>
-        <h4>企业买到的是AI使用权，还是AI转型能力？</h4>
-        <p>席位与积分买到使用权；改变业务结果还要靠流程重塑。</p>
-      </a>
-      <a class="item has-cover" href="ideas/ai-tech-equality.html">
-        <img class="cover" src="assets/covers/article-ai-tech-equality.webp" alt="封面：当 AI 让技术平权化——选对问题、品味审美、理解用户、长期主义" loading="lazy" decoding="async" width="1200" height="750" />
-        <span class="tag">新 · 创作</span>
-        <h4>当AI让技术平权化，我们真正的核心能力是什么？</h4>
-        <p>公开培训之后：执行力贬值，选问题与品味才更稀缺。</p>
-      </a>
-      <a class="item has-cover" href="ideas/ai-as-assistant.html">
-        <img class="cover" src="assets/covers/article-ai-as-assistant.webp" alt="封面：AI 应该是助手，而不是替代者——当助手 vs 当替代者" loading="lazy" decoding="async" width="1200" height="750" />
-        <span class="tag">创作</span>
-        <h4>AI 应该是助手，而不是替代者</h4>
-        <p>把 AI 放回工具位：放大人的判断力，而不是抢走表达本身。</p>
-      </a>
-<a class="item has-cover" href="about.html">
-        <img class="cover" src="assets/covers/page-about.webp" alt="封面：认识一下 ZeroZhu——企业 AI 落地 FDE + AI 自媒体" loading="lazy" decoding="async" width="1200" height="750" />
-        <span class="tag" style="background:var(--cyan)">关于</span>
-        <h4>关于我</h4>
-        <p>企业 AI 落地 · FDE的人。几句话认识就好。</p>
-      </a>
-      <a class="item has-cover" href="guestbook.html">
-        <img class="cover" src="assets/covers/page-guestbook.webp" alt="封面：订阅与留言——公众号、小红书、抖音、视频号与站内留言板" loading="lazy" decoding="async" width="1200" height="750" />
-        <span class="tag green">交流</span>
-        <h4>订阅与留言</h4>
-        <p>公众号、小红书、抖音，站内留言板可直接写下想法。</p>
-      </a>
-    </div>
+    </section>
 
     <footer class="footer">
       <div>© 2026 ZeroZhu</div>
