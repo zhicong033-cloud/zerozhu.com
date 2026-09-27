@@ -1337,3 +1337,33 @@ body { font-size: 15px; line-height: 1.65; }
   .strip-block { grid-template-columns: 1fr; grid-template-areas: "k" "t" "d" "go"; row-gap: 2px; }
   .strip-go { justify-self: start; margin-top: 8px; }
 }
+
+/* ================================================================
+   导航：新增「首页」+ 当前页高亮（2026-09-27）
+   静态标记 aria-current="page"；黄色色块 + 深色描边 + 加粗
+   ================================================================ */
+.nav a { white-space: nowrap; line-height: 1.4; }
+.nav a[aria-current="page"],
+.nav a.active {
+  background: var(--yellow);
+  border-color: var(--ink);
+  color: var(--ink);
+  font-weight: 700;
+  box-shadow: 2px 2px 0 var(--ink);
+}
+.nav a[aria-current="page"]:hover { transform: none; }
+.nav a.primary[aria-current="page"] {
+  background: var(--ink);
+  color: var(--yellow);
+  border-color: var(--ink);
+  box-shadow: 2px 2px 0 var(--yellow), 2px 2px 0 2px var(--ink);
+}
+@media (max-width: 599px) {
+  .top { row-gap: 10px; }
+  .nav { gap: 5px; row-gap: 6px; max-width: 100%; }
+  .nav a { padding: 6px 10px; }
+}
+@media (max-width: 360px) {
+  .nav { gap: 4px; }
+  .nav a { padding: 5px 8px; font-size: 12.5px; }
+}
