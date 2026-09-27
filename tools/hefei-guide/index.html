@@ -216,9 +216,114 @@ footer a:hover{text-decoration:underline;}
   .tl-time{flex:0 0 62px;}
   header h1{font-size:22px;}
 }
+
+/* ============ 封面：进入前的「界面预览」入口（每次打开都先显示，点击任意处进入） ============ */
+body.covered{overflow:hidden;}
+.cover{position:fixed;inset:0;z-index:900;display:flex;align-items:center;justify-content:center;
+  padding:var(--sp-5) var(--sp-4);cursor:pointer;overflow-y:auto;
+  background:radial-gradient(130% 100% at 10% 0%,#333a50 0%,#232838 48%,#191d27 100%);
+  animation:coverIn .4s ease both;}
+@keyframes coverIn{from{opacity:0;transform:scale(.985);}to{opacity:1;transform:none;}}
+.cover-in{width:100%;max-width:600px;margin:auto;text-align:center;color:#fff;}
+.cover-badge{display:inline-block;background:var(--accent);color:#fff;font-size:var(--fs-xs);font-weight:600;
+  border-radius:var(--r-pill);padding:4px var(--sp-3);letter-spacing:1px;}
+.cover h1{font-size:clamp(25px,6.4vw,36px);font-weight:700;letter-spacing:3px;margin:var(--sp-4) 0 var(--sp-2);}
+.cover-sub{color:#c9c4b8;font-size:var(--fs-sm);max-width:30em;margin:0 auto;}
+/* 界面预览：用真实设计令牌拼出的「缩略界面」，不是截图 */
+.cover-app{margin:var(--sp-5) auto 0;max-width:460px;background:var(--card);border-radius:var(--r-lg);
+  overflow:hidden;box-shadow:0 18px 44px rgba(0,0,0,.34);text-align:left;}
+.cv-bar{display:flex;align-items:center;gap:6px;padding:9px var(--sp-3);
+  background:linear-gradient(135deg,#232838 0%,#2e3448 60%,#3a3040 100%);}
+.cv-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.28);}
+.cv-dot.live{background:#e0654a;}
+.cv-url{margin-left:var(--sp-2);font-size:11px;color:#c9c4b8;letter-spacing:.5px;}
+.cv-body{padding:var(--sp-3);}
+.cv-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:var(--sp-3);}
+.cv-chips span{font-size:11px;border:1px solid var(--line);border-radius:var(--r-pill);padding:3px 9px;color:var(--ink2);background:#fffdf9;}
+.cv-chips span.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-dark);font-weight:600;}
+.cv-map{position:relative;height:104px;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--line);
+  background:linear-gradient(160deg,#eef1e8 0%,#e6ece4 55%,#dfe9e6 100%);}
+.cv-blob{position:absolute;border-radius:50%;background:rgba(176,67,44,.06);}
+.cv-blob.b1{left:34px;top:6px;width:92px;height:58px;}
+.cv-blob.b2{left:-20px;bottom:-28px;width:152px;height:90px;background:rgba(96,150,160,.17);}
+.cv-map svg{position:absolute;inset:0;width:100%;height:100%;}
+.cv-pin{position:absolute;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;
+  font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;
+  transform:translate(-50%,-50%);box-shadow:0 0 0 3px rgba(255,255,255,.92);}
+.cv-pin.p1{left:8%;top:83%;}
+.cv-pin.p2{left:40%;top:56%;}
+.cv-pin.p3{left:70%;top:33%;}
+.cv-map-tag{position:absolute;left:8px;bottom:8px;font-size:11px;color:var(--ink2);
+  background:rgba(255,255,255,.92);border-radius:var(--r-sm);padding:2px 7px;}
+.cv-rows{margin-top:var(--sp-3);border-top:1px solid var(--line-soft);}
+.cv-row{display:flex;align-items:center;gap:var(--sp-2);padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12px;}
+.cv-row b{flex:0 0 42px;color:var(--accent);font-weight:700;}
+.cv-row span{flex:1;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.cv-row i{font-style:normal;font-size:11px;color:var(--muted);}
+.cover-go{display:inline-block;margin-top:var(--sp-5);background:var(--accent);color:#fff;font-weight:600;
+  font-size:var(--fs-md);border-radius:var(--r-md);padding:var(--sp-3) var(--sp-6);letter-spacing:1px;
+  box-shadow:0 6px 20px rgba(176,67,44,.36);transition:background .15s;}
+.cover:hover .cover-go{background:var(--accent-dark);}
+.cover-hint{color:#a9a49a;font-size:var(--fs-xs);margin-top:var(--sp-3);}
+.cover-meta{color:#8f8a80;font-size:var(--fs-xs);margin-top:var(--sp-2);}
+.cover-meta b{color:#d8d2c6;font-weight:600;}
+@media (max-width:420px){
+  .cv-map{height:88px;}
+  .cover-go{padding:var(--sp-3) var(--sp-5);}
+}
+/* 矮屏（如 iPhone SE 568px）：压缩封面，避免封面内部出现滚动条。
+   完整封面约 676px 高（内容 628 + 上下内边距 48），故阈值取 700px 留出余量 */
+@media (max-height:700px){
+  .cover{padding:var(--sp-4);}
+  .cover h1{margin:var(--sp-3) 0 var(--sp-1);font-size:clamp(22px,5.6vw,30px);}
+  .cover-app{margin-top:var(--sp-4);}
+  .cv-map{height:78px;}
+  .cv-rows .cv-row:nth-child(3){display:none;}
+  .cover-go{margin-top:var(--sp-4);padding:var(--sp-2) var(--sp-5);}
+  .cover-meta{display:none;}
+}
+@media (prefers-reduced-motion:reduce){.cover{animation:none;}}
 </style>
+<noscript><style>.cover{display:none!important;}body.covered{overflow:auto!important;}</style></noscript>
 </head>
-<body>
+<body class="covered">
+
+<!-- 封面：进入前的界面预览。每次打开都先显示，点击页面任意处进入完整界面 -->
+<div class="cover" id="cover" role="button" tabindex="0" aria-label="进入合肥导游问询台完整界面">
+  <div class="cover-in">
+    <span class="cover-badge">知识库导游 · 2026 国庆</span>
+    <h1>合肥导游问询台</h1>
+    <p class="cover-sub">说一句出行需求，自动排出分天行程：地图动线、换乘耗时、停车难度、天气适配。</p>
+
+    <div class="cover-app" aria-hidden="true">
+      <div class="cv-bar">
+        <span class="cv-dot live"></span><span class="cv-dot"></span><span class="cv-dot"></span>
+        <span class="cv-url">合肥导游问询台 · index.html</span>
+      </div>
+      <div class="cv-body">
+        <div class="cv-chips">
+          <span class="on">1 天</span><span class="on">带孩子</span><span class="on">免费</span>
+          <span>拍照</span><span>历史文化</span><span>躺平放松</span>
+        </div>
+        <div class="cv-map">
+          <span class="cv-blob b1"></span><span class="cv-blob b2"></span>
+          <svg viewBox="0 0 300 104" preserveAspectRatio="none" aria-hidden="true"><path d="M24,86 L120,58 L210,34 L276,20" fill="none" stroke="#b0432c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="cv-pin p1">1</span><span class="cv-pin p2">2</span><span class="cv-pin p3">3</span>
+          <span class="cv-map-tag">高铁南站 → 骆岗公园 → 岸上草原</span>
+        </div>
+        <div class="cv-rows">
+          <div class="cv-row"><b>09:00</b><span>骆岗公园（大草坪 + 信标台）</span><i>2.5h</i></div>
+          <div class="cv-row"><b>13:30</b><span>安徽省科技馆（室内 · 需预约）</span><i>3h</i></div>
+          <div class="cv-row"><b>16:30</b><span>岸上草原（湖边放风）</span><i>1.5h</i></div>
+        </div>
+      </div>
+    </div>
+
+    <span class="cover-go">进入问询台 →</span>
+    <div class="cover-hint">点击页面任意处即可进入</div>
+    <div class="cover-meta"><b>27</b> 个景点 · <b>13</b> 类特殊情形路线 · <b>12</b> 个区县就近方案 · 实时天气</div>
+  </div>
+</div>
 
 <header>
   <div class="badge">知识库导游 · 2026 国庆</div>
@@ -1699,7 +1804,34 @@ function renderDistrictBoard(){
     const a=h.querySelector(".arrow");if(a)a.textContent=card.classList.contains("open")?"收起 ▴":"展开 ▾";
   }));
 }
+
 renderDistrictBoard();
+
+/* ================= 封面：点击任意处进入完整界面（每次打开都先显示，不做会话记忆） =================
+   属渐进增强：DOM 桩 / 异常环境下自行跳过，不影响主功能，故整段加 try 包裹 */
+(function(){
+  try{
+    const cover=$("#cover");
+    if(!cover||typeof cover.addEventListener!=="function")return;
+    const body=document.body;
+    if(body&&body.classList&&!body.classList.contains("covered"))body.classList.add("covered");
+    let entered=false;
+    function enter(byKeyboard){
+      if(entered)return;
+      entered=true;
+      if(body&&body.classList)body.classList.remove("covered");
+      if(cover.style)cover.style.display="none";
+      cover.setAttribute("aria-hidden","true");
+      cover.setAttribute("tabindex","-1");
+      /* 键盘进入时把焦点交给需求输入框，避免焦点掉回 body */
+      if(byKeyboard){const s=$("#say");if(s&&s.focus){try{s.focus({preventScroll:true});}catch(e){s.focus();}}}
+    }
+    cover.addEventListener("click",function(){enter(false);});
+    cover.addEventListener("keydown",function(e){
+      if(e.key==="Enter"||e.key===" "||e.key==="Spacebar"||e.key==="Escape"){e.preventDefault();enter(true);}
+    });
+  }catch(err){/* 封面不可用时静默跳过，页面照常可用 */}
+})();
 </script>
 </body>
 </html>
