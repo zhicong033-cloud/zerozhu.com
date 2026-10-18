@@ -1,0 +1,3803 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#05060c">
+<title>极速飞车 · ZeroZhu 作品</title>
+<meta name="description" content="极速飞车：QQ飞车风格的霓虹赛车游戏。10 关渐进难度赛道、漂移、氮气、香蕉皮、可解锁赛车，浏览器直接开玩。">
+<link rel="canonical" href="https://zerozhu.com/products/qq-speed/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ZeroZhu">
+<meta property="og:title" content="极速飞车 · ZeroZhu 作品">
+<meta property="og:description" content="QQ飞车风格的霓虹赛车游戏：10 关赛道、漂移氮气、香蕉皮和可解锁赛车。">
+<meta property="og:url" content="https://zerozhu.com/products/qq-speed/">
+<meta property="og:image" content="https://zerozhu.com/assets/covers/product-qq-speed.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="750">
+<meta property="og:image:alt" content="封面：极速飞车——QQ飞车风格霓虹赛车游戏">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zerozhu.com/assets/covers/product-qq-speed.jpg">
+<style>
+  :root{
+    --theme:#ff2e63;
+    --theme-soft:rgba(255,46,99,.55);
+    --cyan:#31e7ff;
+    --ink:#eaf2ff;
+    --panel:linear-gradient(180deg,rgba(12,18,34,.80),rgba(6,9,18,.52));
+    --line:rgba(126,200,255,.18);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%;overflow:hidden;background:#04050a}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink);user-select:none;-webkit-user-select:none;
+  }
+  #app{position:fixed;inset:0;overflow:hidden;touch-action:none;background:#04050a}
+  #game{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+  /* ---------- 扫描线 + 暗角 ---------- */
+  #scan{
+    position:absolute;inset:0;pointer-events:none;z-index:6;
+    background:
+      radial-gradient(120% 90% at 50% 55%,transparent 42%,rgba(0,0,0,.55) 100%),
+      repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 1px,transparent 1px 3px);
+    mix-blend-mode:multiply;opacity:.85;
+  }
+  #glow{
+    position:absolute;inset:0;pointer-events:none;z-index:5;
+    background:radial-gradient(60% 50% at 50% 78%,var(--theme-soft),transparent 70%);
+    opacity:0;transition:opacity .25s ease;
+  }
+  #glow.on{opacity:.30}
+
+  /* ---------- HUD ---------- */
+  #hud{position:absolute;inset:0;z-index:10;pointer-events:none;opacity:0;transition:opacity .35s ease}
+  #hud.on{opacity:1}
+  .panel{
+    background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    box-shadow:0 10px 30px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.06);
+  }
+  .hud-tl{position:absolute;top:max(16px,env(safe-area-inset-top));left:max(16px,env(safe-area-inset-left))}
+  .hud-tr{position:absolute;top:max(64px,calc(env(safe-area-inset-top) + 64px));right:max(16px,env(safe-area-inset-right))}
+  .hud-bl{position:absolute;left:max(16px,env(safe-area-inset-left));bottom:max(16px,env(safe-area-inset-bottom))}
+  .hud-br{position:absolute;right:max(18px,env(safe-area-inset-right));bottom:max(20px,env(safe-area-inset-bottom))}
+
+  .lap-panel{padding:12px 16px 13px;min-width:186px}
+  .lap-row{display:flex;align-items:baseline;gap:7px}
+  .k{font-size:10px;letter-spacing:.22em;color:rgba(190,220,255,.60);font-weight:700}
+  .k.dim{color:rgba(190,220,255,.38)}
+  .lap{font-size:30px;font-weight:900;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .lap-track{height:3px;border-radius:2px;background:rgba(255,255,255,.10);margin:9px 0 8px;overflow:hidden}
+  .lap-track>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--theme),var(--cyan));box-shadow:0 0 10px var(--theme);transition:width .2s linear}
+  .time{font-size:23px;font-weight:800;letter-spacing:.02em;font-variant-numeric:tabular-nums;text-shadow:0 0 16px rgba(49,231,255,.35)}
+  .sub{font-size:11px;color:rgba(190,220,255,.55);margin-top:2px;letter-spacing:.06em}
+  .sub b{color:rgba(235,245,255,.9);font-variant-numeric:tabular-nums;font-weight:700}
+
+  .pos-panel{padding:10px;display:flex;align-items:center;gap:10px}
+  .pos{display:flex;align-items:baseline;line-height:1;padding-left:4px}
+  .pos span{font-size:44px;font-weight:900;letter-spacing:-.03em;font-variant-numeric:tabular-nums;
+    background:linear-gradient(180deg,#fff,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 12px rgba(49,231,255,.5))}
+  .pos small{font-size:13px;color:rgba(190,220,255,.5);font-weight:700;margin-left:3px}
+  #map{display:block;width:132px;height:132px;border-radius:12px;background:rgba(3,7,16,.55);border:1px solid rgba(126,200,255,.10)}
+
+  .nitro{margin-bottom:10px;width:236px}
+  .nitro-head{display:flex;justify-content:space-between;font-size:10px;letter-spacing:.22em;font-weight:800;color:rgba(190,220,255,.6);margin-bottom:5px}
+  .nitro-head b{color:var(--cyan);font-variant-numeric:tabular-nums;letter-spacing:.05em}
+  .nitro-bar{height:9px;border-radius:6px;background:rgba(5,10,22,.75);border:1px solid rgba(126,200,255,.20);overflow:hidden;position:relative}
+  .nitro-bar>div{height:100%;width:0%;border-radius:6px;background:linear-gradient(90deg,#2c7dff,var(--cyan) 60%,#fff);box-shadow:0 0 14px rgba(49,231,255,.85);transition:width .08s linear}
+  .nitro-bar.full>div{animation:pulse .45s infinite alternate}
+  .nitro-key{margin-top:6px;font-size:9px;letter-spacing:.12em;color:rgba(160,200,240,.42)}
+  .nitro-key kbd{font-family:inherit;font-size:9px;padding:1px 4px;border-radius:3px;
+    border:1px solid rgba(126,200,255,.25);color:rgba(220,240,255,.72);margin:0 1px}
+  body.touch .nitro-key{display:none}
+  .speedo{display:flex;align-items:baseline;gap:8px}
+  .spd{font-size:52px;font-weight:900;line-height:.92;letter-spacing:-.04em;font-variant-numeric:tabular-nums;
+    text-shadow:0 0 26px rgba(49,231,255,.45),0 2px 0 rgba(0,0,0,.5)}
+  .spd em{font-size:12px;font-style:normal;letter-spacing:.14em;font-weight:800;color:rgba(190,220,255,.55);margin-left:7px}
+  .hud-br{font-size:11px;letter-spacing:.12em;color:rgba(190,220,255,.42);text-align:right;line-height:1.7}
+  .hud-br kbd{font-family:inherit;font-size:10px;padding:2px 5px;border-radius:4px;border:1px solid rgba(126,200,255,.22);color:rgba(220,240,255,.75)}
+
+  /* ---------- 提示文字 ---------- */
+  #msg{
+    position:absolute;left:50%;top:20%;transform:translate(-50%,-6px);
+    z-index:12;pointer-events:none;font-size:26px;font-weight:900;letter-spacing:.06em;
+    opacity:0;transition:opacity .18s ease,transform .25s cubic-bezier(.2,1.6,.5,1);
+    text-shadow:0 0 26px currentColor,0 2px 10px rgba(0,0,0,.8);white-space:nowrap;
+  }
+  #msg.show{opacity:1;transform:translate(-50%,0)}
+  #msg.perfect{color:#ffe45c}
+  #msg.good{color:#6bffcf}
+  #msg.lap{color:#8fe2ff;font-size:32px}
+  #msg.bad{color:#ff5b7f}
+
+  #countdown{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    z-index:14;pointer-events:none;font-size:min(22vw,190px);font-weight:900;font-style:italic;
+    letter-spacing:-.04em;color:#fff;opacity:0;
+    text-shadow:0 0 60px var(--theme),0 0 18px rgba(255,255,255,.8),0 8px 40px rgba(0,0,0,.6);
+  }
+  #countdown.pop{animation:cdPop .55s cubic-bezier(.15,1.4,.4,1) forwards}
+  #countdown.go{color:#7dffcf;text-shadow:0 0 70px #00ffb3,0 0 20px rgba(255,255,255,.9)}
+  @keyframes cdPop{
+    0%{opacity:0;transform:scale(2.1)}
+    22%{opacity:1;transform:scale(1)}
+    72%{opacity:1;transform:scale(1)}
+    100%{opacity:0;transform:scale(.86)}
+  }
+  @keyframes pulse{from{filter:brightness(1)}to{filter:brightness(1.5)}}
+
+  /* ---------- 触摸控件 ---------- */
+  #touch{position:absolute;inset:0;z-index:11;pointer-events:none;display:none}
+  #touch.on{display:block}
+  .tc-l{position:absolute;left:max(14px,env(safe-area-inset-left));bottom:max(22px,env(safe-area-inset-bottom));display:flex;gap:12px}
+  .tc-r{position:absolute;right:max(14px,env(safe-area-inset-right));bottom:max(22px,env(safe-area-inset-bottom));display:flex;gap:12px;align-items:flex-end}
+  .tbtn{
+    pointer-events:auto;width:74px;height:74px;border-radius:50%;
+    border:1px solid rgba(140,220,255,.30);background:rgba(10,20,38,.42);
+    color:#dff2ff;font-size:24px;font-weight:900;backdrop-filter:blur(6px);
+    display:flex;align-items:center;justify-content:center;line-height:1;
+    transition:transform .08s ease,background .12s ease;
+  }
+  .tbtn:active,.tbtn.act{background:rgba(49,231,255,.28);transform:scale(.94)}
+  .tbtn.drift{width:86px;height:86px;font-size:16px;letter-spacing:.1em;border-color:rgba(255,226,92,.4);color:#ffe45c}
+  .tbtn.drift.act{background:rgba(255,226,92,.25)}
+  .tbtn.nitro{width:86px;height:86px;font-size:16px;letter-spacing:.1em;border-color:rgba(49,231,255,.45);color:#7fe9ff}
+
+  /* ---------- 遮罩层 ---------- */
+  .overlay{position:absolute;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:22px;
+    background:radial-gradient(90% 70% at 50% 40%,rgba(8,6,20,.35),rgba(3,4,9,.82));
+    backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+    animation:fadeIn .35s ease}
+  .overlay.hidden{display:none}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  .start-inner{width:min(660px,100%);text-align:center;position:relative}
+  .tag{font-size:11px;letter-spacing:.5em;color:rgba(140,220,255,.7);font-weight:800;margin-bottom:14px}
+  .tag b{color:var(--theme);text-shadow:0 0 18px var(--theme)}
+  h1{margin:0;font-size:clamp(54px,11vw,104px);line-height:.9;font-weight:900;letter-spacing:-.05em;
+    background:linear-gradient(180deg,#fff 20%,#a9e8ff 58%,var(--theme) 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 44px rgba(49,231,255,.30)) drop-shadow(0 10px 30px rgba(0,0,0,.6));
+    transform:skewX(-6deg)}
+  h1 span{background:linear-gradient(180deg,#fff,var(--theme));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .tagline{margin-top:14px;font-size:13px;letter-spacing:.26em;color:rgba(205,228,255,.62);font-weight:600}
+  .opts{display:flex;flex-direction:column;gap:8px;margin:20px auto 18px;max-width:500px}
+  .opt-row{display:flex;align-items:center;gap:10px}
+  .opt-label{flex:none;width:32px;text-align:right;font-size:10px;letter-spacing:.14em;
+    color:rgba(170,205,240,.48);font-weight:800}
+  .chips{display:flex;gap:7px;flex-wrap:wrap;flex:1;justify-content:flex-start}
+  .chip{
+    display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;cursor:pointer;
+    border:1px solid rgba(140,200,255,.18);background:rgba(10,16,30,.55);color:rgba(215,236,255,.66);
+    font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.06em;transition:all .16s ease;
+  }
+  .chip i{display:block;width:9px;height:9px;border-radius:50%;background:var(--chip);box-shadow:0 0 12px var(--chip)}
+  .chip:hover{border-color:rgba(160,225,255,.45);color:#fff;transform:translateY(-1px)}
+  .chip.active{border-color:var(--chip,var(--cyan));color:#fff;background:rgba(255,255,255,.07);
+    box-shadow:0 0 22px -7px var(--chip,var(--cyan))}
+  .vol{-webkit-appearance:none;appearance:none;width:170px;height:4px;border-radius:3px;
+    background:linear-gradient(90deg,rgba(49,231,255,.65),rgba(140,200,255,.18));outline:none;cursor:pointer}
+  .vol::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;
+    background:#dff8ff;box-shadow:0 0 14px var(--cyan);cursor:pointer}
+  .vol::-moz-range-thumb{width:15px;height:15px;border:0;border-radius:50%;background:#dff8ff;
+    box-shadow:0 0 14px var(--cyan);cursor:pointer}
+  .vol-val{font-size:11px;font-weight:800;letter-spacing:.06em;color:rgba(200,235,255,.75);width:24px}
+
+  .btn-primary{
+    position:relative;display:inline-flex;align-items:center;gap:12px;
+    padding:17px 58px;border-radius:999px;border:0;cursor:pointer;
+    font-family:inherit;font-size:19px;font-weight:900;letter-spacing:.24em;color:#0a0710;
+    background:linear-gradient(100deg,var(--cyan),#b8f5ff 40%,var(--theme));
+    box-shadow:0 0 42px -8px var(--cyan),0 14px 34px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.7);
+    transition:transform .14s ease,box-shadow .2s ease;
+  }
+  .btn-primary span{font-size:16px;transition:transform .2s ease}
+  .btn-primary:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 0 60px -6px var(--cyan),0 18px 40px rgba(0,0,0,.55)}
+  .btn-primary:hover span{transform:translateX(5px)}
+  .btn-primary:active{transform:scale(.98)}
+  .ghost{
+    padding:14px 30px;border-radius:999px;cursor:pointer;font-family:inherit;
+    border:1px solid rgba(140,200,255,.24);background:rgba(10,16,30,.5);color:rgba(220,238,255,.82);
+    font-size:14px;font-weight:700;letter-spacing:.16em;transition:all .18s ease;
+  }
+  .ghost:hover{background:rgba(49,231,255,.12);border-color:rgba(49,231,255,.5)}
+
+  .keys{display:flex;gap:22px;justify-content:center;flex-wrap:wrap;margin-top:34px;font-size:12px;color:rgba(190,220,255,.55)}
+  .keys>div{display:flex;align-items:center;gap:6px}
+  .keys kbd{font-family:inherit;font-size:11px;font-weight:700;color:rgba(225,242,255,.85);
+    padding:4px 7px;border-radius:6px;border:1px solid rgba(140,200,255,.26);background:rgba(255,255,255,.05);
+    box-shadow:0 2px 0 rgba(0,0,0,.4)}
+  .foot{margin-top:20px;font-size:11px;letter-spacing:.14em;color:rgba(150,190,230,.4)}
+  .mobile-hint{display:none;margin-top:22px;font-size:12px;letter-spacing:.16em;color:rgba(180,215,245,.55)}
+  body.touch .mobile-hint{display:block}
+  body.touch .keys{display:none}
+  body.touch .foot{display:none}
+
+  .card{width:min(560px,100%);padding:34px 34px 30px;border-radius:24px;
+    background:linear-gradient(180deg,rgba(14,20,38,.92),rgba(6,9,18,.92));
+    border:1px solid rgba(126,200,255,.18);box-shadow:0 30px 90px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.07);
+    text-align:center;animation:popIn .4s cubic-bezier(.2,1.3,.4,1)}
+  @keyframes popIn{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+  .rk{display:flex;align-items:baseline;justify-content:center;line-height:.9;margin-bottom:6px}
+  .rk span{font-size:96px;font-weight:900;letter-spacing:-.05em;
+    background:linear-gradient(180deg,#fff,#ffe45c 60%,#ff9d2e);-webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 34px rgba(255,200,60,.45))}
+  .rk small{font-size:22px;font-weight:900;color:rgba(255,220,120,.6);margin-left:4px}
+  .card h2{margin:2px 0 6px;font-size:28px;font-weight:900;letter-spacing:.1em}
+  .r-meta{font-size:11px;letter-spacing:.2em;color:rgba(170,205,240,.5);margin-bottom:22px}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:26px}
+  .stat{padding:13px 10px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(126,200,255,.12)}
+  .stat span{display:block;font-size:10px;letter-spacing:.2em;color:rgba(170,205,240,.55);font-weight:700;margin-bottom:5px}
+  .stat b{font-size:21px;font-weight:800;font-variant-numeric:tabular-nums}
+  .stat b.best{color:#ffe45c;text-shadow:0 0 18px rgba(255,228,92,.4)}
+  .btn-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .record{display:inline-block;margin-bottom:16px;padding:5px 14px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.2em;
+    color:#0a0710;background:linear-gradient(90deg,#ffe45c,#ffb02e);box-shadow:0 0 26px -4px #ffd75c}
+
+  /* ---- 关卡 / 车库 / 护盾 ---- */
+  #start{align-items:flex-start;overflow-y:auto}
+  .site-back{position:absolute;left:20px;top:20px;z-index:30;display:inline-flex;align-items:center;gap:7px;
+    padding:9px 15px;border-radius:999px;border:1px solid rgba(120,210,255,.26);background:rgba(6,12,22,.62);
+    color:rgba(210,238,255,.78);font-size:12px;letter-spacing:.12em;text-decoration:none;
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);transition:.2s}
+  .site-back:hover{color:#fff;border-color:rgba(49,231,255,.7);background:rgba(16,34,52,.85)}
+  .site-back-inline{display:block;margin-top:18px;text-align:center;font-size:12px;letter-spacing:.14em;
+    color:rgba(160,200,240,.6);text-decoration:none}
+  .site-back-inline:hover{color:#31e7ff}
+  #start .start-inner{margin:auto 0}
+  .hud-lv{font-size:9px;letter-spacing:.2em;color:var(--cyan);font-weight:800;margin-bottom:3px;opacity:.85}
+  .shield-chip{display:none;margin-bottom:5px;padding:4px 10px;border-radius:999px;width:max-content;
+    font-size:10px;font-weight:800;letter-spacing:.12em;color:#bff6ff;
+    border:1px solid rgba(49,231,255,.45);background:rgba(49,231,255,.12);box-shadow:0 0 20px -6px #31e7ff}
+  .shield-chip.on{display:block}
+  .shield-chip b{font-variant-numeric:tabular-nums}
+  .lv-chips{gap:5px}
+  .lvchip{position:relative;width:30px;height:30px;padding:0;border-radius:8px;cursor:pointer;
+    border:1px solid rgba(140,200,255,.18);background:rgba(10,16,30,.55);
+    color:rgba(215,236,255,.66);font-family:inherit;font-size:11px;font-weight:800;transition:all .15s}
+  .lvchip:hover{border-color:rgba(160,225,255,.5);color:#fff}
+  .lvchip.active{border-color:var(--cyan);color:#06121a;background:linear-gradient(180deg,#c8f8ff,#31e7ff);
+    box-shadow:0 0 18px -4px var(--cyan)}
+  .lvchip.locked{opacity:.42;cursor:not-allowed}
+  .lvchip.done::after{content:'';position:absolute;left:50%;bottom:4px;transform:translateX(-50%);
+    width:3px;height:3px;border-radius:50%;background:#ffe45c}
+  .chip.locked{opacity:.42;cursor:not-allowed}
+  .carchip{position:relative;padding:7px 12px}
+  .carchip.locked::after{content:'🔒';position:absolute;top:-7px;right:-5px;font-size:9px;opacity:.85}
+  .carchip.active::after{display:none}
+  .car-meta{margin:2px 0 2px 42px;padding:8px 10px;border-radius:12px;display:flex;align-items:center;gap:10px;text-align:left;
+    background:rgba(8,14,26,.45);border:1px solid rgba(126,200,255,.10)}
+  .car-info{flex:1;min-width:0}
+  #carPreview{width:146px;height:104px;flex:none;border-radius:8px;
+    background:radial-gradient(circle at 50% 62%,rgba(49,231,255,.14),transparent 72%)}
+  .car-desc{font-size:10px;letter-spacing:.08em;color:rgba(170,205,240,.55);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .car-desc b{color:#fff;font-size:11px;letter-spacing:.1em;margin-right:7px}
+  .car-stats{display:flex;gap:12px;flex-wrap:wrap}
+  .car-stats>div{display:flex;align-items:center;gap:5px;font-size:9px;letter-spacing:.06em;color:rgba(160,200,240,.5)}
+  .car-stats i{display:block;width:52px;height:5px;border-radius:3px;background:rgba(255,255,255,.08);position:relative;overflow:hidden}
+  .car-stats i::after{content:'';position:absolute;left:0;top:0;bottom:0;width:var(--w,50%);border-radius:3px;
+    background:linear-gradient(90deg,var(--cyan),#fff)}
+  .level-tip{margin-top:11px;font-size:11px;letter-spacing:.12em;color:rgba(180,215,245,.55)}
+  .level-tip b{color:#ffe45c}
+  .unlock-banner{margin:0 auto 8px;padding:9px 18px;border-radius:12px;display:block;width:max-content;
+    font-size:12px;font-weight:800;letter-spacing:.14em;color:#0a0710;
+    background:linear-gradient(90deg,#ffe45c,#ff9d2e);box-shadow:0 0 30px -6px #ffd75c}
+  #rotate{display:none;position:absolute;left:50%;top:8px;transform:translateX(-50%);z-index:40;
+    padding:5px 12px;border-radius:999px;background:rgba(8,20,34,.72);
+    border:1px solid rgba(49,231,255,.28);font-size:10px;letter-spacing:.15em;color:#bff6ff;
+    backdrop-filter:blur(6px);pointer-events:none}
+  @media (orientation:portrait) and (pointer:coarse){#rotate{display:block}}
+  #mute{
+    position:absolute;right:max(16px,env(safe-area-inset-right));top:max(16px,env(safe-area-inset-top));
+    z-index:30;width:40px;height:40px;border-radius:12px;cursor:pointer;
+    border:1px solid rgba(126,200,255,.18);background:rgba(8,14,28,.55);color:rgba(210,235,255,.75);
+    font-size:15px;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);
+  }
+  #mute.on{display:flex}
+
+  body.touch .hide-touch{display:none}
+  body.touch .nitro{width:200px}
+  body.touch .tbtn{width:62px;height:62px;font-size:20px}
+  body.touch .tc-r{flex-direction:column;align-items:flex-end;gap:10px;bottom:max(90px,calc(env(safe-area-inset-bottom) + 90px))}
+  body.touch .tbtn.drift,body.touch .tbtn.nitro{width:72px;height:72px;font-size:13px}
+  body.touch .hud-br{display:none}
+  body.touch .hud-bl{bottom:max(126px,calc(env(safe-area-inset-bottom) + 126px))}
+  @media (max-width:820px){
+    .lap-panel{min-width:150px;padding:9px 13px 10px}
+    .lap{font-size:24px}.time{font-size:19px}
+    #map{width:96px;height:96px}
+    .pos span{font-size:32px}
+    .spd{font-size:40px}
+    .nitro{width:180px}
+    .keys{gap:12px;margin-top:24px}
+    .card{padding:26px 20px 24px}
+    .stats{grid-template-columns:1fr 1fr}
+    .rk span{font-size:74px}
+    #msg{font-size:20px;top:17%}
+  }
+  @media (max-width:640px){
+    .opt-label{width:28px;font-size:9px;letter-spacing:.06em}
+    .chip{font-size:11px;padding:6px 9px;gap:5px}
+    .lvchip{width:25px;height:25px;font-size:10px;border-radius:7px}
+    .lv-chips{gap:3px}
+    .carchip{padding:6px 8px}
+    .car-meta{margin-left:38px;padding:6px 8px;gap:8px}
+    #carPreview{width:104px;height:75px}
+    .car-stats{gap:8px}
+    .car-stats i{width:38px}
+    .opts{gap:7px;margin:14px auto 14px}
+    .level-tip{font-size:10px;margin-top:8px}
+  }
+  @media (max-height:820px) and (min-width:641px){
+    h1{font-size:clamp(46px,7.6vw,78px)}
+    .tagline{margin-top:8px}
+    .tag{margin-bottom:10px}
+    .opts{margin:12px auto 12px;gap:6px}
+    #carPreview{width:104px;height:75px}
+    .car-meta{padding:6px 9px;margin-top:0;margin-bottom:0}
+    .car-stats{gap:8px}
+    .car-stats i{width:42px}
+    .btn-primary{padding:14px 48px;font-size:17px}
+    .keys{margin-top:18px}
+    .foot{margin-top:10px}
+    .level-tip{margin-top:8px}
+  }
+  @media (max-height:520px){
+    h1{font-size:48px}.tagline{margin-top:8px}.opts{margin:14px auto 12px}
+    .btn-primary{padding:13px 40px;font-size:16px}.keys{margin-top:16px}.foot{display:none}
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <canvas id="game"></canvas>
+  <div id="glow"></div>
+  <div id="scan"></div>
+
+  <div id="hud">
+    <div class="hud-tl">
+      <div class="panel lap-panel">
+        <div class="hud-lv" id="hudLv">LEVEL 1</div>
+        <div class="lap-row"><span class="k">LAP</span><span id="lap" class="lap">1</span><span class="k dim" id="lapTotal">/ 3</span></div>
+        <div class="lap-track"><i id="lapFill"></i></div>
+        <div class="time" id="time">0:00.00</div>
+        <div class="sub">最佳单圈 <b id="best">--:--.--</b></div>
+      </div>
+    </div>
+
+    <div class="hud-tr">
+      <div class="panel pos-panel">
+        <div class="pos"><span id="pos">6</span><small>/ 6</small></div>
+        <canvas id="map" width="264" height="264"></canvas>
+      </div>
+    </div>
+
+    <div class="hud-bl">
+      <div id="shield" class="shield-chip">🛡 护盾 <b id="shieldT">0</b>s</div>
+      <div class="nitro">
+        <div class="nitro-head"><span>氮气 NITRO</span><b id="nitroPct">0%</b></div>
+        <div class="nitro-bar" id="nitroBar"><div id="nitroFill"></div></div>
+        <div class="nitro-key">按住 <kbd>SHIFT</kbd> 喷射氮气</div>
+      </div>
+      <div class="speedo"><div class="spd"><span id="speed">0</span><em>KM/H</em></div></div>
+    </div>
+
+    <div class="hud-br hide-touch">
+      <kbd>空格</kbd> 漂移 &nbsp;·&nbsp; <kbd>SHIFT</kbd> 氮气<br>
+      <kbd>ESC</kbd> 暂停
+    </div>
+  </div>
+
+  <div id="msg"></div>
+  <div id="countdown"></div>
+
+  <div id="touch">
+    <div class="tc-l">
+      <button class="tbtn" data-act="left">◀</button>
+      <button class="tbtn" data-act="right">▶</button>
+    </div>
+    <div class="tc-r">
+      <button class="tbtn drift" data-act="drift">漂移</button>
+      <button class="tbtn nitro" data-act="nitro">氮气</button>
+    </div>
+  </div>
+
+  <button id="mute" title="声音开关">🔊</button>
+  <div id="rotate">↻ 横屏体验更佳</div>
+
+  <div id="start" class="overlay">
+    <a class="site-back" href="../index.html">← 返回作品</a>
+    <div class="start-inner">
+      <div class="tag">NEON ARCADE RACING · <b id="lvTag">LEVEL 1</b></div>
+      <h1>极速<span>飞车</span></h1>
+      <div class="tagline" id="lvName">霓虹起步 · 2 圈</div>
+
+      <div class="opts">
+        <div class="opt-row">
+          <span class="opt-label">关卡</span>
+          <div class="chips lv-chips" id="lvChips"></div>
+        </div>
+        <div class="opt-row">
+          <span class="opt-label">赛车</span>
+          <div class="chips" id="carChips"></div>
+        </div>
+        <div class="car-meta">
+          <div class="car-info">
+          <div class="car-desc"><b id="carName">疾风</b><span id="carDesc">均衡 · 新手之友</span></div>
+          <div class="car-stats" id="carStats">
+            <div><span>极速</span><i data-k="speed"></i></div>
+            <div><span>加速</span><i data-k="accel"></i></div>
+            <div><span>操控</span><i data-k="grip"></i></div>
+            <div><span>氮气</span><i data-k="nitro"></i></div>
+          </div>
+          </div>
+          <canvas id="carPreview" width="300" height="214"></canvas>
+        </div>
+        <div class="opt-row">
+          <span class="opt-label">车手</span>
+          <div class="chips">
+            <button class="chip driver active" data-driver="female" style="--chip:#ff7aa8">👩 美女车手</button>
+            <button class="chip driver" data-driver="male" style="--chip:#6fc7ff">👨 帅哥车手</button>
+          </div>
+        </div>
+        <div class="opt-row">
+          <span class="opt-label">霓虹</span>
+          <div class="chips">
+            <button class="chip theme active" data-theme="blaze" style="--chip:#ff2e63"><i></i>烈焰</button>
+            <button class="chip theme" data-theme="frost" style="--chip:#31e7ff"><i></i>极光</button>
+            <button class="chip theme" data-theme="venom" style="--chip:#a6ff3d"><i></i>毒液</button>
+          </div>
+        </div>
+        <div class="opt-row">
+          <span class="opt-label">音乐</span>
+          <div class="chips" id="musicChips"></div>
+        </div>
+        <div class="opt-row">
+          <span class="opt-label">音量</span>
+          <div class="chips" style="align-items:center">
+            <input id="vol" class="vol" type="range" min="0" max="100" step="1" value="72" aria-label="音量">
+            <span id="volVal" class="vol-val">72</span>
+          </div>
+        </div>
+      </div>
+
+      <button id="btnStart" class="btn-primary">开始比赛 <span>→</span></button>
+      <div class="level-tip" id="levelTip"></div>
+
+      <div class="keys">
+        <div><kbd>W</kbd><kbd>↑</kbd> 加速</div>
+        <div><kbd>S</kbd><kbd>↓</kbd> 刹车</div>
+        <div><kbd>A</kbd><kbd>D</kbd> 转向</div>
+        <div><kbd>空格</kbd> 漂移</div>
+        <div><kbd>SHIFT</kbd> 氮气</div>
+      </div>
+      <div class="foot">漂移蓄氮气 · 吃加速带 · 躲开香蕉皮 · 前三名解锁新车</div>
+      <div class="mobile-hint">左侧转向 · 右侧漂移/氮气 · 自动加速</div>
+    </div>
+  </div>
+
+  <div id="result" class="overlay hidden">
+    <div class="card">
+      <div class="rk"><span id="rRank">1</span><small id="rSuffix">ST</small></div>
+      <h2 id="rTitle">冠军！</h2>
+      <div id="rMeta" class="r-meta"></div>
+      <div id="rUnlock" class="unlock-banner" style="display:none"></div>
+      <div id="rRecord" class="record" style="display:none">新纪录 · NEW RECORD</div>
+      <div class="stats">
+        <div class="stat"><span>总用时</span><b id="rTime">0:00.00</b></div>
+        <div class="stat"><span>最快单圈</span><b class="best" id="rBest">--:--.--</b></div>
+        <div class="stat"><span>最高时速</span><b id="rTop">0</b></div>
+        <div class="stat"><span>完美漂移</span><b id="rPerfect">0</b></div>
+      </div>
+      <div class="btn-row">
+        <button id="btnNext" class="btn-primary" style="padding:15px 34px;font-size:16px">下一关 →</button>
+        <button id="btnAgain" class="ghost">再来一次</button>
+        <button id="btnMenu" class="ghost">返回标题</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="pause" class="overlay hidden">
+    <div class="card" style="max-width:400px">
+      <h2 style="margin-bottom:8px">已暂停</h2>
+      <div style="font-size:12px;letter-spacing:.18em;color:rgba(170,205,240,.5);margin-bottom:26px">PAUSED</div>
+      <div class="btn-row">
+        <button id="btnResume" class="btn-primary" style="padding:15px 38px;font-size:16px">继续</button>
+        <button id="btnQuit" class="ghost">退出比赛</button>
+      </div>
+      <a class="site-back-inline" href="../index.html">← 返回作品页</a>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+/* =========================================================
+   极速飞车 · NEON DRIFT
+   伪 3D 投影街机赛车 / 单文件 / 无外部资源
+   ========================================================= */
+
+const $ = (s) => document.querySelector(s);
+const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
+const lerp = (a, b, t) => a + (b - a) * t;
+const TAU = Math.PI * 2;
+const STEP = 1 / 120;
+const IS_TOUCH = (matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window);
+
+const CFG = {
+  SEG: 200,          // 单段长度
+  ROAD_W: 2200,      // 路面宽度
+  DRAW: 200,         // 绘制段数
+  CAM_H: 1150,       // 相机高度
+  CAM_BACK: 1150,    // 相机在车后的距离
+  FOV: 108,
+  FOG: 0.000036,
+  MAX: 4800,         // 基础极速
+  BOOST: 7000,       // 氮气极速
+  ACCEL: 2350,
+  BRAKE: 8200,
+  OFF_MAX: 2600,
+  OFF_DRAG: 2400,
+  STEER: 980,
+  LAPS: 3,
+  AI_START: [1600, 2150, 2700, 3250, 3800],
+};
+
+/* ---------------- 赛车 / 关卡 / 存档 ---------------- */
+const CARS = [
+  { id:'gale', name:'疾风', tag:'新手', body:'#eef8ff', body2:'#8fd3ff', trim:'#0b4f6e', shape:0, wing:0, decal:0,
+    stats:{ speed:1.00, accel:1.00, grip:1.00, nitro:1.00 }, desc:'均衡 · 新手之友', unlock:null },
+  { id:'blaze', name:'烈焰', tag:'爆发', body:'#ff4a2e', body2:'#ffb03a', trim:'#6e1210', shape:1, wing:2, decal:1,
+    stats:{ speed:1.03, accel:1.09, grip:0.99, nitro:1.05 }, desc:'起步爆发强', unlock:{ level:2, rank:3 } },
+  { id:'phantom', name:'幻影', tag:'操控', body:'#8a5cff', body2:'#4a2a9a', trim:'#241040', shape:2, wing:1, decal:2,
+    stats:{ speed:1.03, accel:1.02, grip:1.11, nitro:1.03 }, desc:'弯道幽灵 · 操控极佳', unlock:{ level:4, rank:3 } },
+  { id:'thunder', name:'雷霆', tag:'极速', body:'#2f7cff', body2:'#00d4ff', trim:'#08245e', shape:1, wing:2, decal:0,
+    stats:{ speed:1.085, accel:1.01, grip:0.97, nitro:1.05 }, desc:'直线怪兽', unlock:{ level:6, rank:3 } },
+  { id:'star', name:'星耀', tag:'全能', body:'#fff3c8', body2:'#ffc74a', trim:'#7a4d00', shape:0, wing:1, decal:2,
+    stats:{ speed:1.095, accel:1.06, grip:1.08, nitro:1.08 }, desc:'豪华全能 · 冠军座驾', unlock:{ level:8, rank:3 } },
+  { id:'god', name:'幻神', tag:'传说', body:'#ff2e63', body2:'#7b5cff', trim:'#2a0a3a', shape:2, wing:2, decal:3,
+    stats:{ speed:1.13, accel:1.12, grip:1.12, nitro:1.14 }, desc:'传说之车 · 全属性拉满', unlock:{ level:10, rank:3 } },
+];
+
+const LEVEL_NAMES = [
+  ['霓虹起步', 'NEON START', '城市边缘的暖身赛'],
+  ['落日海湾', 'SUNSET BAY', '沿海公路的长弯'],
+  ['霓虹街区', 'NEON BLOCK', '连续发夹弯出现'],
+  ['荒野峡谷', 'WILD CANYON', '起伏路面与急弯'],
+  ['午夜高架', 'MIDNIGHT HIGH', '高速S弯考验走线'],
+  ['霓虹隧道', 'NEON TUNNEL', '盲弯与窄道'],
+  ['雪山回廊', 'SNOW CORRIDOR', '长坡加连续弯'],
+  ['熔岩峡谷', 'LAVA RAVINE', '高速与险弯并存'],
+  ['天际螺旋', 'SKY SPIRAL', '一个失误就会掉队'],
+  ['霓虹之巅', 'NEON SUMMIT', '最终决战'],
+];
+
+const LEVELS = LEVEL_NAMES.map((n, i) => {
+  const lv = i + 1;
+  return {
+    id: lv, name: n[0], sub: n[1], desc: n[2],
+    laps: 2,
+    corners: 6 + Math.floor(lv * 0.55),
+    curve: 1.35 + lv * 0.24,
+    hill: 260 + lv * 120,
+    banana: 2 + lv * 2,
+    pickup: 3 + Math.floor(lv * 0.8),
+    aiBase: 3150 + lv * 165,
+    stars: Math.min(5, Math.ceil(lv / 2)),
+  };
+});
+
+const MUSIC_STYLES = [
+  { id: 'neon', name: '霓虹电子' },
+  { id: 'rock', name: '极速摇滚' },
+  { id: 'jazz', name: '午夜爵士' },
+  { id: 'off', name: '静音' },
+];
+
+const progress = {
+  unlocked: 1, cars: ['gale'], best: {}, level: 1, car: 'gale',
+  driver: 'female', theme: 'blaze', music: 'neon', vol: 0.72, mute: false,
+};
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem('neonDriftSave3');
+    if (raw) {
+      const o = JSON.parse(raw);
+      if (o && typeof o === 'object') {
+        for (const k of ['unlocked','cars','best','level','car','driver','theme','music','vol','mute']) {
+          if (o[k] !== undefined) progress[k] = o[k];
+        }
+      }
+    }
+  } catch (e) {}
+  if (!Array.isArray(progress.cars) || !progress.cars.includes('gale')) progress.cars = ['gale'];
+  progress.unlocked = Math.max(1, Math.min(10, Number(progress.unlocked) || 1));
+  if (!CARS.some(c => c.id === progress.car)) progress.car = 'gale';
+  if (!progress.cars.includes(progress.car)) progress.car = 'gale';
+}
+function saveProgress() {
+  try { localStorage.setItem('neonDriftSave3', JSON.stringify(progress)); } catch (e) {}
+}
+function store(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+function carById(id) { return CARS.find(c => c.id === id) || CARS[0]; }
+function carUnlocked(id) { return progress.cars.includes(id); }
+
+let levelIdx = 1;
+let carId = 'gale';
+let activeLevel = LEVELS[0];
+let activeCar = CARS[0];
+let race = {
+  maxSpeed: CFG.MAX, accel: CFG.ACCEL, steer: CFG.STEER, boostAdd: 2200,
+  drain: 33, fill: 21, offMax: 2600, offDrag: 2400, dmg: 0.25, laps: 2, aiBase: 3300,
+};
+
+const THEMES = {
+  blaze: { body: '#ff2e63', accent: '#ffd166', trim: '#8a0f2e', glow: '#ff2e63', css: '#ff2e63' },
+  frost: { body: '#31e7ff', accent: '#d6f7ff', trim: '#0a6d8e', glow: '#31e7ff', css: '#31e7ff' },
+  venom: { body: '#a6ff3d', accent: '#f2ffb8', trim: '#3f7a08', glow: '#a6ff3d', css: '#a6ff3d' },
+};
+
+/* ---------------- 画布 ---------------- */
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d', { alpha: false });
+const view = { w: 0, h: 0, dpr: 1, horizonY: 0, fov: 1, cx: 0, first: 0, sh: 0, base: 0, baseIdx: 0 };
+let skyGrad = null;
+
+function resize() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const w = window.innerWidth, h = window.innerHeight;
+  view.w = w; view.h = h; view.dpr = dpr;
+  view.horizonY = Math.round(h * 0.365);
+  view.fov = 1 / Math.tan((CFG.FOV / 2) * Math.PI / 180);
+  canvas.width = Math.round(w * dpr);
+  canvas.height = Math.round(h * dpr);
+  canvas.style.width = w + 'px';
+  canvas.style.height = h + 'px';
+  skyGrad = null;
+  initStars();
+}
+
+/* ---------------- 工具 ---------------- */
+function rr(g, x, y, w, h, r) {
+  r = Math.min(r, w / 2, h / 2);
+  g.beginPath();
+  g.moveTo(x + r, y);
+  g.arcTo(x + w, y, x + w, y + h, r);
+  g.arcTo(x + w, y + h, x, y + h, r);
+  g.arcTo(x, y + h, x, y, r);
+  g.arcTo(x, y, x + w, y, r);
+  g.closePath();
+}
+function fmtTime(sec) {
+  sec = Math.max(0, sec);
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+  const cs = Math.floor((sec * 100) % 100);
+  return m + ':' + String(s).padStart(2, '0') + '.' + String(cs).padStart(2, '0');
+}
+function fmtBest(sec) {
+  return sec > 0 ? fmtTime(sec) : '--:--.--';
+}
+
+/* ---------------- 音效：引擎 / 油门 / 刹车 / 漂移 / 氮气 / 碰撞 ---------------- */
+const SFX = {
+  ctx: null, master: null, ready: false, muted: false, volume: 0.72, noiseBuf: null,
+  eng: null, tire: null, brk: null, wind: null, rumble: null, boost: null,
+
+  init() {
+    if (this.ctx) return;
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    const c = new AC();
+    this.ctx = c;
+
+    // 总线：压缩器防爆音
+    const comp = c.createDynamicsCompressor();
+    comp.threshold.value = -16; comp.knee.value = 22; comp.ratio.value = 5;
+    comp.attack.value = 0.004; comp.release.value = 0.28;
+    const master = c.createGain();
+    master.gain.value = this.muted ? 0 : this.volume;
+    master.connect(comp); comp.connect(c.destination);
+    this.master = master;
+
+    // 白噪声缓冲（所有气流/胎噪的来源）
+    const len = Math.floor(c.sampleRate * 2);
+    const buf = c.createBuffer(1, len, c.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    this.noiseBuf = buf;
+
+    this.buildEngine();
+    this.buildTire();
+    this.buildBrake();
+    this.buildWind();
+    this.buildRumble();
+    this.buildBoost();
+    this.ready = true;
+  },
+
+  noiseSrc() {
+    const s = this.ctx.createBufferSource();
+    s.buffer = this.noiseBuf;
+    s.loop = true;
+    s.start(0, Math.random() * 1.6);
+    return s;
+  },
+
+  /* 引擎：三个振荡器 + 进气噪声 + 滤波咆哮 */
+  buildEngine() {
+    const c = this.ctx;
+    const out = c.createGain(); out.gain.value = 0;
+    const filt = c.createBiquadFilter();
+    filt.type = 'lowpass'; filt.frequency.value = 460; filt.Q.value = 1.6;
+
+    const o1 = c.createOscillator(); o1.type = 'sawtooth'; o1.frequency.value = 50;
+    const o2 = c.createOscillator(); o2.type = 'square'; o2.frequency.value = 25;
+    const o3 = c.createOscillator(); o3.type = 'sawtooth'; o3.frequency.value = 101;
+    const g1 = c.createGain(); g1.gain.value = 0.55;
+    const g2 = c.createGain(); g2.gain.value = 0.30;
+    const g3 = c.createGain(); g3.gain.value = 0.12;
+    o1.connect(g1); o2.connect(g2); o3.connect(g3);
+    g1.connect(filt); g2.connect(filt); g3.connect(filt);
+
+    const n = this.noiseSrc();
+    const nf = c.createBiquadFilter();
+    nf.type = 'bandpass'; nf.frequency.value = 900; nf.Q.value = 0.7;
+    const ng = c.createGain(); ng.gain.value = 0.16;
+    n.connect(nf); nf.connect(ng); ng.connect(filt);
+
+    filt.connect(out); out.connect(this.master);
+
+    // 低频颤动
+    const lfo = c.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 9;
+    const lg = c.createGain(); lg.gain.value = 40;
+    lfo.connect(lg); lg.connect(filt.frequency);
+
+    o1.start(); o2.start(); o3.start(); lfo.start();
+    this.eng = { out, filt, o1, o2, o3, nf, ng, lfo, lg };
+  },
+
+  /* 漂移胎噪 */
+  buildTire() {
+    const c = this.ctx;
+    const out = c.createGain(); out.gain.value = 0;
+    const n1 = this.noiseSrc();
+    const b1 = c.createBiquadFilter();
+    b1.type = 'bandpass'; b1.frequency.value = 1700; b1.Q.value = 5.5;
+    const g1 = c.createGain(); g1.gain.value = 0.75;
+    n1.connect(b1); b1.connect(g1); g1.connect(out);
+
+    const n2 = this.noiseSrc();
+    const b2 = c.createBiquadFilter();
+    b2.type = 'bandpass'; b2.frequency.value = 3100; b2.Q.value = 8;
+    const g2 = c.createGain(); g2.gain.value = 0.32;
+    n2.connect(b2); b2.connect(g2); g2.connect(out);
+
+    const lfo = c.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 6.5;
+    const lg = c.createGain(); lg.gain.value = 190;
+    lfo.connect(lg); lg.connect(b1.frequency);
+    lfo.start();
+
+    out.connect(this.master);
+    this.tire = { out, b1, b2 };
+  },
+
+  /* 刹车尖啸 */
+  buildBrake() {
+    const c = this.ctx;
+    const out = c.createGain(); out.gain.value = 0;
+    const n = this.noiseSrc();
+    const bp = c.createBiquadFilter();
+    bp.type = 'bandpass'; bp.frequency.value = 2650; bp.Q.value = 9;
+    const ng = c.createGain(); ng.gain.value = 0.85;
+    n.connect(bp); bp.connect(ng); ng.connect(out);
+
+    const o = c.createOscillator(); o.type = 'sine'; o.frequency.value = 2380;
+    const og = c.createGain(); og.gain.value = 0.045;
+    o.connect(og); og.connect(out);
+    const lfo = c.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 5.2;
+    const lg = c.createGain(); lg.gain.value = 70;
+    lfo.connect(lg); lg.connect(o.frequency);
+    o.start(); lfo.start();
+
+    out.connect(this.master);
+    this.brk = { out, bp, o };
+  },
+
+  /* 风噪 */
+  buildWind() {
+    const c = this.ctx;
+    const n = this.noiseSrc();
+    const hp = c.createBiquadFilter();
+    hp.type = 'highpass'; hp.frequency.value = 850; hp.Q.value = 0.5;
+    const out = c.createGain(); out.gain.value = 0;
+    n.connect(hp); hp.connect(out); out.connect(this.master);
+    this.wind = { out, hp };
+  },
+
+  /* 草地颠簸 */
+  buildRumble() {
+    const c = this.ctx;
+    const n = this.noiseSrc();
+    const lp = c.createBiquadFilter();
+    lp.type = 'lowpass'; lp.frequency.value = 190; lp.Q.value = 1.2;
+    const out = c.createGain(); out.gain.value = 0;
+    n.connect(lp); lp.connect(out); out.connect(this.master);
+    this.rumble = { out, lp };
+  },
+
+  /* 氮气喷射底噪 */
+  buildBoost() {
+    const c = this.ctx;
+    const n = this.noiseSrc();
+    const bp = c.createBiquadFilter();
+    bp.type = 'bandpass'; bp.frequency.value = 1150; bp.Q.value = 0.55;
+    const g = c.createGain(); g.gain.value = 0.9;
+    n.connect(bp); bp.connect(g);
+    const out = c.createGain(); out.gain.value = 0;
+    g.connect(out);
+    const o = c.createOscillator(); o.type = 'sawtooth'; o.frequency.value = 88;
+    const og = c.createGain(); og.gain.value = 0.16;
+    o.connect(og); og.connect(out);
+    o.start();
+    out.connect(this.master);
+    this.boost = { out, bp, o };
+  },
+
+  resume() {
+    if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
+  },
+
+  /* 每帧驱动所有持续音 */
+  drive(s) {
+    if (!this.ready) return;
+    const t = this.ctx.currentTime;
+    const r = Math.max(0, Math.min(1, s.ratio || 0));
+    const active = !!s.active;
+    const e = this.eng;
+
+    // 5 挡模拟：每挡内转速上升，换挡时回落
+    const gpos = Math.min(4.999, r * 5);
+    const gear = Math.floor(gpos);
+    const rev = gpos - gear;
+    const f = 40 + rev * 58 + gear * 10 + (s.throttle ? 6 : 0);
+    if (active && this.lastGear !== undefined && gear > this.lastGear) this.gearShift();
+    if (active) this.lastGear = gear;
+
+    e.o1.frequency.setTargetAtTime(f, t, 0.09);
+    e.o2.frequency.setTargetAtTime(f * 0.5, t, 0.09);
+    e.o3.frequency.setTargetAtTime(f * 2.01, t, 0.09);
+    e.filt.frequency.setTargetAtTime(300 + r * 2400 + (s.throttle ? 260 : 0), t, 0.1);
+    e.lfo.frequency.setTargetAtTime(f * 0.42, t, 0.12);
+    e.lg.gain.setTargetAtTime(14 + r * 80, t, 0.12);
+    e.nf.frequency.setTargetAtTime(700 + r * 1500, t, 0.12);
+    e.out.gain.setTargetAtTime(active ? 0.03 + (s.throttle ? 0.042 : 0) + r * 0.034 : 0, t, 0.14);
+
+    this.tire.out.gain.setTargetAtTime(active && s.drifting ? 0.055 + r * 0.07 : 0, t, 0.06);
+    this.tire.b1.frequency.setTargetAtTime(1380 + Math.abs(s.steer || 0) * 620, t, 0.1);
+
+    this.brk.out.gain.setTargetAtTime(active && s.braking ? Math.min(0.11, 0.035 + r * 0.08) : 0, t, 0.07);
+
+    this.wind.out.gain.setTargetAtTime(active ? r * r * 0.05 : 0, t, 0.15);
+
+    this.rumble.out.gain.setTargetAtTime(active && s.offroad ? 0.07 + r * 0.08 : 0, t, 0.08);
+
+    this.boost.out.gain.setTargetAtTime(active && s.boosting ? 0.075 : 0, t, 0.1);
+    this.boost.bp.frequency.setTargetAtTime(900 + r * 700, t, 0.2);
+  },
+
+  /* 单次音 */
+  tone(f0, f1, dur, vol, type, delay) {
+    if (!this.ready || this.muted) return;
+    const c = this.ctx, t = c.currentTime + (delay || 0);
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = type || 'sine';
+    o.frequency.setValueAtTime(Math.max(20, f0), t);
+    if (f1 && f1 !== f0) o.frequency.exponentialRampToValueAtTime(Math.max(20, f1), t + dur);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(Math.max(0.001, vol || 0.05), t + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(this.master);
+    o.start(t); o.stop(t + dur + 0.04);
+  },
+
+  noiseHit(dur, vol, f0, f1, type, q, delay) {
+    if (!this.ready || this.muted) return;
+    const c = this.ctx, t = c.currentTime + (delay || 0);
+    const src = c.createBufferSource(); src.buffer = this.noiseBuf;
+    const f = c.createBiquadFilter();
+    f.type = type || 'bandpass'; f.Q.value = q == null ? 1 : q;
+    f.frequency.setValueAtTime(Math.max(40, f0), t);
+    if (f1) f.frequency.exponentialRampToValueAtTime(Math.max(40, f1), t + dur);
+    const g = c.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(Math.max(0.001, vol), t + 0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    src.connect(f); f.connect(g); g.connect(this.master);
+    src.start(t); src.stop(t + dur + 0.04);
+  },
+
+  /* —— 动作音 —— */
+  throttleOn() {
+    this.tone(82, 150, 0.2, 0.045, 'sawtooth');
+    this.noiseHit(0.24, 0.055, 320, 1500, 'bandpass', 0.8);
+  },
+  brakeOn() {
+    this.noiseHit(0.14, 0.05, 3600, 2100, 'bandpass', 3);
+    this.tone(2100, 1450, 0.16, 0.022, 'sine');
+  },
+  driftStart() {
+    this.noiseHit(0.3, 0.085, 800, 3400, 'bandpass', 1.2);
+  },
+  nitro() {
+    this.noiseHit(0.85, 0.16, 220, 4200, 'bandpass', 0.7);
+    this.tone(150, 52, 0.6, 0.1, 'sine');
+    this.tone(520, 1500, 0.5, 0.028, 'sawtooth');
+  },
+  crash() {
+    this.noiseHit(0.34, 0.2, 1900, 240, 'lowpass', 1);
+    this.tone(155, 50, 0.34, 0.15, 'sine');
+    this.noiseHit(0.1, 0.075, 4200, 2400, 'highpass', 1);
+  },
+  offroadHit() {
+    this.noiseHit(0.2, 0.08, 320, 110, 'lowpass', 1);
+    this.tone(95, 58, 0.16, 0.06, 'sine');
+  },
+  lapChime() {
+    this.tone(660, 660, 0.12, 0.055, 'triangle');
+    this.tone(990, 990, 0.18, 0.05, 'triangle', 0.11);
+  },
+  perfect() {
+    this.tone(880, 880, 0.1, 0.05, 'triangle');
+    this.tone(1174, 1174, 0.1, 0.05, 'triangle', 0.08);
+    this.tone(1568, 1568, 0.2, 0.045, 'triangle', 0.16);
+  },
+  goodDrift() {
+    this.tone(760, 760, 0.09, 0.04, 'triangle');
+    this.tone(1010, 1010, 0.12, 0.035, 'triangle', 0.07);
+  },
+  countBeep(n) { this.tone(n > 1 ? 440 : 520, n > 1 ? 440 : 520, 0.15, 0.07, 'square'); },
+  go() {
+    this.tone(880, 1320, 0.3, 0.09, 'square');
+    this.noiseHit(0.36, 0.09, 500, 3000, 'bandpass', 0.8);
+  },
+  finish() {
+    this.tone(660, 660, 0.14, 0.06, 'triangle');
+    this.tone(880, 880, 0.14, 0.06, 'triangle', 0.13);
+    this.tone(1320, 1320, 0.44, 0.06, 'triangle', 0.26);
+  },
+  click() { this.tone(1180, 1480, 0.045, 0.028, 'triangle'); },
+  gearShift() {
+    this.noiseHit(0.09, 0.045, 900, 260, 'lowpass', 1);
+    this.tone(200, 130, 0.07, 0.028, 'square');
+  },
+  warn() { this.tone(230, 180, 0.16, 0.05, 'square'); },
+  banana() {
+    this.tone(430, 120, 0.38, 0.08, 'triangle');
+    this.tone(300, 80, 0.32, 0.05, 'square', 0.05);
+    this.noiseHit(0.16, 0.05, 900, 200, 'bandpass', 1);
+  },
+  pickupBoost() {
+    this.tone(520, 1040, 0.18, 0.06, 'triangle');
+    this.tone(780, 1560, 0.16, 0.04, 'sine', 0.05);
+    this.noiseHit(0.22, 0.05, 400, 2600, 'bandpass', 0.8);
+  },
+  pickupNitro() {
+    this.tone(720, 1180, 0.16, 0.05, 'sine');
+    this.tone(1080, 1480, 0.14, 0.035, 'sine', 0.06);
+  },
+  pickupShield() {
+    this.tone(560, 900, 0.2, 0.05, 'sine');
+    this.tone(900, 1320, 0.22, 0.04, 'sine', 0.08);
+  },
+  shieldBreak() {
+    this.noiseHit(0.22, 0.08, 2600, 600, 'bandpass', 1.4);
+    this.tone(320, 120, 0.22, 0.05, 'square');
+  },
+
+  setVolume(v) {
+    this.volume = Math.max(0, Math.min(1, v));
+    if (this.master) this.master.gain.value = this.muted ? 0 : this.volume;
+  },
+  toggle() {
+    this.muted = !this.muted;
+    if (this.master) this.master.gain.value = this.muted ? 0 : this.volume;
+    return this.muted;
+  },
+
+  // 兼容旧调用
+  blip(f, d, ty, v) { this.tone(f, f, d || 0.08, v || 0.05, ty || 'square'); },
+  noise(d, v, f0, f1) { this.noiseHit(d, v, f0, f1); },
+};
+
+/* ---------------- 背景音乐（3 种风格 · 实时合成） ---------------- */
+const Music = {
+  gain: null, delay: null, delayIn: null, timer: null, step: 0, nextTime: 0,
+  style: 'neon', cfg: null, playing: false,
+  defs: {
+    neon: {
+      bpm: 104, bassVol: 0.115, arpVol: 0.055, drumVol: 0.09,
+      arpType: 'square', bassType: 'sawtooth',
+      chords: [[45, 48, 52], [41, 45, 48], [48, 52, 55], [43, 47, 50]],
+    },
+    rock: {
+      bpm: 142, bassVol: 0.125, arpVol: 0.042, drumVol: 0.12,
+      arpType: 'sawtooth', bassType: 'square',
+      chords: [[40, 47, 52], [43, 50, 55], [45, 52, 57], [38, 45, 50]],
+    },
+    jazz: {
+      bpm: 88, bassVol: 0.105, arpVol: 0.05, drumVol: 0.055,
+      arpType: 'sine', bassType: 'triangle',
+      chords: [[41, 45, 48, 52], [40, 43, 47, 50], [38, 41, 45, 48], [43, 47, 50, 53]],
+    },
+  },
+  init() {
+    if (this.gain || !SFX.ready) return;
+    const c = SFX.ctx;
+    const g = c.createGain();
+    g.gain.value = 0;
+    g.connect(SFX.master);
+    this.gain = g;
+    const d = c.createDelay(1);
+    const fb = c.createGain(); fb.gain.value = 0.2;
+    const wet = c.createGain(); wet.gain.value = 0.32;
+    d.connect(fb); fb.connect(d); d.connect(wet); wet.connect(g);
+    this.delay = d;
+    this.delayIn = c.createGain();
+    this.delayIn.gain.value = 0.45;
+    this.delayIn.connect(d);
+  },
+  setStyle(id) {
+    this.style = id;
+    if (id === 'off') { this.stop(); return; }
+    this.init();
+    if (!this.gain || !SFX.ctx) return;
+    this.cfg = this.defs[id] || this.defs.neon;
+    this.step = 0;
+    this.nextTime = SFX.ctx.currentTime + 0.08;
+    if (this.delay) this.delay.delayTime.value = (60 / this.cfg.bpm) * 0.75;
+    this.gain.gain.setTargetAtTime(0.72, SFX.ctx.currentTime, 0.4);
+    if (!this.timer) this.timer = setInterval(() => this.tick(), 25);
+    this.playing = true;
+  },
+  stop() {
+    if (this.timer) { clearInterval(this.timer); this.timer = null; }
+    if (this.gain && SFX.ctx) this.gain.gain.setTargetAtTime(0.0001, SFX.ctx.currentTime, 0.15);
+    this.playing = false;
+  },
+  duck(v) {
+    if (this.gain && SFX.ctx) this.gain.gain.setTargetAtTime(v, SFX.ctx.currentTime, 0.6);
+  },
+  tick() {
+    if (!SFX.ctx || !this.gain || !this.cfg) return;
+    const c = SFX.ctx;
+    if (this.nextTime < c.currentTime - 0.4) this.nextTime = c.currentTime + 0.05;
+    const spb = (60 / this.cfg.bpm) / 4;
+    let guard = 0;
+    while (this.nextTime < c.currentTime + 0.2 && guard++ < 40) {
+      this.playStep(this.step, this.nextTime);
+      this.nextTime += spb;
+      this.step = (this.step + 1) % 64;
+    }
+  },
+  mtof(m) { return 440 * Math.pow(2, (m - 69) / 12); },
+  playStep(step, t) {
+    const cfg = this.cfg;
+    const bar = Math.floor(step / 16) % 4;
+    const s = step % 16;
+    const chord = cfg.chords[bar];
+    if (s === 0 || s === 6 || s === 10) this.kick(t, cfg.drumVol);
+    if (s === 4 || s === 12) this.snare(t, cfg.drumVol * 0.85);
+    if (s % 2 === 1) this.hat(t, cfg.drumVol * 0.22);
+    if (s % 2 === 0) {
+      const n = chord[0] - 12 + (s === 8 ? 7 : 0);
+      this.bass(t, this.mtof(n), 0.26, cfg.bassVol, cfg.bassType);
+    }
+    if (s % 2 === 0) {
+      const n = chord[(s / 2) % chord.length] + 12 + (bar % 2 ? 12 : 0);
+      this.arp(t, this.mtof(n), 0.18, cfg.arpVol, cfg.arpType);
+    }
+  },
+  kick(t, vol) {
+    const c = SFX.ctx, o = c.createOscillator(), g = c.createGain();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(150, t);
+    o.frequency.exponentialRampToValueAtTime(44, t + 0.11);
+    g.gain.setValueAtTime(vol * 1.5, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.24);
+    o.connect(g); g.connect(this.gain);
+    o.start(t); o.stop(t + 0.26);
+  },
+  snare(t, vol) {
+    const c = SFX.ctx;
+    const src = c.createBufferSource(); src.buffer = SFX.noiseBuf;
+    const f = c.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = 1300;
+    const g = c.createGain();
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.16);
+    src.connect(f); f.connect(g); g.connect(this.gain);
+    src.start(t); src.stop(t + 0.18);
+  },
+  hat(t, vol) {
+    const c = SFX.ctx;
+    const src = c.createBufferSource(); src.buffer = SFX.noiseBuf;
+    const f = c.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = 7000;
+    const g = c.createGain();
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.045);
+    src.connect(f); f.connect(g); g.connect(this.gain);
+    src.start(t); src.stop(t + 0.06);
+  },
+  bass(t, f, dur, vol, type) {
+    const c = SFX.ctx, o = c.createOscillator(), g = c.createGain(), fl = c.createBiquadFilter();
+    o.type = type; o.frequency.value = f;
+    fl.type = 'lowpass'; fl.frequency.value = 520; fl.Q.value = 5;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(vol, t + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(fl); fl.connect(g); g.connect(this.gain);
+    o.start(t); o.stop(t + dur + 0.03);
+  },
+  arp(t, f, dur, vol, type) {
+    const c = SFX.ctx, o = c.createOscillator(), g = c.createGain(), fl = c.createBiquadFilter();
+    o.type = type; o.frequency.value = f;
+    fl.type = 'lowpass'; fl.frequency.value = 3000;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(vol, t + 0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(fl); fl.connect(g); g.connect(this.gain);
+    if (this.delayIn) g.connect(this.delayIn);
+    o.start(t); o.stop(t + dur + 0.03);
+  },
+};
+
+/* ---------------- 赛道生成（1~10 关 · 真实闭合路径） ---------------- */
+const track = { segs: [], len: 0, total: 0, items: [], level: 1, pts: [], head: [], step: CFG.SEG };
+
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+function angDiff(a) {
+  a = (a + Math.PI) % TAU;
+  if (a < 0) a += TAU;
+  return a - Math.PI;
+}
+
+function chaikin(poly, iters) {
+  let p = poly;
+  for (let it = 0; it < iters; it++) {
+    const out = [];
+    for (let i = 0; i < p.length; i++) {
+      const a = p[i], b = p[(i + 1) % p.length];
+      out.push([a[0] * 0.75 + b[0] * 0.25, a[1] * 0.75 + b[1] * 0.25]);
+      out.push([a[0] * 0.25 + b[0] * 0.75, a[1] * 0.25 + b[1] * 0.75]);
+    }
+    p = out;
+  }
+  return p;
+}
+
+function limitCurvature(pts, targetStep, maxTurn) {
+  let cur = pts;
+  for (let iter = 0; iter < 26; iter++) {
+    const res = resampleClosed(cur, targetStep);
+    cur = res.pts;
+    const n = cur.length;
+    let mx = 0;
+    for (let i = 0; i < n; i++) {
+      const a = cur[i], b = cur[(i + 1) % n], c = cur[(i + 2) % n];
+      const h1 = Math.atan2(b[0] - a[0], b[1] - a[1]);
+      const h2 = Math.atan2(c[0] - b[0], c[1] - b[1]);
+      mx = Math.max(mx, Math.abs(angDiff(h2 - h1)));
+    }
+    if (mx <= maxTurn) break;
+    const out = [];
+    for (let i = 0; i < n; i++) {
+      const a = cur[(i - 1 + n) % n], b = cur[i], c = cur[(i + 1) % n];
+      out.push([
+        a[0] * 0.22 + b[0] * 0.56 + c[0] * 0.22,
+        a[1] * 0.22 + b[1] * 0.56 + c[1] * 0.22,
+      ]);
+    }
+    cur = out;
+  }
+  return cur;
+}
+
+function resampleClosed(poly, targetStep) {
+  const n = poly.length;
+  const lens = [];
+  let total = 0;
+  for (let i = 0; i < n; i++) {
+    const a = poly[i], b = poly[(i + 1) % n];
+    const l = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    lens.push(l);
+    total += l;
+  }
+  const N = Math.max(160, Math.round(total / targetStep));
+  const step = total / N;
+  const out = [];
+  let seg = 0, acc = 0, target = 0;
+  for (let k = 0; k < N; k++) {
+    while (acc + lens[seg] < target && seg < n - 1) { acc += lens[seg]; seg++; }
+    while (seg < n - 1 && lens[seg] <= 0) seg++;
+    const a = poly[seg], b = poly[(seg + 1) % n];
+    const f = lens[seg] > 1e-6 ? (target - acc) / lens[seg] : 0;
+    out.push([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]);
+    target += step;
+  }
+  return { pts: out, step, total };
+}
+
+function buildTrack(lv) {
+  const L = LEVELS[lv - 1];
+  const rnd = mulberry32(9173 + lv * 733);
+  const baseN = 10 + (lv % 3);
+  const R = 16800 + lv * 640;
+  const teeth = Math.min(4, Math.floor(lv / 2.5));
+  const toothIdx = new Set();
+  for (let k = 0; k < teeth; k++) {
+    toothIdx.add(Math.floor((k + 0.5) * baseN / teeth) % baseN);
+  }
+
+  const poly = [];
+  for (let i = 0; i < baseN; i++) {
+    const a = (i / baseN) * TAU;
+    const j = 0.84 + rnd() * 0.28;
+    const cx = Math.cos(a), sz = Math.sin(a);
+    // 超椭圆：制造接近 90° 的转角
+    const ex = Math.sign(cx) * Math.pow(Math.abs(cx), 0.62);
+    const ez = Math.sign(sz) * Math.pow(Math.abs(sz), 0.62);
+    const px = ex * R * j, pz = ez * R * j * 0.84;
+    if (!toothIdx.has(i)) { poly.push([px, pz]); continue; }
+    // 发夹弯：向内侧深挖再折返
+    const ang = Math.atan2(pz, px);
+    const r0 = Math.hypot(px, pz);
+    const rin = r0 * (0.5 + rnd() * 0.1);
+    const half = Math.min(0.29, Math.asin(Math.min(0.72, 2200 / rin)));
+    poly.push([Math.cos(ang) * r0, Math.sin(ang) * r0 * 0.84]);
+    poly.push([Math.cos(ang - half) * rin, Math.sin(ang - half) * rin * 0.84]);
+    poly.push([Math.cos(ang + half) * rin, Math.sin(ang + half) * rin * 0.84]);
+  }
+
+  const smooth = chaikin(poly, 4);
+  const limited = limitCurvature(smooth, CFG.SEG, 0.058);
+  const res = resampleClosed(limited, CFG.SEG);
+  {
+    const ox = res.pts[0][0], oz = res.pts[0][1];
+    const h0 = Math.atan2(res.pts[1][0] - ox, res.pts[1][1] - oz);
+    const ch = Math.cos(h0), sh = Math.sin(h0);
+    res.pts = res.pts.map(([x, z]) => {
+      const dx = x - ox, dz = z - oz;
+      return [dx * ch - dz * sh, dx * sh + dz * ch];
+    });
+  }
+  const N = res.pts.length;
+  const step = res.step;
+
+  /* 坡度：整数频率保证首尾闭合；关卡越高起伏越大 */
+  const yAmp = L.hill;
+  const y = [];
+  for (let i = 0; i < N; i++) {
+    const t = i / N;
+    y.push(
+      yAmp * Math.sin(TAU * 3 * t + 0.6) +
+      yAmp * 0.42 * Math.sin(TAU * 5 * t + 2.4) +
+      yAmp * 0.18 * Math.sin(TAU * 8 * t + 4.1)
+    );
+  }
+
+  const head = [], turn = [], segs = [];
+  for (let i = 0; i < N; i++) {
+    const p = res.pts[i], q = res.pts[(i + 1) % N];
+    head.push(Math.atan2(q[0] - p[0], q[1] - p[1]));
+  }
+  for (let i = 0; i < N; i++) {
+    const t = angDiff(head[(i + 1) % N] - head[i]);
+    turn.push(t);
+    segs.push({ curve: t / 0.028, turn: t, y: y[i], sprites: [] });
+  }
+
+  track.pts = res.pts.map((p, i) => ({ x: p[0], z: p[1], y: y[i] }));
+  track.head = head;
+  track.segs = segs;
+  track.len = N;
+  track.step = step;
+  track.total = N * step;
+  track.level = lv;
+
+  /* 路边景物 */
+  for (let i = 8; i < N; i += 2) {
+    if (rnd() < 0.6) {
+      const side = rnd() < 0.5 ? -1 : 1;
+      segs[i].sprites.push({
+        kind: 'tree',
+        off: side * (CFG.ROAD_W / 2 + 540 + rnd() * 1700),
+        w: 820 + rnd() * 520, h: 1900 + rnd() * 1700, f: rnd(),
+      });
+    }
+  }
+  for (let i = 3; i < N; i += 7) {
+    segs[i].sprites.push({ kind: 'pole', off: -(CFG.ROAD_W / 2 + 95), h: 1500, f: 0.5 });
+    segs[i].sprites.push({ kind: 'pole', off: (CFG.ROAD_W / 2 + 95), h: 1500, f: 0.5 });
+  }
+  for (let i = 24; i < N; i += 38) {
+    const side = (Math.floor(i / 38) % 2) ? 1 : -1;
+    segs[i].sprites.push({
+      kind: 'board', off: side * (CFG.ROAD_W / 2 + 560),
+      h: 1150, w: 2000, f: 0.5, hue: rnd() < 0.5 ? 0 : 1,
+    });
+  }
+  if (N > 24) segs[16].sprites.push({ kind: 'banner', off: 0, h: 2000, f: 0.5 });
+
+  /* 道具 / 香蕉皮 */
+  track.items = placeItems(segs, L, rnd, step);
+}
+
+function placeItems(segs, L, rnd, step) {
+  const items = [];
+  const n = segs.length;
+  const kinds = ['boost', 'nitro', 'shield'];
+  for (let i = 0; i < L.pickup; i++) {
+    items.push({
+      type: kinds[Math.floor(rnd() * kinds.length)],
+      seg: 8 + Math.floor(rnd() * Math.max(1, n - 26)),
+      f: 0.3 + rnd() * 0.5,
+      x: (rnd() * 2 - 1) * 720,
+      active: true, cd: 0,
+    });
+  }
+  for (let i = 0; i < L.banana; i++) {
+    items.push({
+      type: 'banana',
+      seg: 12 + Math.floor(rnd() * Math.max(1, n - 30)),
+      f: 0.3 + rnd() * 0.5,
+      x: (rnd() * 2 - 1) * 820,
+      active: true, cd: 0,
+    });
+  }
+  for (const it of items) it.dist = (it.seg + it.f) * step;
+  items.sort((a, b) => a.dist - b.dist);
+  return items;
+}
+
+/* ---------------- 迷你地图（真实赛道形状） ---------------- */
+let mapPts = [];
+function buildMapPts(lv) {
+  if (!track.pts.length) { mapPts = []; return; }
+  let minX = 1e9, maxX = -1e9, minZ = 1e9, maxZ = -1e9;
+  for (const p of track.pts) {
+    if (p.x < minX) minX = p.x;
+    if (p.x > maxX) maxX = p.x;
+    if (p.z < minZ) minZ = p.z;
+    if (p.z > maxZ) maxZ = p.z;
+  }
+  const cx = (minX + maxX) / 2, cz = (minZ + maxZ) / 2;
+  const span = Math.max(maxX - minX, maxZ - minZ) || 1;
+  const S = 186 / span;
+  mapPts = [];
+  const stride = Math.max(1, Math.floor(track.len / 200));
+  for (let i = 0; i < track.len; i += stride) {
+    const p = track.pts[i];
+    mapPts.push({
+      x: 132 + (p.x - cx) * S,
+      y: 132 + (p.z - cz) * S * 0.92,
+    });
+  }
+}
+
+/* ---------------- 玩家 / AI ---------------- */
+const player = {
+  dist: 0, x: 0, camX: 0, speed: 0, yaw: 0, drift: false, driftTime: 0, driftDir: 0,
+  energy: 0, boosting: false, turbo: 0, offroad: false, bounce: 0,
+  lapStart: 0, completed: 0, bestLap: 0, lapTimes: [], topSpeed: 0, perfect: 0,
+  finishOrder: 0, finished: false,
+};
+
+let ais = [];
+const AI_PALETTES = [
+  { body: '#ffcf3d', accent: '#fff3b0', trim: '#a86a00' },
+  { body: '#a06bff', accent: '#e2d2ff', trim: '#4b22a8' },
+  { body: '#3dffcf', accent: '#d0fff4', trim: '#007d63' },
+  { body: '#ff6b9d', accent: '#ffd4e3', trim: '#a8003c' },
+  { body: '#9ee84a', accent: '#ecffc8', trim: '#437a00' },
+];
+
+/* ---------------- 赛车贴图（QQ飞车风格 / 6 种车型） ---------------- */
+function drawDriverSprite(g, female, accent) {
+  const skin = female ? '#f7d0ae' : '#e2b287';
+  const skinSh = female ? '#e0a883' : '#bd8258';
+  const hair = female ? '#ff6aa8' : '#3fc8ff';
+  const hairHi = female ? '#ffc0dc' : '#b6f0ff';
+  const suit = female ? '#c93f72' : '#1b4f8a';
+  const suitHi = female ? '#ffd0e2' : '#9fe4ff';
+
+  /* 肩膀 */
+  g.fillStyle = suit;
+  g.beginPath();
+  g.moveTo(111, 268);
+  g.quadraticCurveTo(109, 238, 150, 238);
+  g.quadraticCurveTo(191, 238, 189, 268);
+  g.quadraticCurveTo(150, 286, 111, 268);
+  g.closePath(); g.fill();
+  g.strokeStyle = suitHi; g.lineWidth = 3; g.globalAlpha = .9;
+  g.beginPath(); g.moveTo(116, 257); g.quadraticCurveTo(150, 271, 184, 257); g.stroke();
+  g.globalAlpha = 1;
+  /* 领口 */
+  g.fillStyle = 'rgba(0,0,0,.18)';
+  g.beginPath();
+  g.moveTo(137, 242); g.quadraticCurveTo(150, 254, 163, 242);
+  g.lineTo(163, 249); g.quadraticCurveTo(150, 261, 137, 249);
+  g.closePath(); g.fill();
+  /* 脖子 */
+  g.fillStyle = skinSh;
+  g.fillRect(143, 228, 14, 12);
+  /* 手臂 */
+  g.strokeStyle = suit; g.lineWidth = 12; g.lineCap = 'round';
+  g.beginPath(); g.moveTo(121, 252); g.lineTo(115, 170); g.stroke();
+  g.beginPath(); g.moveTo(179, 252); g.lineTo(185, 170); g.stroke();
+  g.strokeStyle = suitHi; g.lineWidth = 2.5; g.globalAlpha = .55;
+  g.beginPath(); g.moveTo(123, 246); g.lineTo(118, 176); g.stroke();
+  g.beginPath(); g.moveTo(177, 246); g.lineTo(182, 176); g.stroke();
+  g.globalAlpha = 1;
+  /* 方向盘 */
+  g.fillStyle = '#1b2534';
+  g.beginPath(); g.ellipse(150, 164, 38, 12, 0, 0, TAU); g.fill();
+  g.fillStyle = '#050a10';
+  g.beginPath(); g.ellipse(150, 164, 30, 6.5, 0, 0, TAU); g.fill();
+  g.fillStyle = accent; g.globalAlpha = .7;
+  g.fillRect(146, 156, 8, 16); g.globalAlpha = 1;
+  /* 手 */
+  g.fillStyle = skin;
+  g.beginPath(); g.arc(114, 165, 5.5, 0, TAU); g.fill();
+  g.beginPath(); g.arc(186, 165, 5.5, 0, TAU); g.fill();
+
+  /* 头盔后方的头发 */
+  if (female) {
+    g.fillStyle = hair;
+    g.beginPath();
+    g.moveTo(128, 198);
+    g.bezierCurveTo(102, 210, 98, 252, 114, 276);
+    g.quadraticCurveTo(124, 250, 132, 216);
+    g.fill();
+    g.beginPath();
+    g.moveTo(172, 198);
+    g.bezierCurveTo(198, 210, 202, 252, 186, 276);
+    g.quadraticCurveTo(176, 250, 168, 216);
+    g.fill();
+  } else {
+    g.fillStyle = hair;
+    g.beginPath(); g.ellipse(150, 232, 22, 10, 0, 0, TAU); g.fill();
+  }
+
+  /* 头盔 */
+  const helmet = female ? '#ffe2ef' : '#dff6ff';
+  const helmetShade = female ? '#ff9fc8' : '#8fd8ff';
+  g.fillStyle = helmet;
+  g.beginPath(); g.arc(150, 208, 25, 0, TAU); g.fill();
+  g.fillStyle = helmetShade; g.globalAlpha = .4;
+  g.beginPath(); g.arc(150, 214, 25, 0.1 * Math.PI, 0.9 * Math.PI); g.fill();
+  g.globalAlpha = 1;
+  /* 面罩 */
+  g.fillStyle = '#091420';
+  g.beginPath();
+  g.moveTo(125, 196);
+  g.quadraticCurveTo(150, 185, 175, 196);
+  g.quadraticCurveTo(150, 206, 125, 196);
+  g.closePath(); g.fill();
+  g.fillStyle = 'rgba(120,220,255,.55)';
+  g.beginPath();
+  g.moveTo(132, 194); g.quadraticCurveTo(141, 190, 150, 191);
+  g.quadraticCurveTo(141, 196, 132, 196); g.closePath(); g.fill();
+  /* 头盔条纹 + 高光 */
+  g.strokeStyle = accent; g.lineWidth = 3; g.globalAlpha = .85;
+  g.beginPath(); g.moveTo(150, 184); g.lineTo(150, 231); g.stroke();
+  g.globalAlpha = .65;
+  g.strokeStyle = '#fff'; g.lineWidth = 2;
+  g.beginPath(); g.arc(150, 208, 20, -2.5, -1.9); g.stroke();
+  g.globalAlpha = 1;
+  /* 女车手发饰 */
+  if (female) {
+    g.fillStyle = accent; g.globalAlpha = .9;
+    g.beginPath(); g.arc(126, 214, 4, 0, TAU); g.fill();
+    g.beginPath(); g.arc(174, 214, 4, 0, TAU); g.fill();
+    g.globalAlpha = 1;
+  }
+}
+
+/* 车型参数：noseY 车头长度 / noseW 鼻翼宽 / maxW 最宽 / tailW 车尾 / cp 座舱半径 / rearW 后轮 / frontW 前轮 */
+const SHP = [
+  { noseY: 10, noseW: 22, shoulderW: 45, maxW: 58, tailW: 52, cp: 40, rearW: 86, frontW: 66, fw: 206 }, // 疾风 流线
+  { noseY: 20, noseW: 46, shoulderW: 54, maxW: 68, tailW: 62, cp: 42, rearW: 94, frontW: 70, fw: 256 }, // 烈焰 宽体
+  { noseY: 4,  noseW: 14, shoulderW: 40, maxW: 54, tailW: 49, cp: 38, rearW: 86, frontW: 64, fw: 188 }, // 幻影 长鼻
+  { noseY: 25, noseW: 54, shoulderW: 58, maxW: 74, tailW: 68, cp: 44, rearW: 100, frontW: 72, fw: 276 }, // 雷霆 肌肉
+  { noseY: 13, noseW: 32, shoulderW: 48, maxW: 62, tailW: 56, cp: 40, rearW: 90, frontW: 68, fw: 226 }, // 星耀 优雅
+  { noseY: 11, noseW: 28, shoulderW: 52, maxW: 66, tailW: 60, cp: 42, rearW: 92, frontW: 68, fw: 248 }, // 幻神 传说
+];
+
+function makeCar(car, neon, drv) {
+  const C = document.createElement('canvas');
+  C.width = 460; C.height = 330;
+  const g = C.getContext('2d');
+  const B = car.body, B2 = car.body2, T = car.trim, A = neon.accent;
+  const female = drv !== 'male';
+  const wing = car.wing || 0;
+  const shape = car.shape || 0;
+  const SW = [1, 1.03, 0.98][shape];
+
+  /* ---------- 右后轮（被车身挡住大半） ---------- */
+  g.fillStyle = '#0a0d13';
+  rr(g, 352, 208, 76, 118, 22); g.fill();
+  g.fillStyle = '#20262f';
+  rr(g, 362, 218, 56, 98, 16); g.fill();
+  g.fillStyle = 'rgba(255,255,255,.10)';
+  for (let i = 0; i < 3; i++) g.fillRect(368, 232 + i * 26, 44, 3);
+
+  /* ---------- 左前轮（远景，被侧裙挡住） ---------- */
+  const sideWheel = (x, y, rx, ry) => {
+    g.fillStyle = '#0a0d13';
+    g.beginPath(); g.ellipse(x, y, rx, ry, 0, 0, TAU); g.fill();
+    g.fillStyle = '#212832';
+    g.beginPath(); g.ellipse(x, y, rx * 0.82, ry * 0.82, 0, 0, TAU); g.fill();
+    g.strokeStyle = 'rgba(255,255,255,.13)'; g.lineWidth = 2;
+    for (let i = -3; i <= 3; i++) {
+      g.beginPath();
+      g.moveTo(x - rx * 0.72, y + i * ry * 0.18);
+      g.lineTo(x + rx * 0.72, y + i * ry * 0.18);
+      g.stroke();
+    }
+    g.fillStyle = '#39424f';
+    g.beginPath(); g.ellipse(x, y, rx * 0.56, ry * 0.56, 0, 0, TAU); g.fill();
+    g.strokeStyle = '#cfd8e3'; g.lineWidth = 3;
+    for (let i = 0; i < 5; i++) {
+      const a = i / 5 * TAU + 0.3;
+      g.beginPath();
+      g.moveTo(x + Math.cos(a) * rx * 0.14, y + Math.sin(a) * ry * 0.14);
+      g.lineTo(x + Math.cos(a) * rx * 0.5, y + Math.sin(a) * ry * 0.5);
+      g.stroke();
+    }
+    g.fillStyle = '#0d1117';
+    g.beginPath(); g.ellipse(x, y, rx * 0.2, ry * 0.2, 0, 0, TAU); g.fill();
+    g.strokeStyle = A; g.globalAlpha = .7; g.lineWidth = 2.5;
+    g.beginPath(); g.ellipse(x, y, rx * 0.56, ry * 0.56, 0, 0, TAU); g.stroke();
+    g.globalAlpha = 1;
+  };
+  sideWheel(52, 254, 20, 36);
+
+  /* ---------- 左侧车身 ---------- */
+  const sideGrad = g.createLinearGradient(70, 128, 120, 296);
+  sideGrad.addColorStop(0, B2);
+  sideGrad.addColorStop(.55, B);
+  sideGrad.addColorStop(1, T);
+  /* 前翼子板 + 车头 */
+  g.fillStyle = sideGrad;
+  g.beginPath();
+  g.moveTo(74, 136);
+  g.quadraticCurveTo(40, 154, 38, 196);
+  g.lineTo(38, 228);
+  g.quadraticCurveTo(40, 252, 58, 266);
+  g.lineTo(74, 258);
+  g.closePath(); g.fill();
+  g.fillStyle = 'rgba(0,0,0,.46)';
+  g.beginPath();
+  g.moveTo(74, 136);
+  g.quadraticCurveTo(40, 154, 38, 196);
+  g.lineTo(38, 228);
+  g.quadraticCurveTo(40, 252, 58, 266);
+  g.lineTo(74, 258);
+  g.closePath(); g.fill();
+  /* 侧车身 */
+  g.fillStyle = sideGrad;
+  g.beginPath();
+  g.moveTo(120 * SW, 296);
+  g.lineTo(120 * SW, 168);
+  g.lineTo(70, 128);
+  g.lineTo(70, 256);
+  g.closePath(); g.fill();
+  g.fillStyle = 'rgba(0,0,0,.48)';
+  g.beginPath();
+  g.moveTo(120 * SW, 296);
+  g.lineTo(120 * SW, 168);
+  g.lineTo(70, 128);
+  g.lineTo(70, 256);
+  g.closePath(); g.fill();
+  /* 车头大灯 */
+  g.save();
+  g.shadowColor = A; g.shadowBlur = 14;
+  g.fillStyle = '#eafcff';
+  g.beginPath();
+  g.moveTo(44, 172); g.quadraticCurveTo(56, 166, 66, 174);
+  g.quadraticCurveTo(58, 184, 46, 180);
+  g.closePath(); g.fill();
+  g.restore();
+  g.fillStyle = 'rgba(49,231,255,.55)';
+  g.beginPath();
+  g.moveTo(48, 174); g.quadraticCurveTo(57, 170, 62, 176);
+  g.quadraticCurveTo(56, 179, 50, 178);
+  g.closePath(); g.fill();
+
+  /* 侧裙 */
+  g.fillStyle = '#090c12';
+  g.beginPath();
+  g.moveTo(70, 258); g.lineTo(118 * SW, 298); g.lineTo(118 * SW, 306); g.lineTo(70, 268);
+  g.closePath(); g.fill();
+
+  /* ---------- 车顶 ---------- */
+  const roofGrad = g.createLinearGradient(70, 128, 370, 168);
+  roofGrad.addColorStop(0, B2);
+  roofGrad.addColorStop(1, B);
+  g.fillStyle = roofGrad;
+  g.beginPath();
+  g.moveTo(120 * SW, 168);
+  g.lineTo(372, 168);
+  g.lineTo(300, 128);
+  g.lineTo(70, 128);
+  g.closePath(); g.fill();
+
+  /* 风挡（前部暗带） */
+  g.fillStyle = '#07131f';
+  g.beginPath();
+  g.moveTo(76, 132);
+  g.lineTo(292, 132);
+  g.lineTo(310, 144);
+  g.lineTo(82, 144);
+  g.closePath(); g.fill();
+  g.fillStyle = 'rgba(140,235,255,.22)';
+  g.beginPath();
+  g.moveTo(86, 134); g.lineTo(200, 134); g.lineTo(196, 142); g.lineTo(84, 142);
+  g.closePath(); g.fill();
+
+  /* ---------- 车尾 ---------- */
+  const grd = g.createLinearGradient(0, 168, 0, 300);
+  grd.addColorStop(0, B2);
+  grd.addColorStop(.3, B);
+  grd.addColorStop(.85, B);
+  grd.addColorStop(1, T);
+  const bodyPath = () => {
+    g.beginPath();
+    g.moveTo(148, 298);
+    g.quadraticCurveTo(126, 292, 120, 274);
+    g.quadraticCurveTo(110, 244, 112, 210);
+    g.quadraticCurveTo(114, 180, 138, 168);
+    g.lineTo(352, 168);
+    g.quadraticCurveTo(376, 180, 378, 210);
+    g.quadraticCurveTo(380, 244, 370, 274);
+    g.quadraticCurveTo(364, 292, 342, 298);
+    g.closePath();
+  };
+  g.fillStyle = grd;
+  bodyPath(); g.fill();
+  g.strokeStyle = 'rgba(0,0,0,.35)'; g.lineWidth = 2; g.stroke();
+  /* 轮拱高光 / 肩线 */
+  g.fillStyle = 'rgba(255,255,255,.16)';
+  g.beginPath(); g.ellipse(142, 222, 24, 42, -0.22, 0, TAU); g.fill();
+  g.beginPath(); g.ellipse(348, 222, 24, 42, 0.22, 0, TAU); g.fill();
+  g.strokeStyle = 'rgba(255,255,255,.22)'; g.lineWidth = 3;
+  g.beginPath(); g.moveTo(132, 206); g.quadraticCurveTo(148, 184, 186, 174); g.stroke();
+  g.beginPath(); g.moveTo(358, 206); g.quadraticCurveTo(342, 184, 304, 174); g.stroke();
+
+  /* 左后轮（近处，侧视椭圆） */
+  sideWheel(88, 262, 34, 62);
+  /* 右后轮翼子板 */
+  g.strokeStyle = B; g.globalAlpha = .55; g.lineWidth = 9;
+  g.beginPath(); g.arc(386, 266, 52, Math.PI * 1.05, Math.PI * 1.95); g.stroke();
+  g.globalAlpha = 1;
+
+  /* 后窗 */
+  g.fillStyle = '#06121d';
+  g.beginPath();
+  g.moveTo(152, 172);
+  g.lineTo(338, 172);
+  g.lineTo(314, 204);
+  g.lineTo(176, 204);
+  g.closePath(); g.fill();
+  const wg = g.createLinearGradient(0, 170, 0, 208);
+  wg.addColorStop(0, 'rgba(150,235,255,.35)');
+  wg.addColorStop(.55, 'rgba(55,125,175,.10)');
+  wg.addColorStop(1, 'rgba(8,24,40,0)');
+  g.fillStyle = wg;
+  g.beginPath();
+  g.moveTo(162, 176); g.lineTo(260, 176); g.lineTo(246, 200); g.lineTo(180, 200);
+  g.closePath(); g.fill();
+  g.strokeStyle = 'rgba(180,240,255,.28)'; g.lineWidth = 2;
+  g.beginPath(); g.moveTo(152, 172); g.lineTo(338, 172); g.stroke();
+
+  /* 车手 */
+  const helmet = female ? '#ffe2ef' : '#dff6ff';
+  const hair = female ? '#ff6aa8' : '#3fc8ff';
+  g.fillStyle = hair;
+  if (female) {
+    g.beginPath(); g.ellipse(250, 156, 24, 13, 0, 0, TAU); g.fill();
+    g.beginPath();
+    g.moveTo(230, 156); g.quadraticCurveTo(220, 176, 228, 192);
+    g.quadraticCurveTo(238, 172, 241, 160); g.fill();
+    g.beginPath();
+    g.moveTo(270, 156); g.quadraticCurveTo(280, 176, 272, 192);
+    g.quadraticCurveTo(262, 172, 259, 160); g.fill();
+  } else {
+    g.beginPath(); g.ellipse(250, 158, 22, 14, 0, 0, TAU); g.fill();
+  }
+  g.fillStyle = helmet;
+  g.beginPath(); g.arc(250, 154, 21, 0, TAU); g.fill();
+  g.fillStyle = 'rgba(0,0,0,.25)';
+  g.beginPath(); g.arc(250, 160, 21, 0.12 * Math.PI, 0.88 * Math.PI); g.fill();
+  g.strokeStyle = A; g.lineWidth = 3; g.globalAlpha = .8;
+  g.beginPath(); g.moveTo(231, 152); g.lineTo(269, 152); g.stroke();
+  g.globalAlpha = 1;
+
+  /* 引擎盖 */
+  g.fillStyle = 'rgba(0,0,0,.32)';
+  rr(g, 162, 210, 166, 30, 8); g.fill();
+  g.fillStyle = 'rgba(255,255,255,.08)';
+  rr(g, 170, 215, 150, 20, 6); g.fill();
+  g.strokeStyle = A; g.globalAlpha = .3; g.lineWidth = 2;
+  for (let i = 0; i < 2; i++) {
+    g.beginPath(); g.moveTo(178, 221 + i * 8); g.lineTo(312, 221 + i * 8); g.stroke();
+  }
+  g.globalAlpha = 1;
+
+  /* 尾灯 */
+  g.shadowColor = '#ff2d55'; g.shadowBlur = 18;
+  g.fillStyle = '#ff2d55';
+  rr(g, 136, 244, 76, 14, 5); g.fill();
+  rr(g, 278, 244, 76, 14, 5); g.fill();
+  g.shadowBlur = 0;
+  g.fillStyle = 'rgba(255,150,180,.55)';
+  rr(g, 143, 248, 60, 5, 2); g.fill();
+  rr(g, 285, 248, 60, 5, 2); g.fill();
+  g.fillStyle = 'rgba(255,70,120,.9)';
+  rr(g, 205, 251, 90, 4, 2); g.fill();
+
+  /* 后保险杠 / 扩散器 */
+  g.fillStyle = '#090c12';
+  rr(g, 150, 264, 200, 30, 8); g.fill();
+  g.fillStyle = 'rgba(255,255,255,.10)';
+  for (let i = 0; i < 6; i++) g.fillRect(160 + i * 32, 271, 5, 19);
+  g.fillStyle = A; g.globalAlpha = .55;
+  g.fillRect(150, 291, 200, 3);
+  g.globalAlpha = 1;
+
+  /* 中央六边形排气 */
+  g.fillStyle = '#0b0f16';
+  g.beginPath();
+  g.moveTo(232, 270); g.lineTo(268, 270); g.lineTo(277, 281);
+  g.lineTo(268, 292); g.lineTo(232, 292); g.lineTo(223, 281);
+  g.closePath(); g.fill();
+  g.strokeStyle = '#9db0c4'; g.lineWidth = 3; g.stroke();
+  g.fillStyle = '#05070a';
+  g.beginPath();
+  g.moveTo(238, 275); g.lineTo(262, 275); g.lineTo(267, 281);
+  g.lineTo(262, 287); g.lineTo(238, 287); g.lineTo(233, 281);
+  g.closePath(); g.fill();
+
+  /* 侧面细节 */
+  g.strokeStyle = 'rgba(0,0,0,.4)'; g.lineWidth = 2;
+  g.beginPath(); g.moveTo(100, 152); g.quadraticCurveTo(106, 210, 102, 284); g.stroke();
+  g.fillStyle = 'rgba(0,0,0,.55)';
+  g.beginPath();
+  g.moveTo(78, 206); g.lineTo(114, 212); g.lineTo(112, 250); g.lineTo(78, 242);
+  g.closePath(); g.fill();
+  g.strokeStyle = A; g.globalAlpha = .5; g.lineWidth = 2;
+  g.beginPath(); g.moveTo(78, 208); g.lineTo(114, 214); g.stroke();
+  g.globalAlpha = 1;
+  /* 后视镜 */
+  g.fillStyle = B2;
+  rr(g, 106, 146, 14, 8, 3); g.fill();
+  g.fillStyle = '#0a0e16';
+  g.fillRect(112, 153, 4, 8);
+
+  /* ---------- 涂装 ---------- */
+  if (car.decal === 0) {
+    g.globalAlpha = .24; g.fillStyle = '#fff';
+    g.beginPath();
+    g.moveTo(238, 206); g.lineTo(258, 206); g.lineTo(262, 266); g.lineTo(234, 266);
+    g.closePath(); g.fill();
+    g.globalAlpha = 1;
+  } else if (car.decal === 1) {
+    g.fillStyle = '#ffd166'; g.globalAlpha = .9;
+    for (const s of [-1, 1]) {
+      const b = 250 + s * 108;
+      g.beginPath();
+      g.moveTo(b, 262); g.quadraticCurveTo(b + s * 12, 240, b + s * 2, 220);
+      g.quadraticCurveTo(b + s * 1, 242, b - s * 8, 262);
+      g.closePath(); g.fill();
+    }
+    g.globalAlpha = 1;
+  } else if (car.decal === 2) {
+    g.fillStyle = '#ffe9a8';
+    for (const [sx, sy] of [[250, 214], [216, 226], [284, 226]]) {
+      g.globalAlpha = .85;
+      g.beginPath();
+      g.moveTo(sx, sy - 7); g.lineTo(sx + 2.4, sy - 2); g.lineTo(sx + 8, sy);
+      g.lineTo(sx + 2.4, sy + 2); g.lineTo(sx, sy + 7);
+      g.lineTo(sx - 2.4, sy + 2); g.lineTo(sx - 8, sy);
+      g.lineTo(sx - 2.4, sy - 2);
+      g.closePath(); g.fill();
+    }
+    g.globalAlpha = 1;
+  } else {
+    g.strokeStyle = '#31e7ff'; g.lineWidth = 3; g.globalAlpha = .85;
+    g.beginPath(); g.moveTo(80, 180); g.quadraticCurveTo(90, 230, 84, 286); g.stroke();
+    g.beginPath(); g.moveTo(360, 180); g.quadraticCurveTo(350, 230, 356, 286); g.stroke();
+    g.strokeStyle = '#ff2e63';
+    g.beginPath(); g.moveTo(220, 216); g.lineTo(280, 216); g.stroke();
+    g.globalAlpha = 1;
+  }
+
+  /* ---------- 后翼片 ---------- */
+  for (const s of [-1, 1]) {
+    const bx = 250 + s * 112;
+    g.fillStyle = B;
+    g.beginPath();
+    g.moveTo(bx, 218);
+    g.quadraticCurveTo(bx + s * 34, 150, bx + s * 24, 76);
+    g.quadraticCurveTo(bx + s * 2, 140, bx - s * 22, 212);
+    g.closePath(); g.fill();
+    g.strokeStyle = A; g.globalAlpha = .55; g.lineWidth = 2.5;
+    g.beginPath();
+    g.moveTo(bx + s * 2, 210);
+    g.quadraticCurveTo(bx + s * 30, 146, bx + s * 22, 82);
+    g.stroke();
+    g.globalAlpha = 1;
+  }
+
+  /* ---------- 尾翼 ---------- */
+  g.fillStyle = '#39424f';
+  g.fillRect(188, 78, 14, 92);
+  g.fillRect(296, 88, 14, 82);
+  g.fillStyle = 'rgba(255,255,255,.16)';
+  g.fillRect(188, 78, 3, 92);
+  g.fillRect(296, 88, 3, 82);
+  if (wing === 0) {
+    const wg0 = g.createLinearGradient(0, 44, 0, 90);
+    wg0.addColorStop(0, B2); wg0.addColorStop(.6, B); wg0.addColorStop(1, T);
+    g.fillStyle = wg0;
+    g.beginPath();
+    g.moveTo(46, 48); g.lineTo(414, 62); g.lineTo(414, 86); g.lineTo(46, 72);
+    g.closePath(); g.fill();
+    g.fillStyle = 'rgba(0,0,0,.3)';
+    g.beginPath(); g.moveTo(52, 70); g.lineTo(408, 84); g.lineTo(408, 89); g.lineTo(52, 75); g.closePath(); g.fill();
+    g.fillStyle = A;
+    rr(g, 36, 38, 16, 44, 5); g.fill();
+    rr(g, 408, 52, 16, 44, 5); g.fill();
+  } else if (wing === 1) {
+    const wg1 = g.createLinearGradient(0, 34, 0, 88);
+    wg1.addColorStop(0, B2); wg1.addColorStop(.55, B); wg1.addColorStop(1, T);
+    g.fillStyle = wg1;
+    g.beginPath();
+    g.moveTo(34, 34); g.lineTo(426, 50); g.lineTo(426, 82); g.lineTo(34, 66);
+    g.closePath(); g.fill();
+    g.fillStyle = 'rgba(0,0,0,.32)';
+    g.fillRect(42, 64, 380, 4);
+    g.fillStyle = A;
+    rr(g, 22, 22, 18, 54, 6); g.fill();
+    rr(g, 420, 38, 18, 54, 6); g.fill();
+  } else if (wing === 2) {
+    const wg2 = g.createLinearGradient(0, 24, 0, 96);
+    wg2.addColorStop(0, B2); wg2.addColorStop(.5, B); wg2.addColorStop(1, T);
+    g.fillStyle = wg2;
+    g.beginPath();
+    g.moveTo(28, 24); g.lineTo(432, 40); g.lineTo(432, 86); g.lineTo(28, 70);
+    g.closePath(); g.fill();
+    g.fillStyle = 'rgba(0,0,0,.35)';
+    g.fillRect(36, 68, 392, 5);
+    g.fillStyle = A;
+    rr(g, 16, 12, 20, 66, 7); g.fill();
+    rr(g, 424, 26, 20, 66, 7); g.fill();
+    g.fillStyle = 'rgba(255,255,255,.2)';
+    g.fillRect(40, 32, 384, 3);
+  } else if (wing === 3) {
+    const wg3 = g.createLinearGradient(0, 10, 0, 92);
+    wg3.addColorStop(0, B2); wg3.addColorStop(.5, B); wg3.addColorStop(1, T);
+    g.fillStyle = wg3;
+    g.beginPath();
+    g.moveTo(54, 8); g.lineTo(410, 20); g.lineTo(410, 36); g.lineTo(54, 24); g.closePath(); g.fill();
+    g.beginPath();
+    g.moveTo(30, 42); g.lineTo(430, 58); g.lineTo(430, 92); g.lineTo(30, 76); g.closePath(); g.fill();
+    g.fillStyle = 'rgba(0,0,0,.3)';
+    g.fillRect(38, 76, 388, 4);
+    g.fillStyle = A;
+    rr(g, 14, 0, 22, 80, 7); g.fill();
+    rr(g, 428, 16, 22, 80, 7); g.fill();
+  } else {
+    for (const s of [-1, 1]) {
+      g.fillStyle = '#0a0e18';
+      const bx = 250 + s * 60;
+      g.beginPath();
+      g.moveTo(bx, 190);
+      g.quadraticCurveTo(bx + s * 150, 160, bx + s * 166, 30);
+      g.quadraticCurveTo(bx + s * 96, 100, bx + s * 62, 180);
+      g.closePath(); g.fill();
+      g.strokeStyle = A; g.lineWidth = 3; g.globalAlpha = .7;
+      g.beginPath();
+      g.moveTo(bx + s * 6, 184);
+      g.quadraticCurveTo(bx + s * 144, 156, bx + s * 158, 40);
+      g.stroke();
+      g.globalAlpha = 1;
+    }
+  }
+
+  /* 高光 / 霓虹 */
+  g.fillStyle = 'rgba(255,255,255,.12)';
+  g.beginPath();
+  g.moveTo(160, 176); g.quadraticCurveTo(250, 166, 330, 176);
+  g.lineTo(312, 184); g.quadraticCurveTo(250, 178, 178, 184);
+  g.closePath(); g.fill();
+  g.save();
+  g.shadowColor = A; g.shadowBlur = 14;
+  g.strokeStyle = A; g.globalAlpha = .35; g.lineWidth = 2.5;
+  bodyPath(); g.stroke();
+  g.restore();
+
+  return C;
+}
+
+const carCache = {};
+let currentTheme = 'blaze';
+let driver = 'female';
+let playerSprite = null;
+
+function getCarSprite(cid, themeKey, drv) {
+  const key = cid + '|' + themeKey + '|' + drv;
+  if (!carCache[key]) carCache[key] = makeCar(carById(cid), THEMES[themeKey], drv);
+  return carCache[key];
+}
+
+/* ---------------- 状态 ---------------- */
+let phase = 'menu';       // menu | countdown | race | finished
+let raceTime = 0;
+let finishCount = 0;
+let countdownT = 0;
+let cdShown = 99;
+let shake = 0;
+let toastT = 0;
+let collideCd = 0;
+let lastRecord = 0;
+let newRecord = false;
+
+const input = { throttle: 0, brake: 0, steer: 0, drift: false, nitro: false };
+let wasThrottle = false, wasBrake = false, wasOffroad = false, lastNitroWarn = -10;
+const touchState = { left: false, right: false, drift: false, nitro: false };
+
+/* ---------------- 粒子 ---------------- */
+const parts = [];
+function spawn(x, y, vx, vy, life, size, color, grow) {
+  if (parts.length > 240) return;
+  parts.push({ x, y, vx, vy, life, max: life, size, color, grow: grow || 0 });
+}
+
+/* ---------------- 初始化 ---------------- */
+/* ---------------- 初始化 ---------------- */
+function init() {
+  resize();
+  loadProgress();
+
+  levelIdx = clamp(Number(progress.level) || 1, 1, progress.unlocked);
+  carId = progress.car;
+  currentTheme = THEMES[progress.theme] ? progress.theme : 'blaze';
+  driver = progress.driver === 'male' ? 'male' : 'female';
+  SFX.setVolume(clamp(Number(progress.vol) || 0.72, 0, 1));
+  SFX.muted = !!progress.mute;
+
+  activeLevel = LEVELS[levelIdx - 1];
+  activeCar = carById(carId);
+  playerSprite = getCarSprite(carId, currentTheme, driver);
+  document.documentElement.style.setProperty('--theme', THEMES[currentTheme].css);
+
+  buildSetupUI();
+
+  try {
+    if (!localStorage.getItem('neonDriftSave3')) localStorage.removeItem('neonDriftBestLap');
+    lastRecord = Number(localStorage.getItem('neonDriftBestLap') || 0) || 0;
+  } catch (e) { lastRecord = 0; }
+
+  resetRace();
+  phase = 'menu';
+  syncSetupUI();
+
+  const volEl = $('#vol');
+  volEl.value = Math.round(SFX.volume * 100);
+  $('#volVal').textContent = Math.round(SFX.volume * 100);
+  volEl.addEventListener('input', () => {
+    SFX.setVolume(volEl.value / 100);
+    $('#volVal').textContent = volEl.value;
+    progress.vol = Number(volEl.value) / 100;
+    saveProgress();
+    SFX.init(); SFX.resume();
+  });
+  volEl.addEventListener('change', () => SFX.click());
+
+  $('#mute').classList.add('on');
+  $('#mute').textContent = SFX.muted ? '🔇' : '🔊';
+
+  window.addEventListener('resize', resize);
+  window.addEventListener('orientationchange', () => setTimeout(resize, 120));
+
+  bindInput();
+
+  const boot = () => {
+    SFX.init(); SFX.resume();
+    Music.setStyle(progress.music);
+    Music.duck(0.72);
+  };
+  window.addEventListener('pointerdown', boot, { once: true });
+  window.addEventListener('keydown', boot, { once: true });
+
+  requestAnimationFrame(loop);
+}
+
+/* ---------------- 关卡 / 车库 UI ---------------- */
+function buildSetupUI() {
+  const lvBox = $('#lvChips');
+  lvBox.innerHTML = '';
+  for (let i = 1; i <= 10; i++) {
+    const b = document.createElement('button');
+    b.className = 'lvchip';
+    b.dataset.lv = i;
+    b.textContent = i;
+    b.title = '第 ' + i + ' 关 · ' + LEVELS[i - 1].name;
+    b.addEventListener('click', () => {
+      if (i > progress.unlocked) {
+        toast('先通过第 ' + progress.unlocked + ' 关', 'bad');
+        SFX.warn();
+        return;
+      }
+      if (phase !== 'menu') return;
+      levelIdx = i;
+      progress.level = i;
+      saveProgress();
+      SFX.init(); SFX.resume(); SFX.click();
+      refreshSetup();
+    });
+    lvBox.appendChild(b);
+  }
+
+  const carBox = $('#carChips');
+  carBox.innerHTML = '';
+  for (const c of CARS) {
+    const b = document.createElement('button');
+    b.className = 'chip carchip';
+    b.dataset.car = c.id;
+    b.textContent = c.name;
+    b.addEventListener('click', () => {
+      if (!carUnlocked(c.id)) {
+        toast('第 ' + c.unlock.level + ' 关前三名解锁「' + c.name + '」', 'bad');
+        SFX.warn();
+        return;
+      }
+      if (phase !== 'menu') return;
+      carId = c.id;
+      progress.car = c.id;
+      saveProgress();
+      SFX.init(); SFX.resume(); SFX.click();
+      refreshSetup();
+    });
+    carBox.appendChild(b);
+  }
+
+  const mBox = $('#musicChips');
+  mBox.innerHTML = '';
+  for (const m of MUSIC_STYLES) {
+    const b = document.createElement('button');
+    b.className = 'chip music';
+    b.dataset.music = m.id;
+    b.textContent = m.name;
+    b.addEventListener('click', () => {
+      progress.music = m.id;
+      saveProgress();
+      SFX.init(); SFX.resume();
+      Music.setStyle(m.id);
+      Music.duck(0.72);
+      syncSetupUI();
+      SFX.click();
+    });
+    mBox.appendChild(b);
+  }
+
+  document.querySelectorAll('.driver').forEach((b) => {
+    b.addEventListener('click', () => {
+      if (phase !== 'menu') return;
+      driver = b.dataset.driver;
+      progress.driver = driver;
+      saveProgress();
+      playerSprite = getCarSprite(carId, currentTheme, driver);
+      syncSetupUI();
+      SFX.init(); SFX.resume(); SFX.click();
+    });
+  });
+
+  document.querySelectorAll('.theme').forEach((b) => {
+    b.addEventListener('click', () => {
+      if (phase !== 'menu') return;
+      currentTheme = b.dataset.theme;
+      progress.theme = currentTheme;
+      saveProgress();
+      playerSprite = getCarSprite(carId, currentTheme, driver);
+      document.documentElement.style.setProperty('--theme', THEMES[currentTheme].css);
+      syncSetupUI();
+      SFX.init(); SFX.resume(); SFX.click();
+    });
+  });
+}
+
+const statRange = {};
+for (const k of ['speed', 'accel', 'grip', 'nitro']) {
+  const vals = CARS.map((c) => c.stats[k]);
+  statRange[k] = { min: Math.min.apply(null, vals), max: Math.max.apply(null, vals) };
+}
+
+function starStr(n) {
+  return '★'.repeat(n) + '☆'.repeat(Math.max(0, 5 - n));
+}
+
+function syncSetupUI() {
+  document.querySelectorAll('.lvchip').forEach((b) => {
+    const lv = Number(b.dataset.lv);
+    b.classList.toggle('active', lv === levelIdx);
+    b.classList.toggle('locked', lv > progress.unlocked);
+    b.classList.toggle('done', !!progress.best['L' + lv]);
+  });
+  document.querySelectorAll('.carchip').forEach((b) => {
+    const id = b.dataset.car;
+    const c = carById(id);
+    const locked = !carUnlocked(id);
+    b.classList.toggle('active', id === carId);
+    b.classList.toggle('locked', locked);
+    b.textContent = c.name;
+    b.title = locked ? ('第 ' + c.unlock.level + ' 关前三名解锁') : c.desc;
+  });
+  document.querySelectorAll('.music').forEach((b) => b.classList.toggle('active', b.dataset.music === progress.music));
+  document.querySelectorAll('.driver').forEach((b) => b.classList.toggle('active', b.dataset.driver === driver));
+  document.querySelectorAll('.theme').forEach((b) => b.classList.toggle('active', b.dataset.theme === currentTheme));
+
+  const pv = $('#carPreview');
+  if (pv) {
+    const g = pv.getContext('2d');
+    g.clearRect(0, 0, pv.width, pv.height);
+    const sp = getCarSprite(carId, currentTheme, driver);
+    const sc = Math.min(pv.width / sp.width, pv.height / sp.height);
+    const dw = sp.width * sc, dh = sp.height * sc;
+    g.drawImage(sp, (pv.width - dw) / 2, (pv.height - dh) / 2, dw, dh);
+  }
+  $('#carName').textContent = activeCar.name;
+  $('#carDesc').textContent = activeCar.desc;
+  document.querySelectorAll('#carStats i').forEach((el) => {
+    const k = el.dataset.k;
+    const v = activeCar.stats[k];
+    const rng = statRange[k];
+    const pct = 24 + 76 * ((v - rng.min) / Math.max(0.0001, rng.max - rng.min));
+    el.style.setProperty('--w', Math.round(pct) + '%');
+  });
+
+  const L = LEVELS[levelIdx - 1];
+  $('#lvTag').textContent = 'LEVEL ' + levelIdx;
+  $('#lvName').textContent = L.name + ' · ' + L.laps + ' 圈 · ' + starStr(L.stars);
+  const reward = CARS.find((c) => c.unlock && c.unlock.level === levelIdx);
+  if (reward) {
+    $('#levelTip').innerHTML = carUnlocked(reward.id)
+      ? '本关奖励 <b>' + reward.name + '</b> 已收入车库'
+      : '本关前三名解锁赛车 <b>' + reward.name + '</b>';
+  } else {
+    $('#levelTip').textContent = levelIdx === 10 ? '最终关 · 全力冲刺' : '完成比赛解锁下一关';
+  }
+}
+
+function refreshSetup() {
+  if (phase !== 'menu') return;
+  resetRace();
+  syncSetupUI();
+}
+
+/* ---------------- 开局 / 重置 ---------------- */
+function resetRace() {
+  raceTime = 0;
+  finishCount = 0;
+  countdownT = 3.4;
+  cdShown = 99;
+  shake = 0;
+  collideCd = 0;
+  parts.length = 0;
+  newRecord = false;
+  wasThrottle = false; wasBrake = false; wasOffroad = false; lastNitroWarn = -10;
+
+  activeLevel = LEVELS[levelIdx - 1];
+  activeCar = carById(carId);
+  playerSprite = getCarSprite(carId, currentTheme, driver);
+
+  race.laps = activeLevel.laps;
+  race.aiBase = activeLevel.aiBase;
+  race.maxSpeed = CFG.MAX * activeCar.stats.speed;
+  race.accel = CFG.ACCEL * activeCar.stats.accel;
+  race.steer = CFG.STEER * activeCar.stats.grip;
+  race.boostAdd = 2200 * activeCar.stats.nitro;
+  race.drain = 33 / activeCar.stats.nitro;
+  race.fill = 21 * activeCar.stats.grip;
+  race.offMax = 2600;
+  race.offDrag = 2400;
+  race.dmg = 0.25;
+
+  buildTrack(levelIdx);
+  buildMapPts(levelIdx);
+
+  Object.assign(player, {
+    dist: 0, x: 0, camX: 0, speed: 0, yaw: 0, drift: false, driftTime: 0, driftDir: 0,
+    energy: 0, boosting: false, turbo: 0, offroad: false, bounce: 0,
+    lapStart: 0, completed: 0, bestLap: 0, lapTimes: [], topSpeed: 0, perfect: 0,
+    finishOrder: 0, finished: false,
+    shield: 0, spinA: 0, controlLock: 0, hits: 0, buffs: 0, itemCd: 0,
+  });
+
+  const lanes = [-620, 640, -300, 340, 0];
+  const bases = [
+    race.aiBase - 120, race.aiBase - 60, race.aiBase,
+    race.aiBase + 60, race.aiBase + 120,
+  ];
+  ais = lanes.map((lane, i) => ({
+    lane, x: lane, prevX: lane,
+    base: bases[i], speed: 0,
+    dist: CFG.AI_START[i],
+    phase: Math.random() * TAU,
+    wob: 0.55 + Math.random() * 0.7,
+    wobAmp: (100 + Math.random() * 150) * (1 + levelIdx * 0.03),
+    sprite: aiSprite(i),
+    angle: 0, finished: false, finishOrder: 0,
+  }));
+
+  $('#lap').textContent = '1';
+  $('#lapTotal').textContent = '/ ' + race.laps;
+  $('#hudLv').textContent = 'LEVEL ' + levelIdx;
+  $('#lapFill').style.width = '0%';
+  $('#time').textContent = '0:00.00';
+  $('#best').textContent = lastRecord ? fmtTime(lastRecord) : '--:--.--';
+  $('#pos').textContent = '6';
+  $('#speed').textContent = '0';
+  $('#nitroFill').style.width = '0%';
+  $('#nitroPct').textContent = '0%';
+  $('#nitroBar').classList.remove('full');
+  $('#shield').classList.remove('on');
+  $('#msg').className = '';
+  drawMap();
+  syncSetupUI();
+}
+
+const aiSpriteCache = [];
+function aiSprite(i) {
+  if (!aiSpriteCache[i]) {
+    const p = AI_PALETTES[i];
+    const base = CARS[(i + 1) % CARS.length];
+    aiSpriteCache[i] = makeCar(
+      Object.assign({}, base, { body: p.body, body2: p.accent, trim: p.trim }),
+      THEMES.frost, i % 2 ? 'male' : 'female'
+    );
+  }
+  return aiSpriteCache[i];
+}
+
+function startRace() {
+  SFX.init(); SFX.resume();
+  Music.setStyle(progress.music);
+  Music.duck(0.5);
+  $('#start').classList.add('hidden');
+  $('#result').classList.add('hidden');
+  $('#pause').classList.add('hidden');
+  $('#hud').classList.add('on');
+  $('#mute').classList.add('on');
+  if (IS_TOUCH) $('#touch').classList.add('on');
+  resetRace();
+  phase = 'countdown';
+  countdownT = 3.4;
+}
+
+function toMenu() {
+  $('#start').classList.remove('hidden');
+  $('#result').classList.add('hidden');
+  $('#pause').classList.add('hidden');
+  $('#hud').classList.remove('on');
+  $('#touch').classList.remove('on');
+  SFX.drive({ active: false });
+  Music.duck(0.72);
+  $('#countdown').className = '';
+  $('#msg').className = '';
+  resetRace();
+  phase = 'menu';
+  syncSetupUI();
+}
+
+function nextLevel() {
+  if (levelIdx >= 10 || progress.unlocked <= levelIdx) return;
+  levelIdx++;
+  progress.level = levelIdx;
+  saveProgress();
+  $('#result').classList.add('hidden');
+  startRace();
+}
+
+/* ---------------- 输入 ---------------- */
+function toggleMute() {
+  const m = SFX.toggle();
+  progress.mute = m;
+  saveProgress();
+  $('#mute').textContent = m ? '🔇' : '🔊';
+  return m;
+}
+
+function bindInput() {
+  const prevent = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'];
+  window.addEventListener('keydown', (e) => {
+    if (prevent.includes(e.code)) e.preventDefault();
+    if (e.code === 'Escape') {
+      if (phase === 'race') pauseRace();
+      else if (phase === 'paused') resumeRace();
+      return;
+    }
+    if (e.code === 'Enter' && phase === 'menu') { startRace(); return; }
+    if (e.code === 'KeyM') { toggleMute(); return; }
+    keys.add(e.code);
+    SFX.init(); SFX.resume();
+  });
+  window.addEventListener('keyup', (e) => keys.delete(e.code));
+  window.addEventListener('blur', () => keys.clear());
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && phase === 'race') pauseRace();
+  });
+
+  if (IS_TOUCH) document.body.classList.add('touch');
+  document.querySelectorAll('.tbtn').forEach((btn) => {
+    const act = btn.dataset.act;
+    const on = (e) => { e.preventDefault(); touchState[act] = true; btn.classList.add('act'); SFX.init(); SFX.resume(); };
+    const off = (e) => { e.preventDefault(); touchState[act] = false; btn.classList.remove('act'); };
+    btn.addEventListener('pointerdown', (e) => { on(e); try { btn.setPointerCapture(e.pointerId); } catch (err) {} });
+    btn.addEventListener('pointerup', off);
+    btn.addEventListener('pointercancel', off);
+    btn.addEventListener('pointerout', (e) => { if (e.buttons === 0) off(e); });
+    btn.addEventListener('contextmenu', (e) => e.preventDefault());
+  });
+
+  $('#btnStart').addEventListener('click', startRace);
+  $('#btnAgain').addEventListener('click', startRace);
+  $('#btnNext').addEventListener('click', nextLevel);
+  $('#btnMenu').addEventListener('click', toMenu);
+  $('#btnResume').addEventListener('click', resumeRace);
+  $('#btnQuit').addEventListener('click', () => { $('#pause').classList.add('hidden'); toMenu(); });
+  $('#mute').addEventListener('click', toggleMute);
+}
+
+const keys = new Set();
+
+function readInput() {
+  const k = keys;
+  const auto = IS_TOUCH;
+  input.throttle = (k.has('KeyW') || k.has('ArrowUp') || auto) ? 1 : 0;
+  input.brake = (k.has('KeyS') || k.has('ArrowDown')) ? 1 : 0;
+  const left = k.has('KeyA') || k.has('ArrowLeft') || touchState.left;
+  const right = k.has('KeyD') || k.has('ArrowRight') || touchState.right;
+  input.steer = (right ? 1 : 0) - (left ? 1 : 0);
+  input.drift = k.has('Space') || touchState.drift;
+  input.nitro = k.has('ShiftLeft') || k.has('ShiftRight') || k.has('KeyK') || touchState.nitro;
+}
+
+/* ---------------- 暂停 ---------------- */
+function pauseRace() {
+  if (phase !== 'race') return;
+  phase = 'paused';
+  $('#pause').classList.remove('hidden');
+  keys.clear();
+  SFX.drive({ active: false });
+}
+function resumeRace() {
+  if (phase !== 'paused') return;
+  phase = 'race';
+  $('#pause').classList.add('hidden');
+}
+
+/* ---------------- 主循环 ---------------- */
+let lastT = performance.now();
+let acc = 0;
+function loop(now) {
+  const dt = Math.min(0.06, (now - lastT) / 1000);
+  lastT = now;
+  acc += dt;
+  let guard = 0;
+  while (acc >= STEP && guard++ < 8) {
+    update(STEP);
+    acc -= STEP;
+  }
+  if (guard >= 8) acc = 0;
+  render();
+  requestAnimationFrame(loop);
+}
+
+function update(dt) {
+  updateToast(dt);
+  updateCamera(dt);
+  updateParticles(dt);
+
+  if (phase === 'menu') {
+    menuDrive(dt);
+    return;
+  }
+  if (phase === 'countdown') {
+    updateCountdown(dt);
+    updateHUD();
+    return;
+  }
+  if (phase !== 'race') return;
+
+  readInput();
+  raceTime += dt;
+  updatePlayer(dt);
+  updateAI(dt);
+  checkCollide(dt);
+  updateItems(dt);
+  updateHUD();
+}
+
+/* ---------------- 镜头 / 真实路径投影 ---------------- */
+function sampleTrack(d) {
+  const N = track.len, step = track.step;
+  let dd = d % track.total;
+  if (dd < 0) dd += track.total;
+  const raw = dd / step;
+  const base = Math.floor(raw);
+  const idx = base % N;
+  const f = raw - base;
+  const i1 = (idx + 1) % N;
+  const p0 = track.pts[idx], p1 = track.pts[i1];
+  return {
+    idx,
+    x: p0.x + (p1.x - p0.x) * f,
+    z: p0.z + (p1.z - p0.z) * f,
+    y: p0.y + (p1.y - p0.y) * f,
+    h: track.head[idx] + angDiff(track.head[i1] - track.head[idx]) * f,
+  };
+}
+
+function projectPoint(px, py, pz) {
+  const cam = view.cam;
+  if (!cam) return null;
+  const dx = px - cam.x, dz = pz - cam.z;
+  const sh = Math.sin(cam.h), ch = Math.cos(cam.h);
+  const fwd = dx * sh + dz * ch;
+  if (fwd < 55) return null;
+  const right = dx * ch - dz * sh;
+  const s = 1 / fwd;
+  const W2 = view.w / 2, H2 = view.h / 2;
+  return {
+    fwd, s,
+    sx: view.cx + s * view.fov * right * W2,
+    sy: view.horizonY + s * (cam.y - py) * H2,
+    w: s * view.fov * (CFG.ROAD_W / 2) * W2,
+  };
+}
+
+function projectSeg(idx, f, off) {
+  const N = track.len;
+  const i0 = ((idx % N) + N) % N;
+  const i1 = (i0 + 1) % N;
+  const p0 = track.pts[i0], p1 = track.pts[i1];
+  const h = track.head[i0] + angDiff(track.head[i1] - track.head[i0]) * f;
+  const x = p0.x + (p1.x - p0.x) * f + Math.cos(h) * off;
+  const z = p0.z + (p1.z - p0.z) * f - Math.sin(h) * off;
+  const y = p0.y + (p1.y - p0.y) * f;
+  return projectPoint(x, y, z);
+}
+
+function computeCamera() {
+  view.cx = view.w / 2 + (Math.random() - 0.5) * shake;
+  const smp = sampleTrack(player.dist);
+  const h = smp.h;
+  view.cam = {
+    x: smp.x + Math.cos(h) * player.camX - Math.sin(h) * CFG.CAM_BACK,
+    z: smp.z - Math.sin(h) * player.camX - Math.cos(h) * CFG.CAM_BACK,
+    y: smp.y + CFG.CAM_H,
+    h,
+  };
+}
+
+function updateCamera(dt) {
+  const targetX = player.x * 0.55;
+  player.camX += (targetX - player.camX) * Math.min(1, dt * 7);
+  shake = Math.max(0, shake - 55 * dt);
+}
+
+/* ---------------- 倒计时 ---------------- */
+function updateCountdown(dt) {
+  countdownT -= dt;
+  const cdEl = $('#countdown');
+  let n = 0;
+  if (countdownT > 2.4) n = 3;
+  else if (countdownT > 1.4) n = 2;
+  else if (countdownT > 0.4) n = 1;
+
+  if (n && n !== cdShown) {
+    cdShown = n;
+    cdEl.textContent = String(n);
+    cdEl.className = '';
+    void cdEl.offsetWidth;
+    cdEl.className = 'pop';
+    SFX.countBeep(n);
+  }
+
+  if (countdownT <= 0.4 && phase === 'countdown') {
+    phase = 'race';
+    raceTime = 0;
+    player.lapStart = 0;
+    cdEl.textContent = 'GO!';
+    cdEl.className = '';
+    void cdEl.offsetWidth;
+    cdEl.className = 'pop go';
+    SFX.go();
+    setTimeout(() => { cdEl.className = ''; }, 700);
+  }
+}
+
+/* ---------------- 菜单演示 ---------------- */
+function menuDrive(dt) {
+  player.dist += 2500 * dt;
+  const seg = track.segs[Math.floor(player.dist / CFG.SEG) % track.len];
+  const targetX = -seg.curve * 46;
+  player.x += (targetX - player.x) * Math.min(1, dt * 2.2);
+  player.yaw += ((seg.curve * 0.025) - player.yaw) * Math.min(1, dt * 3);
+  player.speed = 2500;
+  for (const o of ais) {
+    o.dist += o.speed * dt;
+    o.x = o.lane + Math.sin(performance.now() / 1400 * o.wob + o.phase) * o.wobAmp;
+  }
+  if (player.dist > 400000) player.dist = 0;
+}
+
+/* ---------------- 玩家 ---------------- */
+function updatePlayer(dt) {
+  const p = player;
+  const locked = p.controlLock > 0;
+
+  // 油门 / 刹车 即时音效
+  if (input.throttle && !wasThrottle && p.speed < race.maxSpeed * 0.92) SFX.throttleOn();
+  if (input.brake && !wasBrake && p.speed > 400) SFX.brakeOn();
+  wasThrottle = !!input.throttle;
+  wasBrake = !!input.brake;
+
+  // 护盾倒计时 / 香蕉皮打滑
+  if (p.shield > 0) p.shield = Math.max(0, p.shield - dt);
+  if (p.controlLock > 0) {
+    p.controlLock = Math.max(0, p.controlLock - dt);
+    p.spinA += dt * 10;
+    p.speed = Math.max(0, p.speed - 850 * dt);
+  } else {
+    p.spinA = 0;
+  }
+
+  // 漂移
+  if (!locked && input.drift && input.steer !== 0 && p.speed > 600) {
+    if (!p.drift) {
+      p.drift = true;
+      p.driftTime = 0;
+      p.driftDir = input.steer;
+      SFX.driftStart();
+    }
+    p.driftTime += dt;
+    p.energy = Math.min(100, p.energy + race.fill * dt);
+  } else if (p.drift) {
+    endDrift();
+  }
+
+  // 转向
+  let rate = race.steer * (0.32 + 0.68 * Math.min(1, p.speed / race.maxSpeed));
+  if (p.drift) rate *= 1.32;
+  if (!locked) p.x += input.steer * rate * dt;
+
+  // 弯道离心
+  const segIdx = Math.floor(p.dist / CFG.SEG) % track.len;
+  const seg = track.segs[segIdx];
+  p.x -= clamp(seg.turn, -0.09, 0.09) * 9000 * (p.speed / race.maxSpeed) * dt;
+
+  const limit = CFG.ROAD_W * 0.94;
+  const hitEdge = Math.abs(p.x) > limit;
+  p.x = clamp(p.x, -limit, limit);
+  if (hitEdge && p.speed > 1200) shake = Math.max(shake, 5);
+
+  p.offroad = Math.abs(p.x) > CFG.ROAD_W / 2 - 115;
+  if (p.offroad && !wasOffroad && p.speed > 500) SFX.offroadHit();
+  wasOffroad = p.offroad;
+
+  // 氮气
+  if (!locked && input.nitro && p.energy > 1 && !p.boosting) {
+    p.boosting = true;
+    SFX.nitro();
+  }
+  if (input.nitro && p.energy <= 1 && !p.boosting && raceTime - lastNitroWarn > 1.8) {
+    lastNitroWarn = raceTime;
+    toast('氮气不足 · 漂移蓄气', 'bad');
+    SFX.warn();
+  }
+  if (p.boosting) {
+    p.energy -= race.drain * dt;
+    if (p.energy <= 0 || !input.nitro) {
+      p.energy = Math.max(0, p.energy);
+      p.boosting = false;
+    }
+  }
+  if (p.turbo > 0) p.turbo -= dt;
+
+  // 速度
+  let maxS = race.maxSpeed + (p.boosting ? race.boostAdd : 0) + (p.turbo > 0 ? 900 : 0);
+  if (!locked && input.throttle) {
+    const cap = p.offroad ? Math.min(maxS, race.offMax) : maxS;
+    p.speed += race.accel * Math.max(0.08, 1 - p.speed / cap) * dt;
+  } else if (!locked && input.brake) {
+    p.speed -= CFG.BRAKE * dt;
+  } else {
+    p.speed -= (300 + p.speed * 0.5) * dt;
+  }
+  if (p.offroad) p.speed -= race.offDrag * dt;
+  if (!p.boosting && p.turbo <= 0 && p.speed > race.maxSpeed) p.speed -= 1800 * dt;
+  p.speed = clamp(p.speed, 0, race.maxSpeed + race.boostAdd + 900);
+
+  p.dist += p.speed * dt;
+
+  // 视觉
+  const ratio = Math.min(1, p.speed / race.maxSpeed);
+  let targetYaw = input.steer * (p.drift ? 0.42 : 0.10) * (0.45 + 0.55 * ratio);
+  p.yaw += (targetYaw - p.yaw) * Math.min(1, dt * 9);
+  p.bounce = Math.sin(raceTime * 13) * (0.5 + ratio * 1.4) + (p.offroad ? (Math.random() - 0.5) * 3 : 0);
+  p.topSpeed = Math.max(p.topSpeed, Math.round(p.speed / CFG.MAX * 320));
+
+  // 尾迹
+  if (p.drift) {
+    const kx = kartScreenX();
+    if (Math.random() < 0.4) {
+      const side = p.driftDir > 0 ? -1 : 1;
+      spawn(kx + side * 34 + (Math.random() - 0.5) * 54, view.horizonY + view.h / 2 - 26,
+        (Math.random() - 0.5) * 80, -30 - Math.random() * 70,
+        0.4 + Math.random() * 0.3, 4 + Math.random() * 7,
+        p.driftTime > 1.5 ? '255,222,130' : '140,205,240', 18);
+    }
+  }
+  if (p.boosting) {
+    const kx = kartScreenX();
+    for (let i = 0; i < 2; i++) {
+      spawn(kx + (Math.random() - 0.5) * 40, view.horizonY + view.h / 2 - 4,
+        (Math.random() - 0.5) * 130, 60 + Math.random() * 190,
+        0.3 + Math.random() * 0.25, 5 + Math.random() * 9, '130,240,255', 34);
+    }
+  }
+  if (p.offroad && p.speed > 400) {
+    const kx = kartScreenX();
+    spawn(kx + (Math.random() - 0.5) * 90, view.horizonY + view.h / 2 - 6,
+      (Math.random() - 0.5) * 160, -40 - Math.random() * 120,
+      0.4, 8 + Math.random() * 12, '120,100,80', 20);
+  }
+
+  // 圈数
+  const done = Math.floor(p.dist / track.total);
+  if (done > p.completed) {
+    const lt = raceTime - p.lapStart;
+    p.lapTimes.push(lt);
+    p.bestLap = p.bestLap ? Math.min(p.bestLap, lt) : lt;
+    p.lapStart = raceTime;
+    p.completed = done;
+    if (done >= race.laps) {
+      finishRace();
+    } else {
+      toast('LAP ' + (done + 1) + ' / ' + race.laps + '   ·   ' + fmtTime(lt), 'lap');
+      SFX.lapChime();
+    }
+  }
+}
+
+function endDrift() {
+  const p = player;
+  const t = p.driftTime;
+  if (p.drift && t > 0.3) {
+    const tier = t > 1.5 ? 2 : t > 0.6 ? 1 : 0;
+    p.energy = Math.min(100, p.energy + [5, 11, 17][tier]);
+    p.turbo = Math.max(p.turbo, [0.22, 0.5, 0.95][tier]);
+    if (tier === 2) {
+      p.perfect++;
+      toast('完美漂移 · PERFECT', 'perfect');
+      SFX.perfect();
+    } else if (tier === 1) {
+      toast('漂亮漂移', 'good');
+      SFX.goodDrift();
+    }
+  }
+  p.drift = false;
+  p.driftTime = 0;
+}
+
+/* ---------------- AI ---------------- */
+function updateAI(dt) {
+  const skill = 1.15 - levelIdx * 0.03;
+  for (const o of ais) {
+    if (o.finished) {
+      o.dist += o.speed * 0.4 * dt;
+      continue;
+    }
+    const idx = Math.floor(o.dist / track.step) % track.len;
+    const seg = track.segs[idx];
+    const curve = seg.curve;
+    let target = o.base * (1 - Math.min(0.55, Math.abs(seg.turn) * 4.0 * skill));
+    target *= 1 + Math.sin(raceTime * 0.9 + o.phase) * 0.03;
+    o.speed += clamp(target - o.speed, -1800 * dt, 950 * dt);
+    o.dist += o.speed * dt;
+
+    const wantX = o.lane + Math.sin(raceTime * o.wob + o.phase) * o.wobAmp;
+    o.prevX = o.x;
+    o.x += (wantX - o.x) * Math.min(1, dt * 1.6);
+    o.angle = clamp((o.x - o.prevX) * 0.012 + curve * 0.03, -0.24, 0.24);
+
+    if (o.dist >= race.laps * track.total) {
+      o.finished = true;
+      o.finishOrder = ++finishCount;
+    }
+  }
+}
+
+function checkCollide(dt) {
+  collideCd = Math.max(0, collideCd - dt);
+  if (collideCd > 0) return;
+  for (const o of ais) {
+    const d = o.dist - player.dist;
+    if (d > -130 && d < 150) {
+      const dx = o.x - player.x;
+      if (Math.abs(dx) < 215) {
+        const dir = dx === 0 ? 1 : Math.sign(dx);
+        if (player.shield > 0) {
+          player.shield = 0;
+          player.x = clamp(player.x - dir * 100, -CFG.ROAD_W * 0.94, CFG.ROAD_W * 0.94);
+          o.x = clamp(o.x + dir * 80, -1000, 1000);
+          collideCd = 0.6;
+          shake = 8;
+          SFX.shieldBreak();
+          toast('护盾挡下碰撞', 'good');
+          return;
+        }
+        player.speed *= (1 - race.dmg);
+        player.x = clamp(player.x - dir * 130, -CFG.ROAD_W * 0.94, CFG.ROAD_W * 0.94);
+        o.x = clamp(o.x + dir * 110, -1000, 1000);
+        collideCd = 0.45;
+        shake = 12;
+        SFX.crash();
+        toast('碰撞！', 'bad');
+        return;
+      }
+    }
+  }
+}
+
+/* ---------------- 赛道道具 ---------------- */
+function updateItems(dt) {
+  const p = player;
+  if (!track.items.length) return;
+  if (p.itemCd > 0) p.itemCd = Math.max(0, p.itemCd - dt);
+  const pd = p.dist % track.total;
+  for (const it of track.items) {
+    if (!it.active) {
+      it.cd -= dt;
+      if (it.cd <= 0) it.active = true;
+      continue;
+    }
+    if (p.itemCd > 0) continue;
+    let d = pd - it.dist;
+    if (d > track.total / 2) d -= track.total;
+    if (d < -track.total / 2) d += track.total;
+    if (Math.abs(d) < 120 && Math.abs(p.x - it.x) < 175) pickItem(it);
+  }
+}
+
+function pickItem(it) {
+  const p = player;
+  it.active = false;
+  it.cd = it.type === 'banana' ? 9 : 6;
+  p.itemCd = 0.5;
+
+  if (it.type === 'banana') {
+    if (p.shield > 0) {
+      p.shield = 0;
+      toast('护盾挡下香蕉皮', 'good');
+      SFX.shieldBreak();
+      shake = 6;
+      return;
+    }
+    p.speed *= 0.42;
+    p.controlLock = 1.0;
+    p.spinA = 0;
+    p.hits = (p.hits || 0) + 1;
+    p.x = clamp(p.x + (Math.random() < 0.5 ? -1 : 1) * 220, -CFG.ROAD_W * 0.94, CFG.ROAD_W * 0.94);
+    toast('踩到香蕉皮！', 'bad');
+    SFX.banana();
+    shake = 16;
+    return;
+  }
+
+  if (it.type === 'boost') {
+    p.speed = Math.min(race.maxSpeed + 900, p.speed + 1000);
+    p.turbo = Math.max(p.turbo, 0.95);
+    p.energy = Math.min(100, p.energy + 12);
+    p.buffs = (p.buffs || 0) + 1;
+    toast('加速带 BOOST！', 'perfect');
+    SFX.pickupBoost();
+  } else if (it.type === 'nitro') {
+    p.energy = Math.min(100, p.energy + 38);
+    p.buffs = (p.buffs || 0) + 1;
+    toast('氮气 +38', 'good');
+    SFX.pickupNitro();
+  } else if (it.type === 'shield') {
+    p.shield = 9;
+    p.buffs = (p.buffs || 0) + 1;
+    toast('护盾 9 秒', 'good');
+    SFX.pickupShield();
+  }
+}
+
+/* ---------------- 结算 ---------------- */
+function finishRace() {
+  player.finished = true;
+  player.finishOrder = ++finishCount;
+  player.speed *= 0.55;
+  readInput();
+  input.throttle = 0; input.brake = 0; input.steer = 0;
+  phase = 'finished';
+  SFX.finish();
+  SFX.drive({ active: false });
+  Music.duck(0.6);
+  setTimeout(showResult, 550);
+}
+
+function showResult() {
+  if (phase !== 'finished') return;
+  const p = player;
+  const rank = p.finishOrder || 1;
+  const L = activeLevel;
+
+  // 进度 / 解锁
+  const key = 'L' + levelIdx;
+  const prev = progress.best[key];
+  if (!prev || rank < prev.rank || (rank === prev.rank && raceTime < prev.time)) {
+    progress.best[key] = { rank, time: raceTime };
+  }
+  let unlock = '';
+  if (rank <= 3) {
+    const reward = CARS.find((c) => c.unlock && c.unlock.level === levelIdx && !carUnlocked(c.id));
+    if (reward) {
+      progress.cars.push(reward.id);
+      unlock = '解锁新车 · ' + reward.name + '（' + reward.tag + '）';
+    }
+  }
+  if (levelIdx < 10 && progress.unlocked <= levelIdx) {
+    progress.unlocked = levelIdx + 1;
+    if (!unlock) unlock = '解锁第 ' + (levelIdx + 1) + ' 关 · ' + LEVELS[levelIdx].name;
+  }
+  progress.level = Math.min(10, Math.max(progress.level, levelIdx));
+  saveProgress();
+  syncSetupUI();
+
+  $('#rRank').textContent = rank;
+  $('#rSuffix').textContent = ['ST', 'ND', 'RD'][rank - 1] || '';
+  $('#rTitle').textContent = ['冠军！', '亚军！', '季军！'][rank - 1] || ('第 ' + rank + ' 名');
+  $('#rMeta').textContent = '第 ' + levelIdx + ' 关 · ' + L.name + ' · ' + activeCar.name + ' · ' +
+    (driver === 'female' ? '美女车手' : '帅哥车手');
+  $('#rTime').textContent = fmtTime(raceTime);
+  $('#rBest').textContent = fmtBest(p.bestLap);
+  $('#rTop').textContent = p.topSpeed + ' km/h';
+  $('#rPerfect').textContent = p.perfect + ' 次';
+
+  $('#rUnlock').style.display = unlock ? 'block' : 'none';
+  $('#rUnlock').textContent = unlock;
+
+  const canNext = levelIdx < 10 && progress.unlocked > levelIdx;
+  $('#btnNext').style.display = canNext ? 'inline-flex' : 'none';
+
+  newRecord = p.bestLap > 0 && (!lastRecord || p.bestLap < lastRecord);
+  if (newRecord) {
+    lastRecord = p.bestLap;
+    try { localStorage.setItem('neonDriftBestLap', String(lastRecord)); } catch (e) {}
+    $('#rRecord').style.display = 'inline-block';
+    $('#best').textContent = fmtTime(lastRecord);
+  } else {
+    $('#rRecord').style.display = 'none';
+  }
+  $('#result').classList.remove('hidden');
+}
+
+/* ---------------- HUD ---------------- */
+let hudTick = 0;
+function updateHUD() {
+  const p = player;
+  $('#time').textContent = fmtTime(raceTime);
+  $('#speed').textContent = Math.round(p.speed / CFG.MAX * 320);
+  $('#lap').textContent = Math.min(race.laps, (p.completed || 0) + 1);
+  $('#lapFill').style.width = ((p.dist % track.total) / track.total * 100).toFixed(1) + '%';
+
+  const pct = Math.round(p.energy);
+  $('#nitroPct').textContent = pct + '%';
+  $('#nitroFill').style.width = pct + '%';
+  $('#nitroBar').classList.toggle('full', pct >= 99);
+
+  const rank = getRank();
+  $('#pos').textContent = rank;
+  $('#best').textContent = fmtBest(p.bestLap || lastRecord);
+
+  const shEl = $('#shield');
+  if (p.shield > 0) {
+    shEl.classList.add('on');
+    $('#shieldT').textContent = Math.ceil(p.shield);
+  } else {
+    shEl.classList.remove('on');
+  }
+
+  // 仅对少量元素做每帧更新的效果
+  $('#glow').classList.toggle('on', p.boosting || p.driftTime > 1.5);
+
+  if ((hudTick++ & 3) === 0) {
+    SFX.drive({
+      active: phase === 'race' || phase === 'countdown',
+      ratio: Math.min(1, p.speed / race.maxSpeed),
+      throttle: !!input.throttle,
+      braking: !!input.brake && p.speed > 300,
+      drifting: p.drift,
+      boosting: p.boosting,
+      offroad: p.offroad,
+      steer: input.steer,
+    });
+  }
+  drawMap();
+}
+
+function getRank() {
+  if (player.finishOrder) return player.finishOrder;
+  let ahead = 0;
+  for (const o of ais) {
+    if (o.finishOrder) ahead++;
+    else if (o.dist > player.dist) ahead++;
+  }
+  return ahead + 1;
+}
+
+const mapCtx = document.getElementById('map').getContext('2d');
+function drawMap() {
+  const g = mapCtx;
+  const W = 264;
+  g.setTransform(1, 0, 0, 1, 0, 0);
+  g.clearRect(0, 0, W, W);
+
+  // 赛道底线
+  g.lineJoin = 'round';
+  g.lineCap = 'round';
+  g.beginPath();
+  for (let i = 0; i < mapPts.length; i++) {
+    const p = mapPts[i];
+    if (i === 0) g.moveTo(p.x, p.y); else g.lineTo(p.x, p.y);
+  }
+  g.closePath();
+  g.fillStyle = 'rgba(40,120,180,.10)';
+  g.fill();
+  g.strokeStyle = 'rgba(120,180,235,.30)';
+  g.lineWidth = 14;
+  g.stroke();
+
+  // 已完成进度
+  const prog = phase === 'menu' ? 0 : (player.dist % track.total) / track.total;
+  const n = Math.max(2, Math.floor(prog * mapPts.length));
+  g.beginPath();
+  for (let i = 0; i < n; i++) {
+    const p = mapPts[i];
+    if (i === 0) g.moveTo(p.x, p.y); else g.lineTo(p.x, p.y);
+  }
+  const grad = g.createLinearGradient(0, 0, W, W);
+  grad.addColorStop(0, '#31e7ff');
+  grad.addColorStop(1, '#ff2e63');
+  g.strokeStyle = grad;
+  g.lineWidth = 6;
+  g.shadowColor = '#31e7ff';
+  g.shadowBlur = 18;
+  g.stroke();
+  g.shadowBlur = 0;
+
+  // 起点
+  const s = mapPts[0];
+  g.fillStyle = 'rgba(235,245,255,.85)';
+  g.beginPath(); g.arc(s.x, s.y, 4.2, 0, TAU); g.fill();
+
+  // AI
+  for (const o of ais) {
+    if (o.finished) continue;
+    const t = (o.dist % track.total) / track.total;
+    const idx = Math.floor(t * mapPts.length) % mapPts.length;
+    const mp = mapPts[idx];
+    g.fillStyle = 'rgba(255,205,90,.75)';
+    g.beginPath(); g.arc(mp.x, mp.y, 3.4, 0, TAU); g.fill();
+  }
+
+  // 玩家
+  const idx = Math.floor(prog * mapPts.length) % mapPts.length;
+  const mp = mapPts[idx];
+  g.fillStyle = '#fff';
+  g.shadowColor = currentTheme === 'blaze' ? '#ff2e63' : '#31e7ff';
+  g.shadowBlur = 16;
+  g.beginPath(); g.arc(mp.x, mp.y, 6.5, 0, TAU); g.fill();
+  g.shadowBlur = 0;
+  g.strokeStyle = 'rgba(0,0,0,.45)';
+  g.lineWidth = 1.5;
+  g.stroke();
+}
+
+/* ---------------- 提示 ---------------- */
+function toast(text, kind) {
+  const el = $('#msg');
+  el.textContent = text;
+  el.className = 'show ' + (kind || '');
+  toastT = 1.5;
+}
+function updateToast(dt) {
+  if (toastT > 0) {
+    toastT -= dt;
+    if (toastT <= 0) $('#msg').classList.remove('show');
+  }
+}
+
+/* ---------------- 渲染 ---------------- */
+const roadFrames = [];
+
+function buildRoadFrames() {
+  const N = track.len, step = track.step;
+  const baseIdx = Math.floor((player.dist - CFG.CAM_BACK) / step);
+  roadFrames.length = 0;
+  let prev = null;
+  let farSx = view.w / 2;
+  for (let k = 0; k <= CFG.DRAW + 18; k++) {
+    const abs = baseIdx + k;
+    const idx = ((abs % N) + N) % N;
+    const p = track.pts[idx];
+    const pr = projectPoint(p.x, p.y, p.z);
+    if (!pr) { prev = null; continue; }
+    const fr = {
+      abs, idx, seg: track.segs[idx],
+      fwd: pr.fwd, s: pr.s, sx: pr.sx, sy: pr.sy, w: pr.w, z: pr.fwd,
+    };
+    if (prev) roadFrames.push({ a: prev, b: fr, idx: prev.idx });
+    prev = fr;
+    farSx = fr.sx;
+  }
+  roadFrames.sort((u, v) => (v.a.fwd + v.b.fwd) - (u.a.fwd + u.b.fwd));
+  view.sh = clamp(farSx - view.cx, -view.w, view.w);
+}
+
+/* ---------------- 渲染 ---------------- */
+function render() {
+  const W = view.w, H = view.h;
+  ctx.setTransform(view.dpr, 0, 0, view.dpr, 0, 0);
+
+  computeCamera();
+  buildRoadFrames();
+  drawSky();
+
+  ctx.fillStyle = '#04050b';
+  ctx.fillRect(0, Math.floor(view.horizonY), W, H - Math.floor(view.horizonY) + 1);
+
+  for (const f of roadFrames) {
+    drawRoad(f.a, f.b);
+    drawProps(f.a, f.b);
+    drawItemsIn(f.a, f.b);
+    drawAIsIn(f.a, f.b);
+  }
+
+  drawPlayer();
+  drawParticles();
+  drawSpeedFX();
+}
+
+
+/* ---------------- 天空 ---------------- */
+let stars = [];
+function initStars() {
+  stars = [];
+  const n = Math.round(view.w * view.h / 14000);
+  for (let i = 0; i < n; i++) {
+    stars.push({
+      x: Math.random(),
+      y: Math.random() * 0.52,
+      s: Math.random() * 1.4 + 0.4,
+      p: Math.random() * TAU,
+      sp: 0.6 + Math.random() * 1.6,
+    });
+  }
+}
+
+function drawSky() {
+  const W = view.w, H = view.h, hz = view.horizonY;
+  const t = performance.now() / 1000;
+
+  if (!skyGrad) {
+    const g = ctx.createLinearGradient(0, 0, 0, hz + 2);
+    g.addColorStop(0, '#05030d');
+    g.addColorStop(0.30, '#160a2b');
+    g.addColorStop(0.58, '#3d1247');
+    g.addColorStop(0.80, '#872b57');
+    g.addColorStop(0.94, '#e05a4a');
+    g.addColorStop(1, '#ff8c52');
+    skyGrad = g;
+  }
+  ctx.fillStyle = skyGrad;
+  ctx.fillRect(0, 0, W, hz + 2);
+
+  // 星星
+  ctx.save();
+  for (const s of stars) {
+    const a = 0.25 + 0.6 * Math.abs(Math.sin(t * s.sp + s.p));
+    ctx.globalAlpha = a * 0.85;
+    ctx.fillStyle = '#dff2ff';
+    ctx.fillRect(s.x * W, s.y * hz, s.s, s.s);
+  }
+  ctx.restore();
+
+  // 视差
+  const shift = clamp(view.sh * 0.16, -W * 0.3, W * 0.3);
+
+  // 太阳
+  const sunX = W * 0.5 - shift * 1.15;
+  const sunY = hz - H * 0.145;
+  const sunR = Math.min(W, H) * 0.165;
+  ctx.save();
+  const halo = ctx.createRadialGradient(sunX, sunY, sunR * 0.35, sunX, sunY, sunR * 3.4);
+  halo.addColorStop(0, 'rgba(255,150,90,.55)');
+  halo.addColorStop(0.35, 'rgba(255,90,120,.20)');
+  halo.addColorStop(1, 'rgba(255,60,120,0)');
+  ctx.fillStyle = halo;
+  ctx.fillRect(sunX - sunR * 3.4, sunY - sunR * 3.4, sunR * 6.8, sunR * 6.8);
+
+  ctx.beginPath();
+  ctx.arc(sunX, sunY, sunR, 0, TAU);
+  ctx.clip();
+  const sg = ctx.createLinearGradient(0, sunY - sunR, 0, sunY + sunR);
+  sg.addColorStop(0, '#fff6c8');
+  sg.addColorStop(0.35, '#ffcf5c');
+  sg.addColorStop(0.7, '#ff6a6a');
+  sg.addColorStop(1, '#c72e7a');
+  ctx.fillStyle = sg;
+  ctx.fillRect(sunX - sunR, sunY - sunR, sunR * 2, sunR * 2);
+  // 复古横条
+  ctx.fillStyle = 'rgba(20,6,30,.95)';
+  for (let i = 0; i < 10; i++) {
+    const yy = sunY + sunR * 0.02 + i * (sunR * 0.115);
+    ctx.fillRect(sunX - sunR, yy, sunR * 2, Math.max(2, sunR * 0.016 * i));
+  }
+  ctx.restore();
+
+  // 远山
+  drawMountains(hz, shift, 0.55, 0.20, '#2a1236', W);
+  drawMountains(hz, shift, 0.34, 0.13, '#1a0a26', W);
+
+  // 地平线雾
+  const hg = ctx.createLinearGradient(0, hz - H * 0.10, 0, hz + 4);
+  hg.addColorStop(0, 'rgba(30,16,48,0)');
+  hg.addColorStop(1, 'rgba(48,22,64,.95)');
+  ctx.fillStyle = hg;
+  ctx.fillRect(0, hz - H * 0.10, W, H * 0.10 + 4);
+}
+
+const mountainCache = {};
+function drawMountains(hz, shift, amp, alpha, color, W) {
+  const key = amp.toFixed(2);
+  if (!mountainCache[key]) {
+    const pts = [];
+    let x = 0;
+    while (x < 1.2) {
+      pts.push({ u: x, h: 0.25 + Math.random() * 0.75 });
+      x += 0.055 + Math.random() * 0.05;
+    }
+    pts.push({ u: 1.2, h: 0.3 });
+    mountainCache[key] = pts;
+  }
+  const pts = mountainCache[key];
+  const baseY = hz + 3;
+  const height = view.h * 0.30 * amp;
+
+  ctx.save();
+  ctx.globalAlpha = 1;
+  ctx.beginPath();
+  ctx.moveTo(-W * 0.4 - shift * 0.6, baseY);
+  for (const p of pts) {
+    const px = -W * 0.4 + p.u * W * 1.8 - shift * 0.6;
+    ctx.lineTo(px, baseY - p.h * height);
+  }
+  ctx.lineTo(W * 1.4 - shift * 0.6, baseY);
+  ctx.closePath();
+  ctx.fillStyle = color;
+  ctx.fill();
+  ctx.restore();
+}
+
+/* ---------------- 路面 ---------------- */
+const COL = {
+  grassA: '#080b13',
+  grassB: '#0c101c',
+  road: '#191d2a',
+  roadAlt: '#1b2030',
+  rumble: '#e8f4ff',
+  fog: [40, 18, 58],
+};
+
+function fogAt(z) {
+  return 1 - Math.exp(-Math.pow(z * CFG.FOG, 2));
+}
+
+function drawRoad(e0, e1) {
+  const W = view.w;
+  const idx = e0.idx;
+  const fog = fogAt((e0.z + e1.z) * 0.5);
+  const band = Math.floor(idx / 3) % 2;
+  const w0 = e0.w, w1 = e1.w;
+  const x0 = e0.sx, x1 = e1.sx, y0 = e0.sy, y1 = e1.sy;
+
+  // 草地色带
+  const gr = 4.5;
+  ctx.beginPath();
+  ctx.moveTo(x0 - w0 * gr, y0);
+  ctx.lineTo(x0 + w0 * gr, y0);
+  ctx.lineTo(x1 + w1 * gr, y1);
+  ctx.lineTo(x1 - w1 * gr, y1);
+  ctx.closePath();
+  ctx.fillStyle = band ? COL.grassB : COL.grassA;
+  ctx.fill();
+
+  // 路面
+  ctx.beginPath();
+  ctx.moveTo(x0 - w0, y0);
+  ctx.lineTo(x0 + w0, y0);
+  ctx.lineTo(x1 + w1, y1);
+  ctx.lineTo(x1 - w1, y1);
+  ctx.closePath();
+  ctx.fillStyle = idx === 0 ? '#232838' : (band ? COL.road : COL.roadAlt);
+  ctx.fill();
+
+  if (fog < 0.93) {
+    // 霓虹路肩
+    const accent = currentTheme === 'blaze' ? '#ff2e63' : currentTheme === 'frost' ? '#31e7ff' : '#a6ff3d';
+    const rumbleCol = band ? accent : '#e8f4ff';
+    const rw0 = w0 * 0.075, rw1 = w1 * 0.075;
+
+    ctx.fillStyle = rumbleCol;
+    ctx.beginPath();
+    ctx.moveTo(x0 - w0 * 1.035, y0);
+    ctx.lineTo(x0 - w0 * 0.90, y0);
+    ctx.lineTo(x1 - w1 * 0.90, y1);
+    ctx.lineTo(x1 - w1 * 1.035, y1);
+    ctx.closePath(); ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(x0 + w0 * 0.90, y0);
+    ctx.lineTo(x0 + w0 * 1.035, y0);
+    ctx.lineTo(x1 + w1 * 1.035, y1);
+    ctx.lineTo(x1 + w1 * 0.90, y1);
+    ctx.closePath(); ctx.fill();
+
+    // 中央虚线
+    if (Math.floor(idx / 2) % 2 === 0) {
+      ctx.fillStyle = 'rgba(200,225,255,.24)';
+      ctx.beginPath();
+      ctx.moveTo(x0 - w0 * 0.012, y0);
+      ctx.lineTo(x0 + w0 * 0.012, y0);
+      ctx.lineTo(x1 + w1 * 0.012, y1);
+      ctx.lineTo(x1 - w1 * 0.012, y1);
+      ctx.closePath(); ctx.fill();
+    }
+
+    // 霓虹边线
+    const lw = clamp(w0 * 0.012, 0.8, 4);
+    ctx.strokeStyle = accent;
+    ctx.globalAlpha = (1 - fog) * 0.85;
+    ctx.lineWidth = lw;
+    ctx.beginPath();
+    ctx.moveTo(x0 - w0 * 0.985, y0); ctx.lineTo(x1 - w1 * 0.985, y1);
+    ctx.moveTo(x0 + w0 * 0.985, y0); ctx.lineTo(x1 + w1 * 0.985, y1);
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+
+  // 雾
+  if (fog > 0.015) {
+    ctx.globalAlpha = Math.min(1, fog) * 0.92;
+    ctx.fillStyle = 'rgb(' + COL.fog.join(',') + ')';
+    ctx.beginPath();
+    ctx.moveTo(x0 - w0 * gr, y0);
+    ctx.lineTo(x0 + w0 * gr, y0);
+    ctx.lineTo(x1 + w1 * gr, y1);
+    ctx.lineTo(x1 - w1 * gr, y1);
+    ctx.closePath();
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+
+  // 起跑线
+  if (idx === 0) drawStartBand(e0, e1);
+}
+
+function drawStartBand(e0, e1) {
+  const w0 = e0.w, w1 = e1.w;
+  const x0 = e0.sx, x1 = e1.sx, y0 = e0.sy, y1 = e1.sy;
+  const cells = 16;
+  for (let c = 0; c < cells; c++) {
+    const a0 = -1 + (c / cells) * 2;
+    const b0 = -1 + ((c + 1) / cells) * 2;
+    ctx.fillStyle = c % 2 === 0 ? 'rgba(240,248,255,.85)' : 'rgba(12,16,26,.85)';
+    ctx.beginPath();
+    ctx.moveTo(x0 + w0 * a0, y0);
+    ctx.lineTo(x0 + w0 * b0, y0);
+    ctx.lineTo(x1 + w1 * b0, y1);
+    ctx.lineTo(x1 + w1 * a0, y1);
+    ctx.closePath();
+    ctx.fill();
+  }
+}
+
+/* ---------------- 路边景物 ---------------- */
+function drawProps(e0, e1) {
+  const list = e0.seg.sprites;
+  if (!list.length) return;
+  const W = view.w, H = view.h;
+  for (let i = 0; i < list.length; i++) {
+    const sp = list[i];
+    const pr = projectSeg(e0.idx, sp.f, sp.off);
+    if (!pr) continue;
+    const x = pr.sx, y = pr.sy, s = pr.s;
+    if (x < -W * 0.7 || x > W * 1.7) continue;
+    const fog = fogAt(pr.fwd);
+
+    if (sp.kind === 'tree') {
+      const h = sp.h * s * H / 2;
+      const w = sp.w * s * W / 2;
+      if (h < 2 || h > H * 1.7 || w > W * 2.4) continue;
+      drawTree(x, y, w, h, fog);
+    } else if (sp.kind === 'pole') {
+      const h = sp.h * s * H / 2;
+      if (h < 2 || h > H * 2.2) continue;
+      drawPole(x, y, h, fog, e0.idx + i);
+    } else if (sp.kind === 'board') {
+      const h = sp.h * s * H / 2;
+      if (h < 2 || h > H * 0.55 || h * 1.85 > W * 0.82) continue;
+      drawBoard(x, y, h, fog, sp.hue, e0.idx);
+    } else if (sp.kind === 'banner') {
+      if (sp.h * s * H / 2 > H * 1.05) continue;
+      drawBanner(x, y, pr.w, s, fog);
+    }
+  }
+}
+
+function drawTree(x, y, w, h, fog) {
+  w = Math.max(w, 1.5);
+  const trunkW = Math.max(1, w * 0.10);
+  const dark = fog > 0.55;
+  // 树干
+  ctx.fillStyle = dark ? 'rgb(24,16,34)' : '#0d1b1e';
+  ctx.fillRect(x - trunkW / 2, y - h * 0.36, trunkW, h * 0.36);
+  // 冠层
+  for (let i = 0; i < 3; i++) {
+    const cw = w * (1 - i * 0.33);
+    const ch = h * 0.36;
+    const cy = y - h * 0.20 - i * h * 0.235;
+    ctx.beginPath();
+    ctx.moveTo(x, cy - ch);
+    ctx.lineTo(x + cw / 2, cy + ch * 0.08);
+    ctx.lineTo(x - cw / 2, cy + ch * 0.08);
+    ctx.closePath();
+    const shades = ['#0a3038', '#0e3f45', '#125055'];
+    ctx.fillStyle = fog > 0.35
+      ? 'rgb(' + Math.round(lerp(12, COL.fog[0], Math.min(1, fog))) + ',' +
+        Math.round(lerp(50, COL.fog[1], Math.min(1, fog))) + ',' +
+        Math.round(lerp(58, COL.fog[2], Math.min(1, fog))) + ')'
+      : shades[i];
+    ctx.fill();
+  }
+  // 高光边
+  if (fog < 0.3) {
+    ctx.strokeStyle = 'rgba(60,220,210,.22)';
+    ctx.lineWidth = Math.max(1, w * 0.012);
+    ctx.beginPath();
+    ctx.moveTo(x - w * 0.30, y - h * 0.55);
+    ctx.lineTo(x - w * 0.05, y - h * 0.92);
+    ctx.stroke();
+  }
+}
+
+function drawPole(x, y, h, fog, seed) {
+  const w = Math.max(1.2, h * 0.045);
+  ctx.fillStyle = fog > 0.5 ? 'rgb(30,22,42)' : '#141a26';
+  ctx.fillRect(x - w / 2, y - h, w, h);
+  const lit = fog < 0.75;
+  if (lit) {
+    const c = currentTheme === 'blaze' ? '255,46,99' : currentTheme === 'frost' ? '49,231,255' : '166,255,61';
+    ctx.fillStyle = 'rgba(' + c + ',' + (1 - fog) * 0.9 + ')';
+    ctx.shadowColor = 'rgba(' + c + ',1)';
+    ctx.shadowBlur = Math.min(18, h * 0.25);
+    ctx.fillRect(x - Math.min(w * 1.7, 45), y - h - Math.min(w * 0.7, 14), Math.min(w * 3.4, 90), Math.min(Math.max(2, w * 1.4), 30));
+    ctx.shadowBlur = 0;
+  }
+}
+
+function drawBoard(x, y, h, fog, hue, seed) {
+  const w = h * 1.85;
+  const neon = hue ? '#31e7ff' : '#ff2e63';
+  ctx.save();
+  ctx.globalAlpha = 1 - fog * 0.9;
+  // 支架
+  ctx.fillStyle = '#0a0d14';
+  ctx.fillRect(x - w * 0.34, y - h * 0.55, Math.max(1, w * 0.035), h * 0.55);
+  ctx.fillRect(x + w * 0.30, y - h * 0.55, Math.max(1, w * 0.035), h * 0.55);
+  // 面版
+  const g = ctx.createLinearGradient(x - w / 2, 0, x + w / 2, 0);
+  g.addColorStop(0, 'rgba(10,16,30,.95)');
+  g.addColorStop(0.5, hue ? 'rgba(18,44,58,.95)' : 'rgba(48,12,30,.95)');
+  g.addColorStop(1, 'rgba(8,12,22,.95)');
+  ctx.fillStyle = g;
+  ctx.fillRect(x - w / 2, y - h, w, h * 0.55);
+  ctx.strokeStyle = neon;
+  ctx.lineWidth = clamp(h * 0.022, 1, 9);
+  ctx.strokeRect(x - w / 2, y - h, w, h * 0.55);
+  // 光条
+  ctx.globalAlpha = (1 - fog) * 0.8;
+  ctx.fillStyle = neon;
+  ctx.fillRect(x - w * 0.42, y - h * 0.78, w * 0.84, Math.max(1.5, h * 0.05));
+  ctx.fillRect(x - w * 0.42, y - h * 0.60, w * 0.52, Math.max(1, h * 0.028));
+  ctx.restore();
+}
+
+function drawBanner(x, y, roadW, s, fog) {
+  const H = view.h;
+  const postH = 2750 * s * H / 2;
+  const halfW = roadW * 1.12;
+  const postW = Math.max(2, roadW * 0.035);
+
+  ctx.save();
+  ctx.globalAlpha = 1 - fog * 0.85;
+
+  // 立柱
+  const pg = ctx.createLinearGradient(x - halfW, 0, x - halfW + postW, 0);
+  pg.addColorStop(0, '#0a101c'); pg.addColorStop(0.5, '#1d2942'); pg.addColorStop(1, '#0a101c');
+  ctx.fillStyle = pg;
+  ctx.fillRect(x - halfW, y - postH, postW, postH);
+  ctx.fillRect(x + halfW - postW, y - postH, postW, postH);
+
+  // 横梁
+  const beamH = postH * 0.16;
+  const beamY = y - postH;
+  const bg = ctx.createLinearGradient(0, beamY, 0, beamY + beamH);
+  bg.addColorStop(0, '#10182a');
+  bg.addColorStop(1, '#05070d');
+  ctx.fillStyle = bg;
+  ctx.fillRect(x - halfW, beamY, halfW * 2, beamH);
+  ctx.strokeStyle = currentTheme === 'blaze' ? '#ff2e63' : currentTheme === 'frost' ? '#31e7ff' : '#a6ff3d';
+  ctx.lineWidth = Math.max(1, beamH * 0.10);
+  ctx.strokeRect(x - halfW, beamY, halfW * 2, beamH);
+
+  // 灯点
+  const lit = currentTheme === 'blaze' ? '#ffd166' : '#bff6ff';
+  const cols = 12;
+  for (let i = 0; i < cols; i++) {
+    const bx = x - halfW + (i + 0.5) / cols * halfW * 2;
+    ctx.fillStyle = lit;
+    ctx.globalAlpha = (1 - fog) * (0.45 + 0.55 * Math.abs(Math.sin(performance.now() / 260 + i * 0.7)));
+    ctx.beginPath();
+    ctx.arc(bx, beamY + beamH * 0.5, Math.max(1.2, beamH * 0.075), 0, TAU);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1 - fog * 0.85;
+
+  // 文字
+  const fs = beamH * 0.52;
+  if (fs > 5) {
+    ctx.font = '900 ' + fs + 'px "PingFang SC","Microsoft YaHei",sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#eaf6ff';
+    ctx.shadowColor = currentTheme === 'blaze' ? '#ff2e63' : '#31e7ff';
+    ctx.shadowBlur = fs * 0.8;
+    ctx.fillText('NEON DRIFT', x, beamY + beamH * 0.52);
+    ctx.shadowBlur = 0;
+  }
+  ctx.restore();
+}
+
+/* ---------------- 路面道具绘制 ---------------- */
+function drawItemsIn(e0, e1) {
+  if (!track.items.length || phase === 'menu') return;
+  for (const it of track.items) {
+    if (!it.active || it.seg !== e0.idx) continue;
+    const pr = projectSeg(it.seg, it.f, it.x);
+    if (!pr) continue;
+    if (pr.sx < -view.w * 0.5 || pr.sx > view.w * 1.5) continue;
+    drawItem(it, pr.sx, pr.sy, pr.s, pr.fwd);
+  }
+}
+
+function drawItem(it, x, y, s, z) {
+  const u = s * view.fov * view.w / 2;
+  const fog = fogAt(z);
+  const t = performance.now() / 1000;
+  const alpha = Math.max(0.1, 1 - fog * 0.9);
+
+  if (it.type === 'banana') {
+    const w = Math.max(4, 220 * u);
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.translate(x, y);
+    ctx.fillStyle = 'rgba(0,0,0,.4)';
+    ctx.beginPath(); ctx.ellipse(0, 0, w * 0.5, w * 0.18, 0, 0, TAU); ctx.fill();
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#c98a00';
+    ctx.lineWidth = Math.max(2, w * 0.2);
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(-w * 0.34, -w * 0.36, -w * 0.52, -w * 0.1); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(0, -w * 0.52, w * 0.06, -w * 0.62); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(w * 0.34, -w * 0.32, w * 0.54, -w * 0.08); ctx.stroke();
+    ctx.strokeStyle = '#ffe15c';
+    ctx.lineWidth = Math.max(1.5, w * 0.12);
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(-w * 0.32, -w * 0.32, -w * 0.5, -w * 0.08); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(0, -w * 0.48, w * 0.06, -w * 0.58); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(w * 0.32, -w * 0.28, w * 0.52, -w * 0.06); ctx.stroke();
+    ctx.restore();
+    return;
+  }
+
+  if (it.type === 'boost') {
+    const w = Math.max(6, 430 * u);
+    const h = w * 0.72;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.translate(x, y);
+    // 地贴底板
+    ctx.fillStyle = 'rgba(8,32,46,.62)';
+    rr(ctx, -w * 0.46, -h * 0.92, w * 0.92, h * 0.92, w * 0.07); ctx.fill();
+    ctx.strokeStyle = 'rgba(49,231,255,.85)';
+    ctx.lineWidth = Math.max(1.5, w * 0.018);
+    ctx.stroke();
+    // 发光箭头
+    const pulse = 0.65 + 0.35 * Math.sin(t * 7);
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.fillStyle = 'rgba(150,248,255,' + (0.85 * pulse).toFixed(3) + ')';
+    for (let i = 0; i < 3; i++) {
+      const yy = -h * 0.22 - i * h * 0.24;
+      ctx.beginPath();
+      ctx.moveTo(-w * 0.28, yy + h * 0.14);
+      ctx.lineTo(0, yy);
+      ctx.lineTo(w * 0.28, yy + h * 0.14);
+      ctx.lineTo(w * 0.28, yy + h * 0.25);
+      ctx.lineTo(0, yy + h * 0.11);
+      ctx.lineTo(-w * 0.28, yy + h * 0.25);
+      ctx.closePath(); ctx.fill();
+    }
+    ctx.restore();
+    return;
+  }
+
+  const hover = Math.sin(t * 4 + it.dist * 0.01) * 10 * u;
+  const bh = Math.max(8, 300 * u);
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.translate(x, y - bh * 0.85 + hover);
+  if (it.type === 'nitro') {
+    ctx.shadowColor = '#31e7ff'; ctx.shadowBlur = bh * 0.9;
+    ctx.fillStyle = '#0b2a46';
+    rr(ctx, -bh * 0.24, -bh * 0.46, bh * 0.48, bh * 0.92, bh * 0.14); ctx.fill();
+    ctx.fillStyle = '#31e7ff';
+    rr(ctx, -bh * 0.16, -bh * 0.34, bh * 0.32, bh * 0.64, bh * 0.09); ctx.fill();
+    ctx.fillStyle = '#e6fbff';
+    ctx.fillRect(-bh * 0.1, -bh * 0.24, bh * 0.2, bh * 0.11);
+    ctx.fillStyle = '#31e7ff';
+    ctx.fillRect(-bh * 0.08, -bh * 0.52, bh * 0.16, bh * 0.09);
+  } else {
+    ctx.shadowColor = '#7dffcf'; ctx.shadowBlur = bh * 0.8;
+    ctx.fillStyle = 'rgba(8,40,46,.85)';
+    ctx.strokeStyle = '#7dffcf';
+    ctx.lineWidth = Math.max(1.5, bh * 0.05);
+    ctx.beginPath();
+    ctx.moveTo(0, -bh * 0.5);
+    ctx.lineTo(bh * 0.4, -bh * 0.28);
+    ctx.lineTo(bh * 0.4, bh * 0.1);
+    ctx.quadraticCurveTo(0, bh * 0.55, -bh * 0.4, bh * 0.1);
+    ctx.lineTo(-bh * 0.4, -bh * 0.28);
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#7dffcf';
+    ctx.beginPath(); ctx.arc(0, -bh * 0.02, bh * 0.11, 0, TAU); ctx.fill();
+  }
+  ctx.restore();
+}
+
+/* ---------------- AI 车 ---------------- */
+function drawAIsIn(e0, e1) {
+  const step = track.step, N = track.len;
+  for (const o of ais) {
+    const oseg = ((Math.floor(o.dist / step) % N) + N) % N;
+    if (oseg !== e0.idx) continue;
+    const frac = (o.dist % step) / step;
+    const pr = projectSeg(oseg, frac, o.x);
+    if (!pr) continue;
+    drawKart(o.sprite, pr.sx, pr.sy, pr.s, o.angle, false);
+  }
+}
+
+function drawKart(sprite, x, yBase, s, angle, isPlayer) {
+  const W = view.w, H = view.h;
+  let w = 460 * s * view.fov * W / 2;
+  if (isPlayer) w = Math.max(w, W * (IS_TOUCH ? 0.19 : 0.13));
+  if (w < 2.5) return;
+  const h = w * 0.72;
+  const cy = yBase - h * 0.48;
+
+  // 影子
+  ctx.save();
+  ctx.translate(x, yBase);
+  ctx.scale(1, 0.26);
+  ctx.beginPath();
+  ctx.arc(0, 0, w * 0.52, 0, TAU);
+  ctx.fillStyle = 'rgba(0,0,0,.55)';
+  ctx.fill();
+  ctx.restore();
+
+  ctx.save();
+  ctx.translate(x, cy);
+  ctx.rotate(angle);
+  if (isPlayer) drawFlames(w, h);
+  ctx.drawImage(sprite, -w / 2, -h / 2, w, h);
+  ctx.restore();
+}
+
+function drawFlames(w, h) {
+  const p = player;
+  if (!p.boosting && p.turbo <= 0) return;
+  const t = performance.now() / 1000;
+  const power = p.boosting ? 1 : 0.55;
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  for (let i = 0; i < 2; i++) {
+    const fx = (i === 0 ? -1 : 1) * w * 0.068;
+    const len = h * (0.34 + Math.random() * 0.3) * power;
+    const y0 = h * 0.34;
+    const g = ctx.createLinearGradient(0, y0, 0, y0 + len);
+    g.addColorStop(0, 'rgba(255,255,255,.95)');
+    g.addColorStop(0.25, 'rgba(120,235,255,.8)');
+    g.addColorStop(1, 'rgba(40,120,255,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.ellipse(fx, y0 + len * 0.5, w * 0.052 * (0.8 + Math.random() * 0.4), len * 0.62, 0, 0, TAU);
+    ctx.fill();
+  }
+  ctx.restore();
+}
+
+/* ---------------- 玩家车 ---------------- */
+function kartScreenX() {
+  const s = 1 / CFG.CAM_BACK;
+  return view.cx + (player.x - player.camX) * s * view.fov * view.w / 2;
+}
+
+function drawPlayer() {
+  const s = 1 / CFG.CAM_BACK;
+  const x = kartScreenX();
+  const y = view.horizonY + view.h / 2 + player.bounce;
+  const p = player;
+  const lean = p.drift ? -p.driftDir * 0.06 : 0;
+  const spin = p.controlLock > 0 ? p.spinA : 0;
+  drawKart(playerSprite, x, y, s, p.yaw + lean + spin, true);
+
+  // 护盾泡
+  if (p.shield > 0) {
+    const w = Math.max(460 * s * view.fov * view.w / 2, view.w * 0.14);
+    const cy = y - w * 0.26;
+    const now = performance.now() / 1000;
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    const rg = ctx.createRadialGradient(x, cy, w * 0.25, x, cy, w * 0.95);
+    rg.addColorStop(0, 'rgba(49,231,255,0)');
+    rg.addColorStop(0.72, 'rgba(49,231,255,.05)');
+    rg.addColorStop(1, 'rgba(120,240,255,.22)');
+    ctx.fillStyle = rg;
+    ctx.beginPath(); ctx.ellipse(x, cy, w * 0.66, w * 0.44, 0, 0, TAU); ctx.fill();
+    ctx.strokeStyle = 'rgba(150,245,255,' + (0.32 + 0.18 * Math.sin(now * 7)).toFixed(2) + ')';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // 漂移火花
+  if (p.drift && p.driftTime > 0.35) {
+    const w = Math.max(460 * s * view.fov * view.w / 2, view.w * 0.13);
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    for (let i = 0; i < 2; i++) {
+      const side = p.driftDir > 0 ? -1 : 1;
+      const sx = x + side * w * 0.42;
+      const sy = y - w * 0.03;
+      const g = ctx.createRadialGradient(sx, sy, 0, sx, sy, w * 0.24);
+      g.addColorStop(0, p.driftTime > 1.5 ? 'rgba(255,240,150,.85)' : 'rgba(160,230,255,.6)');
+      g.addColorStop(1, 'rgba(255,150,60,0)');
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(sx, sy, w * 0.24, 0, TAU); ctx.fill();
+    }
+    ctx.restore();
+  }
+}
+
+/* ---------------- 粒子 ---------------- */
+function updateParticles(dt) {
+  for (let i = parts.length - 1; i >= 0; i--) {
+    const p = parts[i];
+    p.life -= dt;
+    if (p.life <= 0) { parts.splice(i, 1); continue; }
+    p.x += p.vx * dt;
+    p.y += p.vy * dt;
+    p.vy += 90 * dt;
+    p.size += p.grow * dt;
+  }
+}
+function drawParticles() {
+  if (!parts.length) return;
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  for (const p of parts) {
+    const a = Math.max(0, p.life / p.max);
+    ctx.fillStyle = 'rgba(' + p.color + ',' + (a * 0.17).toFixed(3) + ')';
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size * (1.2 - a * 0.2), 0, TAU);
+    ctx.fill();
+  }
+  ctx.restore();
+}
+
+/* ---------------- 速度特效 ---------------- */
+function drawSpeedFX() {
+  const p = player;
+  const ratio = Math.min(1, p.speed / CFG.MAX);
+  const boost = p.boosting ? 1 : p.turbo > 0 ? 0.55 : 0;
+  const amt = Math.max(0, (ratio - 0.62) / 0.38) * 0.55 + boost * 0.75;
+  if (amt <= 0.03) return;
+
+  const W = view.w, H = view.h;
+  const cx = view.w / 2, cy = view.horizonY + H * 0.10;
+  const t = performance.now() / 1000;
+
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  const count = Math.floor(14 + amt * 26);
+  for (let i = 0; i < count; i++) {
+    const a = Math.random() * TAU;
+    const r0 = W * (0.20 + Math.random() * 0.35);
+    const len = W * (0.05 + Math.random() * 0.16) * (0.5 + amt);
+    const x0 = cx + Math.cos(a) * r0;
+    const y0 = cy + Math.sin(a) * r0 * 0.62;
+    const x1 = cx + Math.cos(a) * (r0 + len);
+    const y1 = cy + Math.sin(a) * (r0 + len) * 0.62;
+    ctx.strokeStyle = 'rgba(180,240,255,' + (0.05 + Math.random() * 0.20 * amt).toFixed(3) + ')';
+    ctx.lineWidth = 1 + Math.random() * 1.6;
+    ctx.beginPath();
+    ctx.moveTo(x0, y0);
+    ctx.lineTo(x1, y1);
+    ctx.stroke();
+  }
+
+  if (p.boosting) {
+    const g = ctx.createRadialGradient(W / 2, H * 0.62, W * 0.1, W / 2, H * 0.62, W * 0.8);
+    g.addColorStop(0, 'rgba(60,220,255,0)');
+    g.addColorStop(0.55, 'rgba(60,190,255,.05)');
+    g.addColorStop(1, 'rgba(40,120,255,.20)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+  }
+  ctx.restore();
+}
+
+/* ---------------- 启动 ---------------- */
+init();
+</script>
+</body>
+</html>
